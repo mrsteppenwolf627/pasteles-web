@@ -1,0 +1,76 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Sobre Nosotros">
+  <Header />
+
+  <main>
+    <section class="bg-pink-50 py-16 text-center px-4">
+      <h1 class="text-4xl font-bold text-gray-800 mb-4">El Arte de Regalar</h1>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Detrás de cada pastel de pañales hay horas de dedicación, cariño y atención al detalle.
+      </p>
+    </section>
+
+    <section class="container mx-auto px-4 py-16">
+      <div class="flex flex-col md:flex-row items-center gap-12">
+        <div class="w-full md:w-1/2">
+          <div class="aspect-square bg-gradient-to-br from-pink-200 to-purple-200 rounded-2xl flex items-center justify-center shadow-lg transform -rotate-3 hover:rotate-0 transition duration-500">
+            <span class="text-6xl">👩‍🎨</span>
+          </div>
+        </div>
+        
+        <div class="w-full md:w-1/2 space-y-6">
+          <h2 class="text-3xl font-bold text-gray-800">Nuestra Historia</h2>
+          <p class="text-gray-600 leading-relaxed">
+            Todo comenzó cuando buscaba un regalo original para el nacimiento de mi sobrina. Quería algo que fuera 
+            útil para los padres pero que mantuviera la magia y la ilusión de un regalo especial.
+          </p>
+          <p class="text-gray-600 leading-relaxed">
+            Así nació <strong>Pasteles de Pañales</strong>. Lo que empezó como un hobby en la mesa del comedor, 
+            hoy es un pequeño taller donde creamos ilusiones para dar la bienvenida a los nuevos miembros de la familia.
+          </p>
+          
+          <div class="grid grid-cols-2 gap-4 pt-4">
+            <div class="bg-pink-50 p-4 rounded-lg text-center">
+              <span class="block text-2xl font-bold text-pink-600">500+</span>
+              <span class="text-sm text-gray-600">Bebés Felices</span>
+            </div>
+            <div class="bg-purple-50 p-4 rounded-lg text-center">
+              <span class="block text-2xl font-bold text-purple-600">100%</span>
+              <span class="text-sm text-gray-600">Artesanal</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-gray-50 py-20">
+      <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold text-gray-800 mb-12">Nuestros Valores</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="bg-white p-8 rounded-xl shadow-sm">
+            <div class="text-4xl mb-4">✨</div>
+            <h3 class="text-xl font-bold mb-2">Originalidad</h3>
+            <p class="text-gray-600">Diseños propios que no encontrarás en grandes almacenes.</p>
+          </div>
+          <div class="bg-white p-8 rounded-xl shadow-sm">
+            <div class="text-4xl mb-4">🛡️</div>
+            <h3 class="text-xl font-bold mb-2">Higiene Total</h3>
+            <p class="text-gray-600">Manipulamos los pañales con guantes y en entorno estéril.</p>
+          </div>
+          <div class="bg-white p-8 rounded-xl shadow-sm">
+            <div class="text-4xl mb-4">❤️</div>
+            <h3 class="text-xl font-bold mb-2">Pasión</h3>
+            <p class="text-gray-600">Ponemos el corazón en cada cinta y lazo que colocamos.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

@@ -1,0 +1,37 @@
+---
+const currentPath = Astro.url.pathname;
+const navItems = [
+  { name: 'Inicio', href: '/' },
+  { name: 'Productos', href: '/productos' },
+  { name: 'Sobre Nosotros', href: '/sobre-nosotros' },
+  { name: 'Contacto', href: '/contacto' },
+];
+---
+
+<header class="bg-white shadow-sm sticky top-0 z-50">
+  <nav class="container mx-auto px-4 py-4">
+    <div class="flex justify-between items-center">
+      <a href="/" class="flex items-center space-x-2">
+        <div class="text-2xl">🎂</div>
+        <span class="text-xl font-bold text-pink-600">Pasteles de Pañales</span>
+      </a>
+
+      <ul class="hidden md:flex space-x-8">
+        {navItems.map(item => (
+          <li>
+            <a 
+              href={item.href}
+              class={`hover:text-pink-600 transition ${
+                currentPath === item.href ? 'text-pink-600 font-semibold' : 'text-gray-700'
+              }`}
+            >
+              {item.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+      
+      <button id="mobile-menu-btn" class="md:hidden text-2xl">☰</button>
+    </div>
+  </nav>
+</header>
