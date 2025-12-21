@@ -3,80 +3,117 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
-// Configuración del teléfono
-const TELEFONO_MADRE = "34678846424"; 
+// DATOS DE CONTACTO
+const TELEFONO_WHATSAPP = "34678846424"; // Número internacional para el link
+const TELEFONO_VISUAL = "678 84 64 24";  // Número visual para leer
 ---
 
-<Layout title="Contacta con Nosotros | Pasteles de Pañales Personalizados">
+<Layout title="Contacto | Encarga tu Pastel de Pañales en Badalona">
   <Header />
 
   <main class="bg-gray-50 min-h-screen">
     
-    <section class="container mx-auto px-4 py-16 flex flex-col items-center justify-center min-h-[60vh]">
+    <section class="bg-white py-16 text-center shadow-sm">
+      <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">Haz tu encargo</h1>
+        <p class="text-xl text-gray-500 max-w-2xl mx-auto">
+          Hablemos por WhatsApp para diseñar el regalo perfecto. <br>
+          <span class="text-sm mt-2 block text-pink-500 font-semibold">Respuesta rápida y trato personal con Manoli.</span>
+        </p>
+      </div>
+    </section>
+
+    <div class="container mx-auto px-4 py-12">
       
-      <h1 class="text-3xl md:text-5xl font-bold text-gray-800 text-center mb-6 leading-tight">
-        ¿Dudas sobre tu regalo? <br>
-        <span class="text-pink-500">Te atendemos personalmente</span>
-      </h1>
-
-      <p class="text-gray-600 text-center max-w-2xl mb-12 text-lg">
-        Sabemos que cada bebé es único. Si quieres personalizar colores, consultar plazos de entrega o tienes una idea especial, escríbenos directamente.
-      </p>
-
-      <div class="bg-white rounded-2xl shadow-2xl overflow-hidden w-full max-w-sm border border-gray-100 transform transition hover:scale-105 duration-300">
+      <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
         
-        <div class="bg-[#075E54] p-4 flex items-center gap-3">
-          <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-xl">
-            👩‍🍳
+        <div class="bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition text-center border-t-4 border-[#25D366] group">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition">
+            <svg class="w-8 h-8 fill-[#25D366]" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
           </div>
-          <div>
-            <p class="text-white font-bold text-sm">Atención al Cliente</p>
-            <p class="text-green-100 text-xs">Normalmente responde en 1h</p>
-          </div>
-        </div>
-
-        <div class="bg-[#E5DDD5] p-6 space-y-4">
-          
-          <div class="bg-white p-3 rounded-lg rounded-tl-none shadow-sm max-w-[85%] self-start relative">
-            <p class="text-gray-800 text-sm">
-              ¡Hola! 👋 Soy la creadora de <strong>Pasteles de Pañales</strong>. 
-              <br><br>
-              ¿En qué puedo ayudarte hoy? Haz clic abajo para hablar conmigo por WhatsApp.
-            </p>
-            <span class="text-[10px] text-gray-400 absolute bottom-1 right-2">Ahora</span>
-          </div>
-
-        </div>
-
-        <div class="p-4 bg-white border-t border-gray-100">
+          <h3 class="text-xl font-bold text-gray-800 mb-2">WhatsApp</h3>
+          <p class="text-gray-500 mb-6 text-sm">Para encargos, dudas y fotos de diseños.</p>
           <a 
-            href={`https://wa.me/${TELEFONO_MADRE}?text=Hola, tengo una duda sobre un pastel de pañales...`}
+            href={`https://wa.me/${TELEFONO_WHATSAPP}?text=Hola Manoli, me gustaría encargar un pastel...`} 
             target="_blank"
-            class="block w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-3 px-4 rounded-full text-center transition-colors shadow-md flex items-center justify-center gap-2"
+            class="inline-block w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-3 rounded-lg transition shadow-md"
           >
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-            Abrir Chat en WhatsApp
+            Enviar Mensaje
+          </a>
+        </div>
+
+        <div class="bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition text-center border-t-4 border-pink-400 group">
+          <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition">
+            <span class="text-3xl">📞</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Llamada</h3>
+          <p class="text-gray-500 mb-6 text-sm">Atención personalizada directa.</p>
+          <a 
+            href={`tel:${TELEFONO_WHATSAPP}`} 
+            class="inline-block w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 rounded-lg transition shadow-md"
+          >
+            Llamar al {TELEFONO_VISUAL}
           </a>
         </div>
       </div>
 
-    </section>
+      <div class="max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-10 flex items-center justify-center gap-2">
+          <span>💬</span> Preguntas Frecuentes
+        </h2>
+        
+        <div class="grid gap-6">
+          
+          <article class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-pink-200 transition">
+            <h3 class="font-bold text-lg text-gray-800 mb-2 flex items-center gap-2">
+              📍 ¿Dónde se recogen los pasteles?
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              La entrega se realiza <strong>en mano en Badalona</strong>, coordinando el punto de encuentro cerca de mi taller (puedes ver la ubicación en Google). No hago envíos por correo para asegurar que el pastel llega perfecto y sin desmontarse. ¡Así nos conocemos!
+            </p>
+          </article>
 
-    <section class="container mx-auto px-4 py-12 max-w-3xl border-t border-gray-200">
-      <h2 class="text-2xl font-bold text-center text-gray-800 mb-8">Preguntas rápidas</h2>
-      <div class="grid md:grid-cols-2 gap-6">
-         <div class="p-4 bg-white rounded-lg shadow-sm">
-            <h3 class="font-bold text-gray-800">📅 ¿Plazos?</h3>
-            <p class="text-sm text-gray-600">Idealmente 48h de antelación.</p>
-         </div>
-         <div class="p-4 bg-white rounded-lg shadow-sm">
-            <h3 class="font-bold text-gray-800">🚚 ¿Envíos?</h3>
-            <p class="text-sm text-gray-600">A toda la península o recogida local.</p>
-         </div>
+          <article class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-pink-200 transition">
+            <h3 class="font-bold text-lg text-gray-800 mb-2 flex items-center gap-2">
+              ⏳ ¿Con cuánta antelación debo pedirlo?
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              Lo ideal es <strong>1 semana de antelación</strong>. De martes a sábado puedo gestionar encargos de 2 o 3 días si tengo hueco, pero siempre consúltame antes por WhatsApp. ¿De hoy para mañana? Es difícil, pero escríbeme y vemos si es posible hacer magia.
+            </p>
+          </article>
+
+          <article class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-pink-200 transition">
+            <h3 class="font-bold text-lg text-gray-800 mb-2 flex items-center gap-2">
+              💶 ¿Cómo funciona el pago?
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              Para empezar a trabajar en tu diseño personalizado, pido una <strong>paga y señal del 50%</strong> (cómodamente por Bizum). El resto lo abonas en efectivo o Bizum en el momento de la entrega, cuando veas lo bonito que ha quedado.
+            </p>
+          </article>
+
+          <article class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-pink-200 transition">
+            <h3 class="font-bold text-lg text-gray-800 mb-2 flex items-center gap-2">
+              🎁 ¿Viene listo para regalar?
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              ¡Sí! Se entrega envuelto cuidadosamente en <strong>papel celofán transparente</strong> con lazos decorativos. No tendrás que preocuparte de envolverlo; está listo para llevar directamente al hospital o a la fiesta.
+            </p>
+          </article>
+
+           <article class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-pink-200 transition">
+            <h3 class="font-bold text-lg text-gray-800 mb-2 flex items-center gap-2">
+              🧸 ¿Puedo añadir mis propios regalos?
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              Por supuesto. Uso pañales de primeras marcas estándar, pero si tienes un peluche especial o algo que compraste tú y quieres que lo integre en el pastel, solo tienes que traérmelo antes y yo lo monto en el diseño.
+            </p>
+          </article>
+
+        </div>
       </div>
-    </section>
 
+    </div>
   </main>
-
+  
   <Footer />
 </Layout>
