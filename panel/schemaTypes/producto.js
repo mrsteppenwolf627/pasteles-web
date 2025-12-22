@@ -1,48 +1,67 @@
-export default {
-    name: 'producto',
-    title: 'Productos', // Así aparecerá en el menú
-    type: 'document',
-    fields: [
-      {
-        name: 'nombre',
-        title: 'Nombre del Pastel',
-        type: 'string',
-        validation: rule => rule.required()
+import { defineField, defineType } from 'sanity'
+
+export default defineType({
+  name: 'product',
+  title: 'Producto',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'title',
+      title: 'Nombre del Producto',
+      type: 'string',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Slug (URL del producto)',
+      type: 'slug',
+      options: {
+        source: 'title',
+        maxLength: 96,
       },
-      {
-        name: 'precio',
-        title: 'Precio (€)',
-        type: 'number',
-        validation: rule => rule.required().min(0)
-      },
-      {
-        name: 'imagen',
-        title: 'Foto del Producto',
-        type: 'image',
-        options: {
-          hotspot: true, // Permite recortar la foto luego
+      validation: (rule) => rule.required(),
+    }),
+    
+    // --- GALERÍA DE IMÁGENES ---
+    defineField({
+      name: 'images',
+      title: 'Galería de Imágenes',
+      type: 'array',
+      of: [
+        { 
+          type: 'image',
+          options: {
+            hotspot: true 
+          },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Texto Alternativo (Para SEO)',
+            }
+          ]
         }
+      ],
+      options: {
+        layout: 'grid',
       },
-      {
-        name: 'categoria',
-        title: 'Categoría',
-        type: 'string',
-        options: {
-          list: [
-            { title: 'Castillos', value: 'Castillos' },
-            { title: 'Vehículos (Motos, Triciclos...)', value: 'Vehículos' },
-            { title: 'Cestas y Canastillas', value: 'Cestas' },
-            { title: 'Clásicos', value: 'Clásicos' },
-            { title: 'Temáticos (Música, Fútbol...)', value: 'Temáticos' },
-          ],
-        },
-        validation: rule => rule.required()
-      },
-      {
-        name: 'descripcion',
-        title: 'Descripción Corta',
-        type: 'text',
-        rows: 3
-      }
-    ]
-  }
+      validation: (rule) => rule.required().min(1).error('Debes subir al menos una foto.'),
+    }),
+
+    // --- PRECIO (CAMBIADO A TEXTO) ---
+    defineField({
+      name: 'price',
+      title: 'Precio (Texto)',
+      description: 'Ejemplo: "Desde 50€", "45€", "Consultar". (Recuerda escribir el símbolo € tú mismo).',
+      type: 'string', // AHORA ES TEXTO
+      validation: (rule) => rule.required(),
+    }),
+
+    defineField({
+      name: 'description',
+      title: 'Descripción',
+      type: 'array',
+      of: [{ type: 'block' }],
+    }),
+  ],
+})

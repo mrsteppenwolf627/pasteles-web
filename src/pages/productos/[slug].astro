@@ -1,0 +1,109 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { sanityClient } from 'sanity:client';
+import { PortableText } from "astro-portabletext";
+import { urlFor } from '../../utils/image';
+
+export async function getStaticPaths() {
+  const products = await sanityClient.fetch(`*[_type == "product"] {
+    slug
+  }`);
+
+  return products.map((product) => ({
+    params: { slug: product.slug.current },
+  }));
+}
+
+const { slug } = Astro.params;
+
+const product = await sanityClient.fetch(`*[_type == "product" && slug.current == $slug][0] {
+  title,
+  price,
+  description,
+  images
+}`, { slug });
+
+if (!product) {
+  return Astro.redirect("/404");
+}
+
+const images = product.images || [];
+const mainImage = images[0];
+---
+
+<Layout title={`${product.title} | Manoli Pasteles`}>
+  <div class="container mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      
+      <div class="space-y-4">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative">
+          {mainImage ? (
+            <img 
+              id="main-image"
+              src={urlFor(mainImage).width(800).url()} 
+              alt={product.title}
+              class="w-full h-auto object-contain block"
+              transition:name={`image-${slug}`}
+            />
+          ) : (
+            <div class="w-full h-64 bg-gray-200 flex items-center justify-center text-gray-400">Sin imagen</div>
+          )}
+        </div>
+
+        {images.length > 1 && (
+          <div class="flex gap-3 overflow-x-auto pb-2">
+            {images.map((img, index) => (
+              <button 
+                class="thumbnail-btn flex-shrink-0 w-20 h-20 border-2 border-transparent hover:border-pink-500 rounded-lg overflow-hidden transition cursor-pointer bg-gray-50"
+                data-url={urlFor(img).width(800).url()}
+                aria-label={`Ver imagen ${index + 1}`}
+              >
+                <img src={urlFor(img).width(200).height(200).url()} alt="" class="w-full h-full object-cover" />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div class="flex flex-col justify-start pt-4">
+        <span class="text-pink-500 font-medium tracking-wider text-sm uppercase mb-2">Artesanal</span>
+        
+        <h1 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-4 leading-tight">
+          {product.title}
+        </h1>
+        
+        <div class="text-3xl font-bold text-pink-600 mb-6">
+          {product.price}
+        </div>
+
+        <div class="prose prose-lg text-gray-600 mb-8 leading-relaxed">
+          <PortableText value={product.description} />
+        </div>
+
+        <a 
+          href={`https://wa.me/34678846424?text=Hola Manoli, me interesa el producto: ${product.title}`}
+          target="_blank"
+          class="inline-flex items-center justify-center gap-2 bg-green-500 text-white px-8 py-4 rounded-full text-lg font-bold hover:bg-green-600 transition shadow-lg hover:shadow-xl transform hover:-translate-y-1 w-full md:w-auto"
+        >
+          Pedir por WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const mainImage = document.getElementById('main-image');
+    const thumbnails = document.querySelectorAll('.thumbnail-btn');
+
+    thumbnails.forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        const newSrc = thumb.getAttribute('data-url');
+        if (mainImage && newSrc) {
+          mainImage.setAttribute('src', newSrc);
+          thumbnails.forEach(t => t.classList.remove('border-pink-500'));
+          thumb.classList.add('border-pink-500');
+        }
+      });
+    });
+  </script>
+</Layout>
