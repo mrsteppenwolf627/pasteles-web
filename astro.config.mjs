@@ -18,4 +18,4 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   }
-});
+});// CAMBIO OBLIGATORIO
