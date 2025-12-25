@@ -3,10 +3,15 @@ import Layout from '../layouts/Layout.astro';
 import { sanityClient } from 'sanity:client';
 import { urlFor } from '../utils/image';
 
+// --- SEO CONFIG ---
+// Título y descripción optimizados para el clic en Google
+const pageTitle = "Pasteles de Pañales y Canastillas en Badalona | Regalos Bebé";
+const pageDescription = "Comprar pasteles de pañales originales y canastillas personalizadas en Badalona. Regalos artesanales únicos para recién nacidos, bautizos y baby showers.";
+
 let products = [];
 
 try {
-  // Traemos los productos (español e inglés)
+  // Traemos los productos (versión híbrida español/inglés)
   products = await sanityClient.fetch(`*[_type in ["producto", "product"]] | order(_createdAt desc) [0..5] {
     nombre,
     title,
@@ -16,72 +21,115 @@ try {
     imagen,
     image
   }`);
-  
 } catch (error) {
   console.error("Error cargando productos:", error);
 }
 ---
 
-<Layout title="Manoli Pasteles | Regalos Artesanales en Badalona">
+<Layout title={pageTitle} description={pageDescription}>
   
   <div class="relative bg-pink-50 overflow-hidden">
+    <div class="absolute top-0 left-0 w-64 h-64 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+    <div class="absolute top-0 right-0 w-64 h-64 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+
     <div class="container mx-auto px-4 py-16 md:py-24 relative z-10 flex flex-col items-center text-center">
-      <h1 class="text-5xl md:text-7xl font-serif font-bold text-gray-900 mb-6 leading-tight">
-        Regalos que nacen del <span class="text-pink-500 italic">corazón</span>
+      
+      <h1 class="text-4xl md:text-6xl font-serif font-bold text-gray-900 mb-6 leading-tight max-w-5xl">
+        Pasteles de Pañales y <br class="hidden md:block"/>
+        <span class="text-pink-600 italic">Canastillas Personalizadas</span> en Badalona
       </h1>
-      <p class="text-xl md:text-2xl text-gray-600 mb-10 max-w-2xl font-light">
-        Pasteles de pañales y canastillas artesanales hechos a mano en Badalona.
+      
+      <p class="text-lg md:text-xl text-gray-700 mb-8 max-w-2xl leading-relaxed">
+        Sorprende a los papás con un regalo práctico, original y hecho a mano. 
+        Creamos <strong>tartas de pañales</strong> únicas y detalles para recién nacidos con entrega en <strong>Badalona y alrededores</strong>.
       </p>
-      <a href="/productos" class="bg-pink-500 text-white px-8 py-4 rounded-full text-lg font-bold hover:bg-pink-600 transition shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-        Ver Catálogo
-      </a>
+      
+      <div class="flex flex-col sm:flex-row gap-4">
+        <a href="/productos" class="bg-pink-600 text-white px-8 py-4 rounded-full text-lg font-bold hover:bg-pink-700 transition shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+          Ver Catálogo Completo
+        </a>
+        <a href="/contacto" class="bg-white text-pink-600 border-2 border-pink-100 px-8 py-4 rounded-full text-lg font-bold hover:bg-pink-50 transition shadow-sm hover:shadow-md">
+          Pedir Diseño a Medida
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white py-16 border-b border-gray-200 shadow-sm relative z-20">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+        
+        <div class="p-6">
+          <div class="text-4xl mb-4">🎨</div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Diseños 100% Personalizados</h3>
+          <p class="text-gray-600">Adaptamos cada <strong>pastel de pañales</strong> a tus gustos: elige colores, temática, peluches y añade el nombre del bebé.</p>
+        </div>
+
+        <div class="p-6">
+          <div class="text-4xl mb-4">🖐️</div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Artesanía Local</h3>
+          <p class="text-gray-600">Cada regalo se monta a mano en nuestro taller de <strong>Badalona</strong>, cuidando la higiene y cada pequeño detalle.</p>
+        </div>
+
+        <div class="p-6">
+          <div class="text-4xl mb-4">🎁</div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Listos para el Baby Shower</h3>
+          <p class="text-gray-600">Entregamos tus regalos envueltos perfectamente en celofán con lazos decorativos. ¡Listos para impresionar!</p>
+        </div>
+
+      </div>
     </div>
   </div>
 
   <div class="container mx-auto px-4 py-20">
-    <div class="flex justify-between items-end mb-12">
-      <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-800">Últimas Creaciones</h2>
-      <a href="/productos" class="text-pink-500 font-bold hover:text-pink-600 hidden md:block">Ver todo →</a>
+    <div class="flex flex-col md:flex-row justify-between items-end mb-12 pb-4 border-b border-gray-300">
+      <div class="mb-4 md:mb-0">
+        <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-800 mb-2">Nuestras Creaciones Favoritas</h2>
+        <p class="text-gray-600">Ejemplos de nuestros regalos para bebés más populares</p>
+      </div>
+      <a href="/productos" class="text-pink-600 font-bold hover:text-pink-800 hidden md:block group bg-white px-4 py-2 rounded-lg shadow-sm">
+        Ver todo el catálogo <span class="group-hover:translate-x-1 inline-block transition">→</span>
+      </a>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-      {(products || []).map((product, index) => {
-        // Normalizamos los datos
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {(products || []).map((product) => {
         const nombreFinal = product.nombre || product.title || "Producto sin nombre";
         const precioFinal = product.precio || product.price;
         const imagenFinal = product.imagen || product.image;
         const link = product.slug?.current ? `/productos/${product.slug.current}` : '#';
-
-        // --- EL CHIVATO ---
-        // Esto imprimirá en la terminal qué imagen tiene cada producto
-        console.log(`📦 Producto ${index + 1} (${nombreFinal}):`, imagenFinal ? "✅ Tiene imagen" : "❌ NO tiene imagen", imagenFinal);
-        // ------------------
         
         return (
-        <a href={link} class="group block">
-          <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition duration-300 overflow-hidden border border-gray-100">
+        <a href={link} class="group block h-full">
+          <div class="bg-white rounded-2xl shadow-sm hover:shadow-2xl transition duration-300 overflow-hidden border border-gray-200 flex flex-col h-full transform hover:-translate-y-1">
             
-            <div class="aspect-square overflow-hidden bg-gray-100 relative">
+            <div class="aspect-square bg-white relative p-4 flex items-center justify-center overflow-hidden">
               {imagenFinal ? (
                 <img 
                   src={urlFor(imagenFinal).width(600).height(600).url()} 
-                  alt={nombreFinal}
-                  class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500"
+                  alt={`Comprar ${nombreFinal} - Regalo bebé Badalona`} 
+                  class="w-full h-full object-contain transition duration-500 group-hover:scale-105"
                 />
               ) : (
-                <div class="w-full h-full flex items-center justify-center text-gray-400 bg-pink-50 font-bold">Falta Foto</div>
+                <div class="text-gray-300 font-bold bg-gray-50 w-full h-full flex items-center justify-center rounded-lg">
+                  Sin Foto
+                </div>
               )}
               
-              <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full font-bold text-pink-600 shadow-sm">
+              <div class="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm px-4 py-1.5 rounded-full font-bold text-pink-600 shadow-md border border-pink-100">
                 {precioFinal ? precioFinal + '€' : 'Consultar'}
               </div>
             </div>
 
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-gray-900 mb-2 font-serif group-hover:text-pink-500 transition">
-                {nombreFinal}
-              </h3>
-              <span class="text-sm text-gray-500 font-medium uppercase tracking-wide">Ver detalles</span>
+            <div class="p-6 border-t border-gray-100 flex-grow flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2 font-serif group-hover:text-pink-600 transition line-clamp-2">
+                  {nombreFinal}
+                </h3>
+              </div>
+              <span class="text-sm text-pink-600 font-bold uppercase tracking-wide flex items-center gap-1 mt-4">
+                Ver Detalles <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+              </span>
             </div>
           </div>
         </a>
@@ -89,7 +137,54 @@ try {
     </div>
     
     <div class="mt-12 text-center md:hidden">
-      <a href="/productos" class="text-pink-500 font-bold hover:text-pink-600">Ver todo el catálogo →</a>
+      <a href="/productos" class="bg-white text-pink-600 border border-pink-600 px-6 py-3 rounded-full font-bold hover:bg-pink-50 transition w-full block shadow-sm">
+        Ver todo el catálogo →
+      </a>
     </div>
   </div>
+
+  <section class="bg-white py-16 border-t border-gray-200">
+    <div class="container mx-auto px-4 max-w-4xl text-gray-700 space-y-6">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl font-serif font-bold text-gray-800">¿Por qué regalar un Pastel de Pañales?</h2>
+        <div class="w-20 h-1 bg-pink-500 mx-auto mt-4 rounded-full"></div>
+      </div>
+      
+      <p>
+        La llegada de un bebé es un momento mágico, y encontrar el regalo perfecto puede ser un desafío. En <strong>Manoli Pasteles</strong>, combinamos la utilidad con la emoción. Nuestras <strong>tartas de pañales</strong> no son solo un detalle bonito; son una ayuda real para los padres en sus primeros días.
+      </p>
+
+      <div class="grid md:grid-cols-2 gap-8 mt-8">
+        <div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">🎁 Regalos para Baby Shower y Bautizos</h3>
+          <p class="text-sm leading-relaxed">
+            Ya sea para una fiesta de revelación de género (Gender Reveal), un <strong>Baby Shower</strong> o un bautizo, nuestros diseños se adaptan a la temática del evento. Desde castillos de princesas hasta motos rockeras, creamos estructuras sorprendentes utilizando pañales de primeras marcas.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">📍 Envíos y Recogida en Badalona</h3>
+          <p class="text-sm leading-relaxed">
+            Somos un negocio local orgulloso de servir a <strong>Badalona, Barcelona y el Maresme</strong>. Ofrecemos trato cercano y directo. Si buscas comprar una canastilla original sin los tiempos de espera de las grandes fábricas, estás en el lugar adecuado.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
 </Layout>
+
+<style>
+  @keyframes blob {
+    0% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+    100% { transform: translate(0px, 0px) scale(1); }
+  }
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+</style>

@@ -2,16 +2,25 @@
 // Importamos los estilos globales
 import '../styles/global.css';
 
-// CORRECCIÓN: Usamos los nombres reales que tienes en tu carpeta (Header y Footer)
+// Importamos los componentes del diseño
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
 interface Props {
   title: string;
   description?: string;
+  image?: string; // NUEVO: Ahora aceptamos una imagen específica por página
 }
 
-const { title, description = "Pasteles de pañales artesanales. Regalos únicos para bebés." } = Astro.props;
+const { 
+  title, 
+  description = "Pasteles de pañales artesanales y canastillas personalizadas en Badalona. Regalos únicos para recién nacidos.",
+  image = "/social-image.jpg" // Imagen por defecto si no hay ninguna (luego creamos esta)
+} = Astro.props;
+
+// URL completa para que las redes sociales no se pierdan
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://manolipasteles.com"); // Fallback temporal
+const socialImageURL = new URL(image, Astro.url);
 ---
 
 <!DOCTYPE html>
@@ -19,24 +28,37 @@ const { title, description = "Pasteles de pañales artesanales. Regalos únicos 
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <title>{title}</title>
     <meta name="description" content={description} />
-    <title>{title} | Pasteles de Pañales</title>
+    <link rel="canonical" href={canonicalURL} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImageURL} />
+    
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={socialImageURL} />
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   </head>
-  <body class="bg-brand-bg text-brand-text min-h-screen flex flex-col">
+  
+  <body class="bg-gray-200 text-gray-800 min-h-screen flex flex-col font-sans">
     
-    {/* AQUÍ PONEMOS EL HEADER (Antes fallaba porque buscaba 'Navbar') */}
     <Header />
 
-    {/* El main envuelve el contenido para que ocupe el espacio central */}
     <main class="flex-grow">
       <slot />
     </main>
 
-    {/* Y AQUÍ EL FOOTER */}
     <Footer />
     
   </body>
