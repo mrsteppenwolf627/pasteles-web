@@ -4,14 +4,12 @@ import { sanityClient } from 'sanity:client';
 import { urlFor } from '../utils/image';
 
 // --- SEO CONFIG ---
-// Título y descripción optimizados para el clic en Google
 const pageTitle = "Pasteles de Pañales y Canastillas en Badalona | Regalos Bebé";
 const pageDescription = "Comprar pasteles de pañales originales y canastillas personalizadas en Badalona. Regalos artesanales únicos para recién nacidos, bautizos y baby showers.";
 
 let products = [];
 
 try {
-  // Traemos los productos (versión híbrida español/inglés)
   products = await sanityClient.fetch(`*[_type in ["producto", "product"]] | order(_createdAt desc) [0..5] {
     nombre,
     title,
@@ -105,9 +103,14 @@ try {
             
             <div class="aspect-square bg-white relative p-4 flex items-center justify-center overflow-hidden">
               {imagenFinal ? (
+                // ✨ OPTIMIZACIÓN AQUÍ: loading="lazy", decoding="async" y dimensiones fijas
                 <img 
-                  src={urlFor(imagenFinal).width(600).height(600).url()} 
-                  alt={`Comprar ${nombreFinal} - Regalo bebé Badalona`} 
+                  src={urlFor(imagenFinal).width(500).height(500).url()} 
+                  alt={`Comprar ${nombreFinal} - Regalo bebé Badalona`}
+                  width="500"
+                  height="500"
+                  loading="lazy"
+                  decoding="async"
                   class="w-full h-full object-contain transition duration-500 group-hover:scale-105"
                 />
               ) : (
