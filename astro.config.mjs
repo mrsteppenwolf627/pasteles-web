@@ -5,16 +5,14 @@ import sanity from '@sanity/astro';
 
 // https://astro.build/config
 export default defineConfig({
-  // TU DOMINIO OFICIAL (Esto es lo clave para Google)
   site: 'https://manolipastelesdepañales.com',
-
   integrations: [
-    tailwind(),
+    tailwind(), // <--- ESTO ES LO QUE PINTA LA WEB
     react(),
     sanity({
-      projectId: 'y7m52g15', // Tu ID de proyecto
+      projectId: 'y7m52g15',
       dataset: 'production',
-      useCdn: true, // Usar la red rápida (gratis)
+      useCdn: true,
       apiVersion: '2024-03-20',
     }),
   ],
