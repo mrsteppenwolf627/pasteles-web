@@ -3,7 +3,6 @@ import Layout from '../../layouts/Layout.astro';
 import { sanityClient } from 'sanity:client';
 import { urlFor } from '../../utils/image';
 
-// 1. Generamos las rutas
 export async function getStaticPaths() {
   const products = await sanityClient.fetch(`*[_type in ["producto", "product"] && defined(slug.current)] { 
     slug 
@@ -13,9 +12,7 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 
-// 2. CONSULTA CORREGIDA PARA TU ESTRUCTURA:
-// - Traemos 'images' (tu campo real).
-// - Convertimos 'description' a texto plano.
+// 1. Traemos también el campo 'alt' de las imágenes
 const product = await sanityClient.fetch(`*[_type in ["producto", "product"] && slug.current == $slug][0] {
   nombre, 
   title, 
@@ -23,7 +20,10 @@ const product = await sanityClient.fetch(`*[_type in ["producto", "product"] && 
   "textoDescripcionES": pt::text(descripcion),
   precio, 
   price, 
-  images,
+  images[] { // Traemos la lista completa con sus datos internos (alt)
+    ...,
+    asset->
+  },
   imagen, 
   image,
   mainImage
@@ -31,34 +31,32 @@ const product = await sanityClient.fetch(`*[_type in ["producto", "product"] && 
 
 if (!product) { return Astro.redirect('/404'); }
 
-// --- NORMALIZACIÓN DE DATOS ---
-
-// NOMBRE
 const nombre = product.nombre || product.title;
 
-// PRECIO (Limpiamos el símbolo € si viene, para ponerlo nosotros)
+// Precio limpio
 let rawPrice = product.precio || product.price || "Consultar";
 if (typeof rawPrice === 'string') {
-  // Quitamos "€", "EUR" o espacios extra para dejar solo el número/texto limpio
   rawPrice = rawPrice.replace('€', '').replace('EUR', '').trim();
 }
 
-// DESCRIPCIÓN (Usamos la versión convertida a texto plano)
 const descripcion = product.textoDescripcion || product.textoDescripcionES || `Pastel de pañales ${nombre} hecho a mano.`;
 
-// IMAGEN (La parte clave: buscamos en 'images' y cogemos la primera)
+// 2. LÓGICA DE IMAGEN INTELIGENTE
 let imagenData = null;
+let altText = `Comprar ${nombre} - Manoli Pasteles`; // Texto por defecto si falla todo
 
 if (product.images && product.images.length > 0) {
-  imagenData = product.images[0]; // Cogemos la primera foto de la lista
+  imagenData = product.images[0]; 
+  // Si en Sanity pusiste texto alternativo, lo usamos. Si no, usamos el nombre del producto.
+  if (imagenData.alt) {
+    altText = imagenData.alt;
+  }
 } else {
-  // Fallbacks por si acaso
   imagenData = product.imagen || product.image || product.mainImage;
 }
 
 const imagenUrl = imagenData ? urlFor(imagenData).url() : "";
 
-// --- SCHEMA SEO ---
 const productSchema = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Product",
@@ -70,7 +68,7 @@ const productSchema = JSON.stringify({
     "@type": "Offer",
     "url": Astro.url.href,
     "priceCurrency": "EUR",
-    "price": rawPrice, // Google intentará leer el número de aquí
+    "price": rawPrice,
     "availability": "https://schema.org/InStock"
   }
 });
@@ -95,7 +93,7 @@ const productSchema = JSON.stringify({
             <div class="relative w-full max-w-[500px] cursor-zoom-in" id="image-trigger">
               <img 
                 src={urlFor(imagenData).width(800).url()} 
-                alt={`Pastel de pañales ${nombre}`} 
+                alt={altText} 
                 width="800"
                 height="800"
                 loading="eager"
@@ -109,43 +107,25 @@ const productSchema = JSON.stringify({
             </div>
           ) : (
             <div class="flex flex-col items-center justify-center text-gray-300 h-64 bg-gray-50 rounded-xl w-full border-2 border-dashed border-gray-200">
-               <svg class="w-16 h-16 mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                <span class="font-bold">Sin Imagen</span>
-               <span class="text-xs text-gray-400 mt-1">(Revisar campo 'images' en Sanity)</span>
             </div>
           )}
         </div>
 
         <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
           <span class="text-pink-500 font-bold tracking-wider uppercase text-sm mb-2">Hecho a mano en Badalona</span>
-          
           <h1 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-4">{nombre}</h1>
-          
-          <div class="text-3xl font-bold text-pink-600 mb-6">
-            {rawPrice}€
-          </div>
-
-          <p class="text-gray-600 leading-relaxed mb-8 text-lg whitespace-pre-line">
-            {descripcion}
-          </p>
-
+          <div class="text-3xl font-bold text-pink-600 mb-6">{rawPrice}€</div>
+          <p class="text-gray-600 leading-relaxed mb-8 text-lg whitespace-pre-line">{descripcion}</p>
           <div class="w-full h-px bg-gray-200 mb-8"></div>
-
-          <h3 class="font-bold text-gray-900 mb-4">¿Te interesa este modelo?</h3>
           
+          <h3 class="font-bold text-gray-900 mb-4">¿Te interesa este modelo?</h3>
           <div class="flex flex-col gap-4">
-            <a 
-              href={`/contacto?asunto=Interesado en ${nombre}`} 
-              class="block w-full text-center bg-pink-500 text-white font-bold py-4 rounded-xl hover:bg-pink-600 transition shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-            >
+            <a href={`/contacto?asunto=Interesado en ${nombre}`} class="block w-full text-center bg-pink-500 text-white font-bold py-4 rounded-xl hover:bg-pink-600 transition shadow-lg hover:shadow-xl transform hover:-translate-y-1">
               Pedir este Pastel
             </a>
-            
-            <p class="text-center text-sm text-gray-500 mt-2">
-              Personalizamos colores y añadimos el nombre del bebé sin coste extra.
-            </p>
+            <p class="text-center text-sm text-gray-500 mt-2">Personalizamos colores y añadimos el nombre del bebé sin coste extra.</p>
           </div>
-
         </div>
       </div>
     </div>
@@ -155,7 +135,7 @@ const productSchema = JSON.stringify({
     <button class="absolute top-6 right-6 text-white hover:text-pink-500 z-50 focus:outline-none">
       <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
     </button>
-    <img id="lightbox-img" src="" alt="Ampliada" class="max-w-full max-h-[90vh] object-contain shadow-2xl rounded-lg scale-95 transition-transform duration-300" />
+    <img id="lightbox-img" src="" alt={altText} class="max-w-full max-h-[90vh] object-contain shadow-2xl rounded-lg scale-95 transition-transform duration-300" />
   </div>
 
   <script>
@@ -185,5 +165,4 @@ const productSchema = JSON.stringify({
       });
     }
   </script>
-
 </Layout>
