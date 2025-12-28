@@ -1,0 +1,97 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// DATOS SEO & GEO
+const title = "Preguntas Frecuentes | Manoli Pasteles de Pañales Badalona";
+const description = "Resolvemos tus dudas sobre encargos, entregas en Badalona, precios y personalización de tartas de pañales. ¿Usas Dodot? ¿Cuánto tardas? Te lo explicamos.";
+
+// DEFINIMOS LAS PREGUNTAS PARA GENERAR EL HTML Y EL SCHEMA JSON-LD A LA VEZ
+const faqs = [
+  {
+    question: "¿Dónde estáis y cómo funcionan las entregas?",
+    answer: "Estamos en el corazón de <strong>Badalona</strong>. Al ser un producto artesanal delicado, <strong>no hacemos envíos por mensajería</strong> para evitar que se desmonte. La entrega se realiza <strong>en mano</strong> en un punto acordado de Badalona o alrededores. ¡Así nos conocemos y te aseguras de que el regalo llega perfecto!"
+  },
+  {
+    question: "¿Qué marca de pañales utilizas? ¿Son de calidad?",
+    answer: "La calidad es innegociable. Solo utilizo pañales de la marca <strong>Dodot</strong> (habitualmente la línea Sensitive o similar, ideal para recién nacidos). Todo el material se manipula con máxima higiene en mi taller libre de humos y mascotas."
+  },
+  {
+    question: "¿Con cuánta antelación debo hacer el encargo?",
+    answer: "Como cada pastel se monta a mano desde cero, lo ideal es avisarme con <strong>5-7 días de antelación</strong>. ¿Ha sido un parto sorpresa? Escríbeme por WhatsApp e intentaré hacer un hueco para tenerlo listo en 24-48h si mi agenda lo permite."
+  },
+  {
+    question: "¿Puedo personalizar el pastel o traer mis propios regalos?",
+    answer: "¡Por supuesto! Esa es la gracia de lo artesanal. Puedes elegir los colores, la temática (fútbol, princesas, motos...) e incluso <strong>traerme tú los peluches, ropita o accesorios</strong> que hayas comprado. Yo me encargo de integrarlos artísticamente en la estructura del pastel."
+  },
+  {
+    question: "¿Cómo se realiza el pago?",
+    answer: "Para confirmar el encargo y comprar los materiales, pido una <strong>paga y señal del 50%</strong> (cómodamente por Bizum). El resto del importe se abona en el momento de la entrega en mano, cuando veas lo bonito que ha quedado."
+  },
+  {
+    question: "¿El pastel viene listo para regalar?",
+    answer: "Sí. Todos los trabajos se entregan envueltos en <strong>papel celofán transparente</strong> de alta calidad, decorados con lazos a juego y listos para llevar directamente al hospital o a la fiesta de bienvenida."
+  }
+];
+
+// SCHEMA FAQ (Para que Google muestre las respuestas en el buscador)
+const faqSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer.replace(/<[^>]*>?/gm, '') // Limpiamos HTML para el Schema
+    }
+  }))
+});
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={faqSchema} />
+
+  <main class="bg-pink-50 min-h-screen py-20 px-4">
+    <div class="max-w-4xl mx-auto">
+      
+      <div class="text-center mb-16">
+        <h1 class="text-4xl md:text-5xl font-serif font-bold text-gray-800 mb-6">
+          Preguntas Frecuentes
+        </h1>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          Todo lo que necesitas saber antes de encargar tu regalo de nacimiento en Badalona.
+        </p>
+      </div>
+
+      <div class="grid gap-6">
+        {faqs.map((faq) => (
+          <details class="group bg-white rounded-2xl shadow-sm border border-pink-100 open:shadow-md transition-all duration-300">
+            <summary class="flex justify-between items-center p-6 cursor-pointer list-none">
+              <h2 class="text-lg md:text-xl font-bold text-gray-800 group-hover:text-pink-600 transition-colors pr-8">
+                {faq.question}
+              </h2>
+              <span class="text-pink-500 transform group-open:rotate-180 transition-transform duration-300 text-2xl">
+                ⌄
+              </span>
+            </summary>
+            <div class="px-6 pb-6 text-gray-600 leading-relaxed text-lg border-t border-gray-50 pt-4">
+              <p set:html={faq.answer} />
+            </div>
+          </details>
+        ))}
+      </div>
+
+      <div class="mt-16 text-center bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+        <h3 class="text-2xl font-bold text-gray-800 mb-4">¿Tienes una duda que no sale aquí?</h3>
+        <p class="text-gray-600 mb-8">
+          Soy Manoli y atiendo personalmente. Escríbeme sin compromiso.
+        </p>
+        <a href="/contacto" class="inline-block bg-[#25D366] text-white font-bold px-8 py-3 rounded-full hover:bg-[#20bd5a] transition shadow-lg flex items-center gap-2 w-fit mx-auto">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          Preguntar por WhatsApp
+        </a>
+      </div>
+
+    </div>
+  </main>
+</Layout>

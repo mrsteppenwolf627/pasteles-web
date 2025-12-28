@@ -26,13 +26,13 @@ const telefonoLink = `tel:${TELEFONO_WHATSAPP}`;
     </section>
 
     <div class="container mx-auto px-4 py-12">
-      <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
+      <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-12">
         
         <div class="bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition text-center border-t-4 border-green-500">
           <div class="text-4xl mb-4">💬</div>
           <h3 class="text-xl font-bold text-gray-800 mb-2">WhatsApp</h3>
           <p class="text-gray-500 mb-6 text-sm">Para encargos, dudas y fotos.</p>
-          <a href={whatsappLink} target="_blank" class="block w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition">
+          <a href={whatsappLink} target="_blank" class="block w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition shadow-sm hover:shadow-md">
             Enviar Mensaje
           </a>
         </div>
@@ -41,29 +41,21 @@ const telefonoLink = `tel:${TELEFONO_WHATSAPP}`;
           <div class="text-4xl mb-4">📞</div>
           <h3 class="text-xl font-bold text-gray-800 mb-2">Llamada</h3>
           <p class="text-gray-500 mb-6 text-sm">Atención directa.</p>
-          <a href={telefonoLink} class="block w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 rounded-lg transition">
+          <a href={telefonoLink} class="block w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 rounded-lg transition shadow-sm hover:shadow-md">
             Llamar al {TELEFONO_VISUAL}
           </a>
         </div>
 
       </div>
 
-      <div class="max-w-3xl mx-auto">
-        <h2 class="text-2xl font-bold text-center text-gray-800 mb-10">
-          Preguntas Frecuentes
-        </h2>
-        
-        <div class="grid gap-6">
-          <article class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-            <h3 class="font-bold text-lg text-gray-800 mb-2">📍 ¿Dónde se recogen?</h3>
-            <p class="text-gray-600">Entrega en mano en Badalona, cerca de mi taller.</p>
-          </article>
-
-          <article class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-            <h3 class="font-bold text-lg text-gray-800 mb-2">⏳ ¿Con cuánta antelación?</h3>
-            <p class="text-gray-600">Lo ideal es 1 semana. Para urgencias, pregúntame.</p>
-          </article>
-        </div>
+      <div class="text-center max-w-2xl mx-auto">
+        <p class="text-gray-500">
+          ¿Tienes dudas sobre los pagos o las entregas? 
+          <br>
+          <a href="/preguntas-frecuentes" class="text-pink-600 font-bold underline hover:text-pink-700 transition">
+            Lee las Preguntas Frecuentes aquí
+          </a>
+        </p>
       </div>
 
     </div>
