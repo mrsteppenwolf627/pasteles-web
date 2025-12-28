@@ -1,54 +1,130 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import Layout from '../layouts/Layout.astro';
 import { sanityClient } from 'sanity:client';
 
-// TRAEMOS TODOS LOS PRODUCTOS
+// 1. CONSULTA A SANITY (Traemos los 4 últimos productos)
 const products = await sanityClient.fetch(`
-  *[_type == "producto" || _type == "product"] | order(_createdAt desc) {
+  *[_type == "producto" || _type == "product"] | order(_createdAt desc)[0..3] {
     title,
     price,
     "slug": slug.current,
-    "imageUrl": images[0].asset->url,
-    "altText": images[0].alt
+    "imageUrl": images[0].asset->url
   }
 `);
 
-const title = "Catálogo Completo | Manoli Pasteles";
-const description = "Explora todos nuestros pasteles de pañales, canastillas y figuras originales.";
+// 2. SCHEMA LOCAL BUSINESS (SEO AVANZADO)
+// Datos estructurados para que Google Maps y la IA sepan quién eres
+const businessSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "GiftShop",
+  "name": "Manoli Pasteles de Pañales",
+  "image": "https://manolipastelesdepañales.com/favicon.svg",
+  "description": "Tienda artesanal de pasteles de pañales y canastillas para bebé en Badalona. Regalos personalizados y originales.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Badalona",
+    "addressRegion": "Barcelona",
+    "addressCountry": "ES"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "41.4500", 
+    "longitude": "2.2474" 
+  },
+  "url": "https://manolipastelesdepañales.com",
+  "telephone": "+34678846424",
+  "priceRange": "€€",
+  "areaServed": "Badalona",
+  "founder": {
+    "@type": "Person",
+    "name": "Manoli"
+  }
+});
 ---
 
-<Layout title={title} description={description}>
-  <main class="bg-white min-h-screen pb-20">
-    
-    <section class="bg-pink-50 py-12 px-4 text-center">
-      <h1 class="text-4xl md:text-5xl font-serif font-bold text-gray-800 mb-4">Catálogo Completo</h1>
-      <p class="text-gray-600 max-w-2xl mx-auto">Encuentra el regalo perfecto para la bienvenida del bebé.</p>
+<Layout 
+  title="Pasteles de Pañales en Badalona | Regalos Bebé Artesanales - Manoli"
+  description="Tartas de pañales y canastillas personalizadas hechas a mano en Badalona. El regalo práctico, original y único para recién nacidos. ¡Encarga tu diseño exclusivo!"
+>
+  
+  <script type="application/ld+json" set:html={businessSchema} />
+
+  <main>
+    <section class="relative bg-pink-50 py-20 px-4 text-center overflow-hidden">
+      <div class="max-w-3xl mx-auto relative z-10">
+        <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6 font-serif">
+          Regalos que nacen del corazón
+        </h1>
+        <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+          Pasteles de pañales y canastillas artesanales hechos a mano en <strong class="text-pink-600">Badalona</strong>. 
+          El detalle perfecto para dar la bienvenida al bebé.
+        </p>
+        <div class="flex gap-4 justify-center">
+          <a href="/productos" class="bg-pink-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-pink-700 transition-colors shadow-lg">
+            Ver Catálogo
+          </a>
+          <a href="/contacto" class="bg-white text-pink-600 border-2 border-pink-100 px-8 py-3 rounded-full font-semibold hover:border-pink-300 transition-colors">
+            Contactar
+          </a>
+        </div>
+      </div>
     </section>
 
-    <section class="max-w-7xl mx-auto px-4 mt-12">
-      {products.length === 0 ? (
-        <div class="text-center py-20 text-gray-500">Cargando productos...</div>
-      ) : (
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    <section class="py-16 px-4 bg-white">
+      <div class="max-w-6xl mx-auto">
+        <div class="flex justify-between items-end mb-10">
+          <h2 class="text-3xl font-bold text-gray-800">Últimas Creaciones</h2>
+          <a href="/productos" class="text-pink-600 font-semibold hover:underline hidden md:block">
+            Ver todo el catálogo →
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {products.map((product: any) => (
-            <a href={`/productos/${product.slug}`} class="group flex flex-col h-full">
-              <article class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex-1 flex flex-col">
+            <a href={`/productos/${product.slug}`} class="group">
+              <article class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden border border-gray-100 h-full flex flex-col">
                 <div class="aspect-square overflow-hidden bg-gray-100 relative">
                   {product.imageUrl ? (
-                    <img src={product.imageUrl} alt={product.title} class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700"/>
+                    <img 
+                      src={product.imageUrl} 
+                      alt={`Comprar ${product.title} en Badalona`} 
+                      class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                    />
                   ) : (
-                    <div class="flex items-center justify-center h-full text-gray-300">Sin foto</div>
+                    <div class="flex items-center justify-center h-full text-gray-400">Sin imagen</div>
                   )}
                 </div>
-                <div class="p-4">
-                  <h2 class="text-lg font-bold text-gray-800">{product.title}</h2>
-                  <p class="text-pink-600 font-bold mt-2">{product.price}</p>
+                <div class="p-4 flex-1 flex flex-col justify-between">
+                  <h3 class="text-lg font-semibold text-gray-800 mb-1 leading-tight group-hover:text-pink-600 transition-colors">
+                    {product.title}
+                  </h3>
+                  <p class="text-pink-600 font-bold mt-2">
+                    {product.price}
+                  </p>
                 </div>
               </article>
             </a>
           ))}
         </div>
-      )}
+
+        <div class="mt-10 text-center md:hidden">
+          <a href="/productos" class="text-pink-600 font-semibold hover:underline">
+            Ver todo el catálogo →
+          </a>
+        </div>
+      </div>
     </section>
+
+    <section class="py-16 px-4 bg-gray-50 border-t border-gray-100">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Tu tienda de regalos de nacimiento en Badalona</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Si buscas un regalo original, práctico y hecho con cariño, <strong>Manoli Pasteles de Pañales</strong> es tu sitio. 
+          Situados en el corazón de <strong>Badalona</strong>, creamos figuras únicas utilizando pañales de primeras marcas (Dodot). 
+          Desde tartas clásicas hasta motos y castillos, cada encargo se personaliza para sorprender a los nuevos papás.
+        </p>
+      </div>
+    </section>
+
   </main>
 </Layout>
