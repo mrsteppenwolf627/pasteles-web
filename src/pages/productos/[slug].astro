@@ -3,201 +3,90 @@ import Layout from '../../layouts/Layout.astro';
 import { sanityClient } from 'sanity:client';
 import { urlFor } from '../../utils/image';
 
-// 1. GENERAR RUTAS ESTÁTICAS (SITEMAP)
 export async function getStaticPaths() {
-  const products = await sanityClient.fetch(`*[_type in ["producto", "product"] && defined(slug.current)] { 
-    slug 
-  }`);
+  const products = await sanityClient.fetch(`*[_type in ["producto", "product"] && defined(slug.current)] { slug }`);
   return products.map((product: any) => ({ params: { slug: product.slug.current } }));
 }
 
 const { slug } = Astro.params;
 
-// 2. CONSULTA DE DATOS ENRIQUECIDA
 const product = await sanityClient.fetch(`*[_type in ["producto", "product"] && slug.current == $slug][0] {
-  nombre, 
-  title, 
+  nombre, title, 
   "textoDescripcion": pt::text(description),
   "textoDescripcionES": pt::text(descripcion),
-  precio, 
-  price, 
-  images[] { 
-    ...,
-    asset->
-  },
-  imagen, 
-  image,
-  mainImage
+  precio, price, 
+  images[] { ..., asset-> },
+  imagen, image, mainImage
 }`, { slug });
 
-// Si no existe el producto, error 404
 if (!product) { return Astro.redirect('/404'); }
 
-// 3. PROCESAMIENTO DE DATOS INTELIGENTE
 const nombre = product.nombre || product.title;
+let rawPrice = product.precio || product.price || "Consultar";
+if (typeof rawPrice === 'string') rawPrice = rawPrice.replace('€', '').replace('EUR', '').trim();
 
-// Limpieza del precio (para que el robot entienda "50" y no "50€")
-let rawPrice = product.precio || product.price || "0";
-if (typeof rawPrice === 'string') {
-  rawPrice = rawPrice.replace('€', '').replace('EUR', '').trim();
-}
+const fullDescription = product.textoDescripcion || product.textoDescripcionES || `Pastel de pañales ${nombre} hecho a mano.`;
+const metaDescription = fullDescription.slice(0, 155) + "...";
 
-const fullDescription = product.textoDescripcion || product.textoDescripcionES || `Pastel de pañales ${nombre} hecho a mano en Badalona.`;
-// Cortamos la descripción para Google (SEO) a 155 caracteres para que no salga "..."
-const metaDescription = `${fullDescription.slice(0, 155)}${fullDescription.length > 155 ? '...' : ''}`;
-
-// Lógica de Imagen Principal y Fallback
+// Lógica de Imagen
 let imagenData = null;
-let altText = `Comprar ${nombre} - Regalo bebé Badalona`; // SEO Local por defecto
-
+let altText = `Comprar ${nombre} - Regalo bebé Badalona`;
 if (product.images && product.images.length > 0) {
-  imagenData = product.images[0]; 
-  if (imagenData.alt) {
-    altText = imagenData.alt;
-  }
+  imagenData = product.images[0];
+  if (imagenData.alt) altText = imagenData.alt;
 } else {
   imagenData = product.imagen || product.image || product.mainImage;
 }
-
 const imagenUrl = imagenData ? urlFor(imagenData).url() : "";
 
-// 4. SCHEMA.ORG (DATOS ESTRUCTURADOS AVANZADOS PARA GEO/IA)
+// Schema SEO
 const productSchema = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": nombre,
-  "image": imagenUrl,
-  "description": fullDescription,
+  "@context": "https://schema.org", "@type": "Product",
+  "name": nombre, "image": imagenUrl, "description": fullDescription,
   "sku": slug,
-  "mpn": slug,
-  "brand": { 
-    "@type": "Brand", 
-    "name": "Manoli Pasteles" 
-  },
-  "itemCondition": "https://schema.org/NewCondition",
+  "brand": { "@type": "Brand", "name": "Manoli Pasteles" },
   "offers": {
-    "@type": "Offer",
-    "url": Astro.url.href,
-    "priceCurrency": "EUR",
-    "price": rawPrice,
+    "@type": "Offer", "url": Astro.url.href, "priceCurrency": "EUR", "price": rawPrice,
     "availability": "https://schema.org/InStock",
-    "areaServed": {
-      "@type": "City",
-      "name": "Badalona"
-    }
+    "areaServed": { "@type": "City", "name": "Badalona" }
   }
 });
 ---
 
-<Layout 
-  title={`${nombre} | Regalos Bebé Badalona - Manoli`} 
-  description={metaDescription} 
-  image={imagenUrl}
->
-  
+<Layout title={`${nombre} | Manoli Pasteles`} description={metaDescription} image={imagenUrl}>
   <script type="application/ld+json" set:html={productSchema} />
 
   <div class="bg-pink-50 py-12 md:py-20 min-h-screen">
     <div class="container mx-auto px-4">
-      
       <nav class="mb-8">
-        <a href="/catalogo" class="inline-flex items-center text-pink-600 font-bold hover:underline bg-white px-4 py-2 rounded-full shadow-sm transition-transform hover:-translate-y-0.5">
-          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-          Volver al Catálogo
+        <a href="/productos" class="inline-flex items-center text-pink-600 font-bold hover:underline bg-white px-4 py-2 rounded-full shadow-sm">
+          ← Volver al Catálogo
         </a>
       </nav>
 
       <div class="bg-white rounded-3xl shadow-xl overflow-hidden max-w-5xl mx-auto flex flex-col md:flex-row">
-        
-        <div class="md:w-1/2 bg-white p-8 flex items-center justify-center border-b md:border-b-0 md:border-r border-gray-100 relative group">
+        <div class="md:w-1/2 bg-white p-8 flex items-center justify-center border-r border-gray-100">
           {imagenUrl ? (
-            <div class="relative w-full max-w-[500px] cursor-zoom-in" id="image-trigger">
-              <img 
-                src={urlFor(imagenData).width(800).url()} 
-                alt={altText} 
-                width="800"
-                height="800"
-                loading="eager"
-                decoding="async"
-                class="w-full h-auto object-contain hover:scale-105 transition duration-500"
-                id="main-product-image"
-              />
-              <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur rounded-full p-3 text-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-md pointer-events-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
-              </div>
-            </div>
+            <img src={urlFor(imagenData).width(800).url()} alt={altText} class="w-full h-auto object-contain hover:scale-105 transition duration-500" />
           ) : (
-            <div class="flex flex-col items-center justify-center text-gray-300 h-64 bg-gray-50 rounded-xl w-full border-2 border-dashed border-gray-200">
-               <span class="font-bold">Sin Imagen</span>
-            </div>
+            <div class="text-gray-300 font-bold border-2 border-dashed p-10">Sin Imagen</div>
           )}
         </div>
 
         <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
-          <span class="text-pink-500 font-bold tracking-wider uppercase text-xs mb-2 bg-pink-100 inline-block px-3 py-1 rounded-full w-fit">
-            Hecho a mano en Badalona
-          </span>
-          <h1 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-4 leading-tight">{nombre}</h1>
+          <span class="text-pink-500 font-bold text-xs uppercase mb-2 bg-pink-100 w-fit px-2 py-1 rounded">Badalona</span>
+          <h1 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-4">{nombre}</h1>
           <div class="text-3xl font-bold text-pink-600 mb-6">{rawPrice}€</div>
-          
-          <div class="prose prose-pink text-gray-600 leading-relaxed mb-8 text-lg whitespace-pre-line">
-            {fullDescription}
-          </div>
-
-          <div class="w-full h-px bg-gray-200 mb-8"></div>
+          <p class="text-gray-600 mb-8 whitespace-pre-line">{fullDescription}</p>
           
           <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100">
-            <h3 class="font-bold text-gray-900 mb-4 flex items-center">
-              <span class="text-2xl mr-2">🎁</span> ¿Te interesa este modelo?
-            </h3>
-            <div class="flex flex-col gap-4">
-              <a href={`/contacto?asunto=Interesado en ${nombre}`} class="block w-full text-center bg-pink-600 text-white font-bold py-4 rounded-xl hover:bg-pink-700 transition shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                Pedir por WhatsApp / Email
-              </a>
-              <p class="text-center text-sm text-gray-500">
-                Personalizamos colores y añadimos el nombre del bebé <strong>gratis</strong>.
-              </p>
-            </div>
+            <h3 class="font-bold text-gray-900 mb-4">¿Te interesa?</h3>
+            <a href={`/contacto?asunto=Interesado en ${nombre}`} class="block w-full text-center bg-pink-600 text-white font-bold py-4 rounded-xl hover:bg-pink-700 transition shadow-lg">
+              Pedir por WhatsApp / Email
+            </a>
           </div>
         </div>
-
       </div>
     </div>
   </div>
-
-  <div id="lightbox" class="fixed inset-0 z-[100] bg-black/95 hidden flex items-center justify-center cursor-zoom-out p-4 opacity-0 transition-opacity duration-300">
-    <button class="absolute top-6 right-6 text-white hover:text-pink-500 z-50 focus:outline-none p-2 bg-black/50 rounded-full">
-      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-    </button>
-    <img id="lightbox-img" src="" alt={altText} class="max-w-full max-h-[90vh] object-contain shadow-2xl rounded-lg scale-95 transition-transform duration-300" />
-  </div>
-
-  <script>
-    const trigger = document.getElementById('image-trigger');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    const mainImg = document.getElementById('main-product-image');
-
-    if (trigger && lightbox && lightboxImg && mainImg) {
-      trigger.addEventListener('click', () => {
-        // @ts-ignore
-        lightboxImg.src = mainImg.src;
-        lightbox.classList.remove('hidden');
-        setTimeout(() => {
-          lightbox.classList.remove('opacity-0');
-          lightboxImg.classList.remove('scale-95');
-          lightboxImg.classList.add('scale-100');
-        }, 10);
-      });
-
-      lightbox.addEventListener('click', () => {
-        lightbox.classList.add('opacity-0');
-        lightboxImg.classList.remove('scale-100');
-        lightboxImg.classList.add('scale-95');
-        setTimeout(() => {
-          lightbox.classList.add('hidden');
-        }, 300);
-      });
-    }
-  </script>
 </Layout>

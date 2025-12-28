@@ -1,5 +1,5 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../../layouts/Layout.astro';
 import { sanityClient } from 'sanity:client';
 
 // 1. CONSULTA A SANITY (Traer TODOS los productos ordenados por fecha)
@@ -15,7 +15,7 @@ const products = await sanityClient.fetch(`
 
 // 2. TEXTOS SEO (Para posicionar la categoría completa)
 const title = "Catálogo de Tartas de Pañales y Canastillas | Manoli Pasteles";
-const description = "Explora nuestra colección completa de figuras de pañales: castillos, motos, carritos y tartas clásicas. Regalos originales para bebé hechos a mano en Badalona con pañales de primera calidad.";
+const description = "Explora nuestra colección completa de figuras de pañales: castillos, motos, carritos y tartas clásicas. Regalos originales para bebé hechos a mano en Badalona.";
 ---
 
 <Layout title={title} description={description}>
@@ -27,63 +27,50 @@ const description = "Explora nuestra colección completa de figuras de pañales:
           Nuestro Catálogo Artesanal
         </h1>
         <p class="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
-          Cada una de nuestras creaciones es única. Desde las clásicas <strong>tartas de tres pisos</strong> hasta impresionantes <strong>castillos y motos</strong>. 
-          Utilizamos pañales de primeras marcas y cuidamos cada cinta y detalle para que tu regalo sea inolvidable.
+          Cada una de nuestras creaciones es única. Desde las clásicas <strong>tartas de tres pisos</strong> hasta impresionantes <strong>castillos y motos</strong>.
         </p>
       </div>
     </section>
 
     <section class="max-w-7xl mx-auto px-4 mt-12">
-      
       {products.length === 0 ? (
         <div class="text-center py-20">
-          <p class="text-xl text-gray-500">Cargando productos o catálogo vacío...</p>
+          <p class="text-xl text-gray-500">Cargando productos...</p>
         </div>
       ) : (
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {products.map((product: any) => (
             <a href={`/productos/${product.slug}`} class="group flex flex-col h-full">
               <article class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex-1 flex flex-col">
-                
                 <div class="aspect-square overflow-hidden bg-gray-100 relative">
                   {product.imageUrl ? (
                     <img 
                       src={product.imageUrl} 
-                      alt={product.altText || `Comprar ${product.title} en Badalona`} 
+                      alt={product.altText || product.title} 
                       class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700"
                       loading="lazy"
                     />
                   ) : (
-                    <div class="flex items-center justify-center h-full text-gray-300 bg-gray-50 font-medium">
-                      Sin foto
-                    </div>
+                    <div class="flex items-center justify-center h-full text-gray-300 bg-gray-50">Sin foto</div>
                   )}
-                  
                   <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-pink-600 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     Ver Detalles
                   </div>
                 </div>
-
                 <div class="p-6 flex flex-col flex-1 justify-between">
-                  <div>
-                    <h2 class="text-xl font-bold text-gray-800 mb-2 leading-tight group-hover:text-pink-600 transition-colors">
-                      {product.title}
-                    </h2>
-                    <div class="w-10 h-1 bg-pink-100 rounded-full mb-4 group-hover:bg-pink-500 transition-colors duration-300"></div>
-                  </div>
-                  
+                  <h2 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-pink-600 transition-colors">
+                    {product.title}
+                  </h2>
                   <div class="flex items-center justify-between mt-4">
                     <span class="text-2xl font-bold text-pink-600">{product.price}</span>
-                    <span class="text-sm text-gray-400 font-medium">Encargar →</span>
+                    <span class="text-sm text-gray-400 font-medium">Ver más →</span>
                   </div>
                 </div>
-
               </article>
             </a>
           ))}
         </div>
       )}
     </section>
-
   </main>
 </Layout>
