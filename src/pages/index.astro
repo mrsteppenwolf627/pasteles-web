@@ -1,109 +1,92 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { sanityClient } from 'sanity:client';
-import { urlFor } from '../utils/image';
 
-// CONSULTA BLINDADA: Solo trae productos que tengan SLUG y alguna FOTO válida
+// 1. CONSULTA A SANITY (Para traer los últimos 4 productos automáticamente)
 const products = await sanityClient.fetch(`
-  *[_type in ["producto", "product"] && defined(slug.current) && (defined(imagen) || defined(image) || defined(mainImage) || count(images) > 0)] 
-  | order(_createdAt desc)[0..3] {
-    nombre,
+  *[_type == "producto" || _type == "product"] | order(_createdAt desc)[0..3] {
     title,
-    slug,
-    precio,
     price,
-    images[]{
-      asset->
-    },
-    imagen,
-    image,
-    mainImage
+    "slug": slug.current,
+    "imageUrl": images[0].asset->url
   }
 `);
 ---
 
-<Layout title="Manoli Pasteles | Tartas de Pañales y Canastillas en Badalona">
-  
-  <section class="relative bg-pink-50 py-20 overflow-hidden">
-    <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
-      <div class="md:w-1/2 z-10 mb-10 md:mb-0 text-center md:text-left">
-        <h1 class="text-5xl md:text-6xl font-serif font-bold text-gray-900 leading-tight mb-6">
-          Regalos que nacen del <span class="text-pink-500">corazón</span>
+<Layout 
+  title="Pasteles de Pañales en Badalona | Regalos Bebé Artesanales - Manoli"
+  description="Tartas de pañales y canastillas personalizadas hechas a mano en Badalona. El regalo práctico, original y único para recién nacidos. ¡Encarga tu diseño exclusivo!"
+>
+
+  <main>
+    <section class="relative bg-pink-50 py-20 px-4 text-center overflow-hidden">
+      <div class="max-w-3xl mx-auto relative z-10">
+        <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6 font-serif">
+          Regalos que nacen del corazón
         </h1>
-        <p class="text-xl text-gray-600 mb-8 max-w-lg mx-auto md:mx-0">
-          Pasteles de pañales y canastillas artesanales hechos a mano en Badalona.
+        <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+          Pasteles de pañales y canastillas artesanales hechos a mano en <strong class="text-pink-600">Badalona</strong>. 
           El detalle perfecto para dar la bienvenida al bebé.
         </p>
-        <a href="/catalogo" class="bg-pink-500 text-white font-bold py-4 px-8 rounded-full shadow-lg hover:bg-pink-600 transition transform hover:-translate-y-1 inline-block">
-          Ver Catálogo
-        </a>
+        <div class="flex gap-4 justify-center">
+          <a href="/catalogo" class="bg-pink-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-pink-700 transition-colors shadow-lg">
+            Ver Catálogo
+          </a>
+          <a href="/contacto" class="bg-white text-pink-600 border-2 border-pink-100 px-8 py-3 rounded-full font-semibold hover:border-pink-300 transition-colors">
+            Contactar
+          </a>
+        </div>
       </div>
       
-      <div class="md:w-1/2 relative">
-        <div class="absolute inset-0 bg-pink-200 rounded-full blur-3xl opacity-30 transform translate-x-10 translate-y-10"></div>
-        <img src="/hero-cake.png" onerror="this.src='https://cdn.sanity.io/images/y7m52g15/production/5c0d50849221192534f37435f29910243d5483f2-1024x1024.jpg'" alt="Pastel de Pañales Manoli" class="relative z-10 w-full max-w-md mx-auto drop-shadow-2xl rounded-2xl transform rotate-3 hover:rotate-0 transition duration-500" />
-      </div>
-    </div>
-  </section>
+      <div class="absolute top-0 left-0 w-64 h-64 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 -translate-x-1/2 -translate-y-1/2"></div>
+      <div class="absolute bottom-0 right-0 w-64 h-64 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 translate-x-1/2 translate-y-1/2"></div>
+    </section>
 
-  <section class="py-20 bg-white">
-    <div class="container mx-auto px-4">
-      <div class="flex justify-between items-end mb-12">
-        <div>
-          <h2 class="text-3xl font-serif font-bold text-gray-900 mb-2">Últimas Creaciones</h2>
-          <div class="h-1 w-20 bg-pink-500 rounded"></div>
+    <section class="py-16 px-4 bg-white">
+      <div class="max-w-6xl mx-auto">
+        <div class="flex justify-between items-end mb-10">
+          <h2 class="text-3xl font-bold text-gray-800">Últimas Creaciones</h2>
+          <a href="/catalogo" class="text-pink-600 font-semibold hover:underline hidden md:block">
+            Ver todo el catálogo →
+          </a>
         </div>
-        <a href="/catalogo" class="text-pink-500 font-bold hover:text-pink-700 flex items-center group">
-          Ver todo 
-          <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-        </a>
-      </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {products.map((product) => {
-           // Lógica para encontrar la imagen correcta
-           let imagenData = null;
-           if (product.images && product.images.length > 0) {
-             imagenData = product.images[0];
-           } else {
-             imagenData = product.imagen || product.image || product.mainImage;
-           }
-
-           const nombreProducto = product.nombre || product.title || "Producto sin nombre";
-           
-           // Limpieza de precio
-           let precioDisplay = "Consultar";
-           if (product.precio || product.price) {
-              const raw = product.precio || product.price;
-              precioDisplay = typeof raw === 'string' ? raw + '€' : raw + '€';
-              if (typeof raw === 'string' && raw.includes('€')) precioDisplay = raw;
-           }
-
-           return (
-            <a href={`/productos/${product.slug.current}`} class="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border border-gray-100 overflow-hidden flex flex-col">
-              <div class="relative h-64 overflow-hidden bg-gray-50">
-                {imagenData ? (
-                  <img 
-                    src={urlFor(imagenData).width(400).height(400).url()} 
-                    alt={nombreProducto} 
-                    class="w-full h-full object-cover object-center group-hover:scale-110 transition duration-700"
-                  />
-                ) : (
-                  <div class="flex items-center justify-center h-full text-gray-300">Sin imagen</div>
-                )}
-                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition duration-300">
-                  <span class="text-white text-sm font-bold">Ver detalles</span>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {products.map((product: any) => (
+            <a href={`/producto/${product.slug}`} class="group">
+              <article class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden border border-gray-100 h-full flex flex-col">
+                <div class="aspect-square overflow-hidden bg-gray-100 relative">
+                  {product.imageUrl ? (
+                    <img 
+                      src={product.imageUrl} 
+                      alt={product.title} 
+                      class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div class="flex items-center justify-center h-full text-gray-400">
+                      Sin imagen
+                    </div>
+                  )}
                 </div>
-              </div>
-              <div class="p-6">
-                <h3 class="font-serif font-bold text-xl text-gray-900 mb-2 truncate group-hover:text-pink-600 transition">{nombreProducto}</h3>
-                <p class="text-pink-500 font-bold text-lg">{precioDisplay}</p>
-              </div>
+                <div class="p-4 flex-1 flex flex-col justify-between">
+                  <h3 class="text-lg font-semibold text-gray-800 mb-1 leading-tight group-hover:text-pink-600 transition-colors">
+                    {product.title}
+                  </h3>
+                  <p class="text-pink-600 font-bold mt-2">
+                    {product.price}
+                  </p>
+                </div>
+              </article>
             </a>
-          );
-        })}
-      </div>
-    </div>
-  </section>
+          ))}
+        </div>
 
+        <div class="mt-10 text-center md:hidden">
+          <a href="/catalogo" class="text-pink-600 font-semibold hover:underline">
+            Ver todo el catálogo →
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
 </Layout>
