@@ -5,19 +5,21 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title: string;
   description?: string;
-  image?: string; // Nueva propiedad para la foto de compartir
+  image?: string;
 }
 
 const { 
   title, 
   description = "Regalos de nacimiento y pasteles de pañales artesanales en Badalona. Hechos a mano con amor y productos de primeras marcas.",
-  image = "/favicon.svg" // Imagen por defecto si no hay una específica (puedes cambiarla luego por una foto de tu logo)
+  image = "/favicon.svg"
 } = Astro.props;
 
-// Calculamos la URL completa de la imagen para que WhatsApp la entienda bien
 const siteUrl = Astro.site ? Astro.site.origin : 'https://manolipastelesdepañales.com';
 const imageUrl = image.startsWith('http') ? image : `${siteUrl}${image}`;
 const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+
+// ID DE GOOGLE ANALYTICS
+const GA_MEASUREMENT_ID = 'G-XXY67PM3D0';
 ---
 
 <!doctype html>
@@ -30,6 +32,14 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
     <meta name="generator" content={Astro.generator} />
     
     <link rel="canonical" href={canonicalURL} />
+
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}></script>
+    <script define:vars={{ GA_MEASUREMENT_ID }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', GA_MEASUREMENT_ID);
+    </script>
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content={Astro.url} />
