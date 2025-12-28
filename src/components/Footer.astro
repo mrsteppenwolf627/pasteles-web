@@ -1,53 +1,112 @@
 ---
-const currentYear = new Date().getFullYear();
+import Layout from '../layouts/Layout.astro';
+
+// DATOS DE CONTACTO
+const TELEFONO_WHATSAPP = "34678846424"; // Número internacional para el link
+const TELEFONO_VISUAL = "678 84 64 24";  // Número visual para leer
 ---
 
-<footer class="bg-gray-900 text-white pt-16 pb-8 mt-auto">
-  <div class="container mx-auto px-4">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
-      
-      <div>
-        <h3 class="text-2xl font-serif font-bold mb-4">Manoli Pasteles</h3>
-        <p class="text-gray-400 leading-relaxed mb-6">
-          Regalos de nacimiento artesanales hechos con amor en Badalona. 
-          Creamos ilusiones con pañales.
+<Layout title="Contacto | Encarga tu Pastel de Pañales en Badalona">
+  <main class="bg-gray-50 min-h-screen">
+    
+    <section class="bg-white py-16 text-center shadow-sm">
+      <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">Haz tu encargo</h1>
+        <p class="text-xl text-gray-500 max-w-2xl mx-auto">
+          Hablemos por WhatsApp para diseñar el regalo perfecto. <br>
+          <span class="text-sm mt-2 block text-pink-500 font-semibold">Respuesta rápida y trato personal con Manoli.</span>
         </p>
-        <span class="inline-block bg-pink-900 text-pink-200 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
-          Badalona
-        </span>
+      </div>
+    </section>
+
+    <div class="container mx-auto px-4 py-12">
+      
+      <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
+        
+        <div class="bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition text-center border-t-4 border-[#25D366] group">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition">
+            <svg class="w-8 h-8 fill-[#25D366]" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">WhatsApp</h3>
+          <p class="text-gray-500 mb-6 text-sm">Para encargos, dudas y fotos de diseños.</p>
+          <a 
+            href={`https://wa.me/${TELEFONO_WHATSAPP}?text=Hola Manoli, me gustaría encargar un pastel...`} 
+            target="_blank"
+            class="inline-block w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-3 rounded-lg transition shadow-md"
+          >
+            Enviar Mensaje
+          </a>
+        </div>
+
+        <div class="bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition text-center border-t-4 border-pink-400 group">
+          <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition">
+            <span class="text-3xl">📞</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Llamada</h3>
+          <p class="text-gray-500 mb-6 text-sm">Atención personalizada directa.</p>
+          <a 
+            href={`tel:${TELEFONO_WHATSAPP}`} 
+            class="inline-block w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 rounded-lg transition shadow-md"
+          >
+            Llamar al {TELEFONO_VISUAL}
+          </a>
+        </div>
       </div>
 
-      <div>
-        <h4 class="text-lg font-bold mb-6 text-pink-400">Menú</h4>
-        <ul class="space-y-4">
-          <li><a href="/" class="text-gray-400 hover:text-white transition">Inicio</a></li>
-          <li><a href="/productos" class="text-gray-400 hover:text-white transition">Ver Catálogo</a></li>
-          <li><a href="/sobre-nosotros" class="text-gray-400 hover:text-white transition">Nuestra Historia</a></li>
-          <li><a href="/contacto" class="text-gray-400 hover:text-white transition">Preguntas Frecuentes</a></li>
-        </ul>
+      <div class="max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-10 flex items-center justify-center gap-2">
+          <span>💬</span> Preguntas Frecuentes
+        </h2>
+        
+        <div class="grid gap-6">
+          <article class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-pink-200 transition">
+            <h3 class="font-bold text-lg text-gray-800 mb-2 flex items-center gap-2">
+              📍 ¿Dónde se recogen los pasteles?
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              La entrega se realiza <strong>en mano en Badalona</strong>, coordinando el punto de encuentro cerca de mi taller.
+            </p>
+          </article>
+
+          <article class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-pink-200 transition">
+            <h3 class="font-bold text-lg text-gray-800 mb-2 flex items-center gap-2">
+              ⏳ ¿Con cuánta antelación debo pedirlo?
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              Lo ideal es <strong>1 semana de antelación</strong>. Para urgencias, escríbeme por WhatsApp y vemos si hay hueco.
+            </p>
+          </article>
+
+          <article class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-pink-200 transition">
+            <h3 class="font-bold text-lg text-gray-800 mb-2 flex items-center gap-2">
+              💶 ¿Cómo funciona el pago?
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              Pido una <strong>paga y señal del 50%</strong> (Bizum) para empezar. El resto al entregar el regalo.
+            </p>
+          </article>
+
+          <article class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-pink-200 transition">
+            <h3 class="font-bold text-lg text-gray-800 mb-2 flex items-center gap-2">
+              🎁 ¿Viene listo para regalar?
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              ¡Sí! Se entrega envuelto en <strong>papel celofán transparente</strong> con lazos. Listo para llevar a la fiesta.
+            </p>
+          </article>
+
+           <article class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-pink-200 transition">
+            <h3 class="font-bold text-lg text-gray-800 mb-2 flex items-center gap-2">
+              🧸 ¿Puedo añadir mis propios regalos?
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              Claro. Si tienes un peluche especial o ropita, tráemelo antes y lo integro en el diseño.
+            </p>
+          </article>
+        </div>
       </div>
 
-      <div>
-        <h4 class="text-lg font-bold mb-6 text-pink-400">Contacto</h4>
-        <ul class="space-y-4 text-gray-400">
-          <li class="flex items-start gap-3">
-            <span class="text-xl">📍</span>
-            <span>Badalona, Barcelona<br>(Entrega en mano)</span>
-          </li>
-          <li class="flex items-center gap-3">
-            <span class="text-xl">📞</span>
-            <a href="tel:678846424" class="hover:text-white transition">678 84 64 24</a>
-          </li>
-          <li class="flex items-center gap-3">
-            <span class="text-xl">💬</span>
-            <a href="https://wa.me/34678846424" class="hover:text-white transition">WhatsApp Directo</a>
-          </li>
-        </ul>
-      </div>
     </div>
-
-    <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
-      <p>&copy; {currentYear} Manoli Pasteles de Pañales. Todos los derechos reservados.</p>
-    </div>
-  </div>
-</footer>
+  </main>
+  
+  </Layout>
