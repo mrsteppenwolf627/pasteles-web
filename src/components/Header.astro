@@ -1,59 +1,82 @@
 ---
+const pathname = new URL(Astro.request.url).pathname;
+const currentPath = pathname.slice(1); // remove the first "/"
 ---
-<header id="main-header" class="bg-white shadow-sm fixed top-0 w-full z-50 h-20 transition-all duration-300">
-  <div class="container mx-auto px-4 h-full flex justify-between items-center">
-    
-    <a href="/" class="text-2xl font-bold text-pink-500 hover:text-pink-600 transition font-serif flex items-center gap-2">
-      Manoli <span class="text-gray-400 text-sm font-sans font-normal hidden sm:inline-block">Pasteles de Pañales</span>
-    </a>
 
-    <nav class="hidden md:flex gap-8 items-center">
-      <a href="/" class="text-gray-600 hover:text-pink-500 font-medium transition">Inicio</a>
-      <a href="/productos" class="text-gray-600 hover:text-pink-500 font-medium transition">Catálogo</a>
-      <a href="/sobre-nosotros" class="text-gray-600 hover:text-pink-500 font-medium transition">Sobre Mí</a>
-      <a href="/contacto" class="bg-pink-500 text-white px-5 py-2 rounded-full hover:bg-pink-600 transition font-bold shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-        Contacto
+<header class="bg-white shadow-sm sticky top-0 z-50">
+  <div class="container mx-auto px-4">
+    <div class="flex justify-between items-center h-20">
+      
+      <a href="/" class="flex flex-col group">
+        <span class="text-2xl font-serif font-bold text-gray-800 group-hover:text-pink-600 transition-colors">
+          Manoli
+        </span>
+        <span class="text-xs tracking-widest text-pink-500 font-medium uppercase">
+          Pasteles de Pañales
+        </span>
       </a>
-    </nav>
 
-    <button id="menu-btn" class="md:hidden text-gray-600 focus:outline-none p-2 rounded hover:bg-gray-100">
-      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-      </svg>
-    </button>
+      <nav class="hidden md:flex space-x-8">
+        <a 
+          href="/" 
+          class={`font-medium transition-colors hover:text-pink-600 ${currentPath === "" ? "text-pink-600 font-bold" : "text-gray-600"}`}
+        >
+          Inicio
+        </a>
+        <a 
+          href="/productos" 
+          class={`font-medium transition-colors hover:text-pink-600 ${currentPath.startsWith("productos") ? "text-pink-600 font-bold" : "text-gray-600"}`}
+        >
+          Catálogo
+        </a>
+        <a 
+          href="/sobre-nosotros" 
+          class={`font-medium transition-colors hover:text-pink-600 ${currentPath.startsWith("sobre-nosotros") ? "text-pink-600 font-bold" : "text-gray-600"}`}
+        >
+          Sobre Mí
+        </a>
+        <a 
+          href="/contacto" 
+          class="bg-pink-600 text-white px-6 py-2 rounded-full font-bold hover:bg-pink-700 transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+        >
+          Contactar
+        </a>
+      </nav>
+
+      <button id="mobile-menu-btn" class="md:hidden text-gray-600 hover:text-pink-600 focus:outline-none p-2">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
   </div>
 
-  <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-xl top-20 left-0">
-    <nav class="flex flex-col p-4 gap-4 text-center">
-      <a href="/" class="mobile-link text-gray-700 hover:text-pink-500 py-2 border-b border-gray-50">Inicio</a>
-      <a href="/productos" class="mobile-link text-gray-700 hover:text-pink-500 py-2 border-b border-gray-50">Catálogo</a>
-      <a href="/sobre-nosotros" class="mobile-link text-gray-700 hover:text-pink-500 py-2 border-b border-gray-50">Sobre Mí</a>
-      <a href="/contacto" class="mobile-link text-pink-600 font-bold py-2 bg-pink-50 rounded-lg mt-2">
-        ¡Encargar Ahora!
+  <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full left-0 shadow-lg">
+    <nav class="flex flex-col p-4 space-y-3">
+      <a href="/" class="block px-4 py-3 rounded-lg hover:bg-pink-50 text-gray-700 font-medium">
+        🏠 Inicio
+      </a>
+      <a href="/productos" class="block px-4 py-3 rounded-lg hover:bg-pink-50 text-gray-700 font-medium">
+        👶 Catálogo Completo
+      </a>
+      <a href="/sobre-nosotros" class="block px-4 py-3 rounded-lg hover:bg-pink-50 text-gray-700 font-medium">
+        👩‍🎨 Sobre Manoli
+      </a>
+      <a href="/contacto" class="block px-4 py-3 rounded-lg bg-pink-600 text-white font-bold text-center mt-2">
+        Contactar por WhatsApp
       </a>
     </nav>
   </div>
 </header>
 
-<div class="h-20 w-full bg-transparent"></div>
-
 <script>
-  // Script del menú móvil
-  const btn = document.getElementById('menu-btn');
+  // Script sencillo para abrir/cerrar el menú en el móvil
+  const btn = document.getElementById('mobile-menu-btn');
   const menu = document.getElementById('mobile-menu');
-  const links = document.querySelectorAll('.mobile-link'); // Seleccionamos los enlaces
 
   if (btn && menu) {
-    // Abrir/Cerrar menú
     btn.addEventListener('click', () => {
       menu.classList.toggle('hidden');
-    });
-
-    // Cerrar menú automáticamente al hacer clic en un enlace (Mejora de UX)
-    links.forEach(link => {
-      link.addEventListener('click', () => {
-        menu.classList.add('hidden');
-      });
     });
   }
 </script>

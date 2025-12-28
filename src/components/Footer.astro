@@ -1,94 +1,53 @@
 ---
 const currentYear = new Date().getFullYear();
-
-// --- CONFIGURACIÓN DEL EMAIL ---
-const emailDestino = "Mmg151064@hotmail.com";
-const emailCopia = "aitoralmu21@gmail.com";
-const asunto = "Consulta Web: Pastel de Pañales";
-
-// El mensaje predefinido con saltos de línea
-const mensaje = `Hola Manoli,
-
-Te escribo desde la web porque estoy interesado/a en un pastel de pañales o canastilla personalizada.
-
-Me gustaría saber más sobre:
-[Escribe aquí tu idea, modelo o presupuesto]
-
-Muchas gracias.`;
-
-// Generador de enlace seguro para correos
-const params = new URLSearchParams({
-  cc: emailCopia,
-  subject: asunto,
-  body: mensaje
-});
-
-// Enlace final
-const mailtoLink = `mailto:${emailDestino}?${params.toString()}`;
 ---
 
-<footer class="bg-gray-900 text-gray-300 py-12 border-t-4 border-pink-500">
+<footer class="bg-gray-900 text-white pt-16 pb-8 mt-auto">
   <div class="container mx-auto px-4">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
       
       <div>
-        <h3 class="text-2xl font-serif font-bold text-white mb-4">
-          Manoli <span class="text-pink-500">Pasteles</span>
-        </h3>
-        <p class="mb-4 text-sm leading-relaxed">
-          Regalos artesanales hechos con corazón en <strong>Badalona</strong>. 
-          Creamos pasteles de pañales y canastillas personalizadas para dar la bienvenida más dulce al recién nacido.
+        <h3 class="text-2xl font-serif font-bold mb-4">Manoli Pasteles</h3>
+        <p class="text-gray-400 leading-relaxed mb-6">
+          Regalos de nacimiento artesanales hechos con amor en Badalona. 
+          Creamos ilusiones con pañales.
         </p>
+        <span class="inline-block bg-pink-900 text-pink-200 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+          Badalona
+        </span>
       </div>
 
       <div>
-        <h4 class="text-lg font-bold text-white mb-4 uppercase tracking-wider">Menú</h4>
-        <ul class="space-y-2">
-          <li><a href="/" class="hover:text-pink-400 transition">Inicio</a></li>
-          <li><a href="/productos" class="hover:text-pink-400 transition">Catálogo Completo</a></li>
-          <li><a href="/sobre-nosotros" class="hover:text-pink-400 transition">Sobre Mí</a></li>
-          <li><a href="/contacto" class="hover:text-pink-400 transition">Contacto</a></li>
+        <h4 class="text-lg font-bold mb-6 text-pink-400">Menú</h4>
+        <ul class="space-y-4">
+          <li><a href="/" class="text-gray-400 hover:text-white transition">Inicio</a></li>
+          <li><a href="/productos" class="text-gray-400 hover:text-white transition">Ver Catálogo</a></li>
+          <li><a href="/sobre-nosotros" class="text-gray-400 hover:text-white transition">Nuestra Historia</a></li>
+          <li><a href="/contacto" class="text-gray-400 hover:text-white transition">Preguntas Frecuentes</a></li>
         </ul>
       </div>
 
       <div>
-        <h4 class="text-lg font-bold text-white mb-4 uppercase tracking-wider">Contacto</h4>
-        <address class="not-italic space-y-3">
-          
-          <div class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-pink-500 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-            <span>
-              Taller en <strong>Badalona</strong><br/>
-              Barcelona, España
-            </span>
-          </div>
-
-          <div class="flex items-center gap-3">
-            <svg class="w-5 h-5 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-            <a href="tel:+34678846424" class="hover:text-white transition font-bold">
-              678 84 64 24
-            </a>
-          </div>
-
-          <div class="flex items-center gap-3">
-            <svg class="w-5 h-5 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-            <a href={mailtoLink} class="hover:text-white transition font-bold">
-              Contactar por Email
-            </a>
-          </div>
-
-        </address>
+        <h4 class="text-lg font-bold mb-6 text-pink-400">Contacto</h4>
+        <ul class="space-y-4 text-gray-400">
+          <li class="flex items-start gap-3">
+            <span class="text-xl">📍</span>
+            <span>Badalona, Barcelona<br>(Entrega en mano)</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="text-xl">📞</span>
+            <a href="tel:678846424" class="hover:text-white transition">678 84 64 24</a>
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="text-xl">💬</span>
+            <a href="https://wa.me/34678846424" class="hover:text-white transition">WhatsApp Directo</a>
+          </li>
+        </ul>
       </div>
-
     </div>
 
-    <div class="border-t border-gray-800 mt-12 pt-8 text-sm text-center md:text-left flex flex-col md:flex-row justify-between items-center text-gray-500">
-      <p>&copy; {currentYear} Manoli Pasteles. Todos los derechos reservados.</p>
-      
-      <div class="flex gap-6 mt-4 md:mt-0">
-        <a href="/aviso-legal" class="hover:text-white transition cursor-pointer">Aviso Legal</a>
-        <a href="/privacidad" class="hover:text-white transition cursor-pointer">Política de Privacidad</a>
-      </div>
+    <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+      <p>&copy; {currentYear} Manoli Pasteles de Pañales. Todos los derechos reservados.</p>
     </div>
   </div>
 </footer>
