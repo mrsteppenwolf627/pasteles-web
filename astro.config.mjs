@@ -7,11 +7,11 @@ import sanity from '@sanity/astro';
 export default defineConfig({
   site: 'https://manolipastelesdepañales.com',
   integrations: [
-    tailwind(), // <--- ESTO ES LO QUE PINTA LA WEB
+    tailwind(),
     react(),
     sanity({
       projectId: 'y7m52g15',
-      dataset: 'production',
+      dataset: 'global', // <--- ¡AQUÍ ESTABA EL DUENDE! 😈 Antes ponía 'production'
       useCdn: true,
       apiVersion: '2024-03-20',
     }),
