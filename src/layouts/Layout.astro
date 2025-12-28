@@ -3,50 +3,51 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
 interface Props {
-	title: string;
-	description?: string;
-	image?: string;
+  title: string;
+  description?: string;
+  image?: string; // Nueva propiedad para la foto de compartir
 }
 
 const { 
-	title, 
-	description = "Pasteles de pañales y canastillas personalizadas en Badalona. Regalos originales y únicos para bebés.", 
-	image = "/hero-cake.png" 
+  title, 
+  description = "Regalos de nacimiento y pasteles de pañales artesanales en Badalona. Hechos a mano con amor y productos de primeras marcas.",
+  image = "/favicon.svg" // Imagen por defecto si no hay una específica (puedes cambiarla luego por una foto de tu logo)
 } = Astro.props;
+
+// Calculamos la URL completa de la imagen para que WhatsApp la entienda bien
+const siteUrl = Astro.site ? Astro.site.origin : 'https://manolipastelesdepañales.com';
+const imageUrl = image.startsWith('http') ? image : `${siteUrl}${image}`;
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
 ---
 
 <!doctype html>
 <html lang="es">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content={description} />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		
-		<meta name="google-site-verification" content="acky7Mc_SQ-I_no5U-D4CUCTC3kKwHwe5KOX9vjrDTE" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <link rel="canonical" href={canonicalURL} />
 
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content={Astro.url} />
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
-		<meta property="og:image" content={image} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imageUrl} />
 
-		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content={Astro.url} />
-		<meta property="twitter:title" content={title} />
-		<meta property="twitter:description" content={description} />
-		<meta property="twitter:image" content={image} />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={Astro.url} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={imageUrl} />
 
-		<title>{title}</title>
-	</head>
-	<body class="bg-pink-50 min-h-screen flex flex-col text-gray-800">
-		<Header />
-		
-		<main class="flex-grow">
-			<slot />
-		</main>
-
-		<Footer />
-	</body>
+    <title>{title}</title>
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <Header />
+    <slot />
+    <Footer />
+  </body>
 </html>
