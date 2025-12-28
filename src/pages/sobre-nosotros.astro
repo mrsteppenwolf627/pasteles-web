@@ -1,116 +1,98 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
 
-const TELEFONO_MADRE = "34678846424"; 
+// DATOS DE CONTACTO Y SEO
+const TELEFONO = "34678846424";
+const title = "Sobre Manoli | Historia de un Hobby que nació en la Pandemia";
+const description = "Descubre cómo un entretenimiento durante la pandemia en Badalona se convirtió en la ilusión de más de 200 familias. Pasteles de pañales hechos con amor y Dodot.";
 ---
 
-<Layout title="Sobre Manoli | Pasteles de Pañales Artesanales en Badalona">
-  <Header />
-
+<Layout title={title} description={description}>
   <main class="bg-white">
     
-    <section class="relative py-16 md:py-24 bg-gradient-to-br from-pink-50 to-white overflow-hidden">
+    <section class="relative bg-pink-50 py-20 overflow-hidden">
       <div class="container mx-auto px-4 relative z-10 flex flex-col md:flex-row items-center gap-12">
         
-        <div class="md:w-1/2">
-          <span class="text-pink-500 font-bold tracking-wider text-sm uppercase mb-2 block">
+        <div class="md:w-1/2 text-center md:text-left">
+          <span class="text-pink-600 font-bold tracking-widest uppercase text-sm mb-4 block bg-pink-100 w-fit px-3 py-1 rounded-full mx-auto md:mx-0">
             Desde 2020 en Badalona
           </span>
-          <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6 leading-tight">
-            De un hobby en casa a emocionar a cientos de familias.
+          <h1 class="text-3xl md:text-5xl font-serif font-bold text-gray-800 mb-6 leading-tight">
+            De un hobby en casa a emocionar a <span class="text-pink-600">cientos de familias</span>
           </h1>
           
-          <div class="prose prose-lg text-gray-600">
-            <p class="mb-4">
-              Hola, soy <strong>Manoli</strong>. Mi historia con los pañales empezó en una época extraña para todos: la pandemia de 2020. Sin poder ir a trabajar y encerrada en casa, necesitaba mantener las manos y la mente ocupadas.
-            </p>
-            <p class="mb-4">
-              Empecé haciendo un pastel de pañales para una amiga que acababa de ser madre. Fue un simple gesto de cariño, pero la reacción fue mágica. <strong>"Es tan bonito que nos da pena desmontarlo"</strong>, me dijeron. 
+          <div class="text-lg text-gray-600 mb-8 leading-relaxed space-y-4">
+            <p>
+              Hola, soy <strong>Manoli</strong>. Mi historia con los pañales empezó en una época extraña para todos: la pandemia de 2020. Encerrada en casa y necesitando mantener la mente ocupada, hice un pastel para una amiga que acababa de ser madre.
             </p>
             <p>
-              Ese fue el chispazo. Lo que empezó en el comedor de mi casa como un entretenimiento, pronto se convirtió en un "boca a boca" imparable por toda <strong>Badalona</strong>. Hoy, más de 200 familias han recibido uno de mis diseños.
+              La reacción fue mágica: <em>"Es tan bonito que nos da pena desmontarlo"</em>. Ese fue el chispazo. Lo que empezó en mi comedor, pronto corrió de boca en boca por todo <strong>Badalona</strong>.
             </p>
+            <p class="font-bold text-gray-800">
+              Hoy, más de 200 familias ya han recibido uno de mis diseños. ❤️
+            </p>
+          </div>
+
+          <div class="flex gap-4 justify-center md:justify-start">
+            <a href={`https://wa.me/${TELEFONO}`} target="_blank" class="bg-[#25D366] text-white px-8 py-3 rounded-full font-bold hover:bg-[#20bd5a] transition shadow-lg flex items-center gap-2">
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+              Hablar con Manoli
+            </a>
           </div>
         </div>
 
         <div class="md:w-1/2 relative">
-          <div class="absolute inset-0 bg-pink-200 rounded-full opacity-20 transform scale-90 translate-x-4 translate-y-4 blur-xl"></div>
-          <img 
-            src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?q=80&w=1000&auto=format&fit=crop" 
-            alt="Manoli creando pasteles de pañales artesanalmente en Badalona" 
-            class="relative rounded-2xl shadow-xl rotate-1 hover:rotate-0 transition duration-500 object-cover h-[500px] w-full"
-          />
-        </div>
-      </div>
-    </section>
-
-    <section class="py-20 bg-white">
-      <div class="container mx-auto px-4">
-        <div class="text-center max-w-3xl mx-auto mb-16">
-          <h2 class="text-3xl font-bold text-gray-800 mb-4">¿Por qué elegir un regalo artesanal?</h2>
-          <p class="text-gray-500 text-lg">
-            Olvídate de los regalos fríos de almacén. Aquí tratas directamente conmigo, de tú a tú.
-          </p>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-8">
-          <div class="bg-pink-50/50 p-8 rounded-2xl hover:bg-pink-50 transition border border-pink-100">
-            <h3 class="text-xl font-bold text-gray-800 mb-3 flex items-center gap-2">
-              📍 Proximidad (Badalona)
-            </h3>
-            <p class="text-gray-600">
-              Soy vecina. Mi enfoque es la venta cercana, en mano, por la zona de <strong>Badalona y alrededores</strong>. Quiero ver tu cara de ilusión al entregarte el regalo, algo que ninguna caja de cartón enviada por correo puede igualar.
-            </p>
-          </div>
-
-          <div class="bg-pink-50/50 p-8 rounded-2xl hover:bg-pink-50 transition border border-pink-100">
-            <h3 class="text-xl font-bold text-gray-800 mb-3 flex items-center gap-2">
-              🎨 Diseño a Medida
-            </h3>
-            <p class="text-gray-600">
-              ¿Le gusta el fútbol? ¿Los animales? ¿Quieres un castillo de princesas o una moto rockera? Al no ser una fábrica, <strong>podemos hablar por WhatsApp</strong> y crear exactamente lo que tienes en la cabeza.
-            </p>
-          </div>
-
-          <div class="bg-pink-50/50 p-8 rounded-2xl hover:bg-pink-50 transition border border-pink-100">
-            <h3 class="text-xl font-bold text-gray-800 mb-3 flex items-center gap-2">
-              ✨ Primeras Marcas
-            </h3>
-            <p class="text-gray-600">
-              Yo misma voy a comprar los materiales. Solo uso pañales de calidad (como <strong>Dodot</strong>) y accesorios seguros. Cada pañal se trata con mimo e higiene absoluta en mi taller doméstico.
-            </p>
+          <div class="aspect-[4/3] bg-white p-4 rounded-3xl shadow-2xl rotate-2 hover:rotate-0 transition duration-500 border border-gray-100">
+             <img 
+               src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?q=80&w=1000&auto=format&fit=crop" 
+               alt="Taller de manualidades y regalos de bebé" 
+               class="w-full h-full object-cover rounded-2xl"
+             />
           </div>
         </div>
       </div>
     </section>
 
-    <section class="py-20 bg-gray-50 border-t border-gray-100">
-      <div class="container mx-auto px-4 text-center">
+    <section class="py-20 px-4">
+      <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         
-        <div class="max-w-4xl mx-auto bg-white p-10 rounded-2xl shadow-sm mb-12 relative">
-          <span class="text-6xl text-pink-200 absolute top-4 left-4 font-serif">"</span>
-          <p class="text-xl text-gray-600 italic relative z-10">
-            Lo que más me repiten las madres cuando reciben el regalo es: 
-            <br/><strong>'¡Es tan bonito que nos da pena desmontarlo para usar los pañales!'</strong>. 
-            <br/>Esa es mi mayor satisfacción.
+        <div class="bg-white p-8 rounded-2xl shadow-sm border border-pink-100 hover:shadow-md transition">
+          <div class="text-4xl mb-4">📍</div>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">Soy tu vecina</h3>
+          <p class="text-gray-600">
+            Mi enfoque es la venta cercana en <strong>Badalona</strong>. Olvídate de los envíos fríos; quiero ver tu cara de ilusión al entregarte el regalo en mano.
           </p>
         </div>
 
-        <h2 class="text-3xl font-bold mb-8">¿Preparamos la bienvenida del bebé?</h2>
-        
-        <a 
-          href={`https://wa.me/${TELEFONO_MADRE}?text=Hola Manoli, he visto tu web y me gustaría hablar sobre un regalo personalizado.`}
-          target="_blank"
-          class="inline-block bg-[#25D366] hover:bg-[#20bd5a] text-white px-10 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all flex items-center justify-center gap-3 mx-auto w-fit"
-        >
-          <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-          Hablar directamente con Manoli
+        <div class="bg-white p-8 rounded-2xl shadow-sm border border-pink-100 hover:shadow-md transition">
+          <div class="text-4xl mb-4">🎨</div>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">Diseño a Medida</h3>
+          <p class="text-gray-600">
+            ¿Le gusta el fútbol o las princesas? Al no ser una fábrica, podemos hablar por WhatsApp y crear exactamente lo que tienes en la cabeza.
+          </p>
+        </div>
+
+        <div class="bg-white p-8 rounded-2xl shadow-sm border border-pink-100 hover:shadow-md transition">
+          <div class="text-4xl mb-4">✨</div>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">Solo Calidad (Dodot)</h3>
+          <p class="text-gray-600">
+            Yo misma compro los materiales. Solo uso pañales de calidad (como Dodot) y accesorios seguros, tratados con higiene absoluta en mi taller.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="bg-pink-600 py-16 text-center text-white">
+      <div class="container mx-auto px-4 max-w-3xl">
+        <h2 class="text-2xl md:text-3xl font-serif italic mb-8 opacity-90">
+          "Lo que más me repiten las madres es: '¡Es tan bonito que nos da pena desmontarlo!'. Esa es mi mayor satisfacción."
+        </h2>
+        <a href="/productos" class="inline-block bg-white text-pink-600 font-bold px-10 py-4 rounded-full hover:bg-gray-100 transition shadow-xl transform hover:-translate-y-1">
+          Ver mis creaciones
         </a>
       </div>
     </section>
 
   </main>
-  <Footer />
 </Layout>
