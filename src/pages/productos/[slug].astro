@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { sanityClient } from 'sanity:client';
-import { urlFor } from '../../utils/image';
+import { urlFor } from '../../lib/urlFor';
 
 export async function getStaticPaths() {
   const products = await sanityClient.fetch(`*[_type in ["producto", "product"] && defined(slug.current)] { slug }`);
@@ -37,7 +37,7 @@ if (product.images && product.images.length > 0) {
 } else {
   imagenData = product.imagen || product.image || product.mainImage;
 }
-const imagenUrl = imagenData ? urlFor(imagenData).url() : "";
+const imagenUrl = imagenData ? urlFor(imagenData).width(800).format('webp').url() : "";
 
 // Schema SEO
 const productSchema = JSON.stringify({
@@ -67,7 +67,13 @@ const productSchema = JSON.stringify({
       <div class="bg-white rounded-3xl shadow-xl overflow-hidden max-w-5xl mx-auto flex flex-col md:flex-row">
         <div class="md:w-1/2 bg-white p-8 flex items-center justify-center border-r border-gray-100">
           {imagenUrl ? (
-            <img src={urlFor(imagenData).width(800).url()} alt={altText} class="w-full h-auto object-contain hover:scale-105 transition duration-500" />
+            <img 
+              src={urlFor(imagenData).width(800).format('webp').url()} 
+              alt={altText} 
+              class="w-full h-auto object-contain hover:scale-105 transition duration-500" 
+              loading="eager"
+              fetchpriority="high"
+            />
           ) : (
             <div class="text-gray-300 font-bold border-2 border-dashed p-10">Sin Imagen</div>
           )}
