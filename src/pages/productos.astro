@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { sanityClient } from 'sanity:client';
+import { urlFor } from '../lib/urlFor';
 
 // 1. CONSULTA A SANITY (Traer TODOS los productos ordenados por fecha)
 const products = await sanityClient.fetch(`
@@ -8,7 +9,7 @@ const products = await sanityClient.fetch(`
     title,
     price,
     "slug": slug.current,
-    "imageUrl": images[0].asset->url,
+    "mainImage": images[0].asset,
     "altText": images[0].alt
   }
 `);
@@ -46,12 +47,13 @@ const description = "Explora nuestra colección completa de figuras de pañales:
               <article class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex-1 flex flex-col">
                 
                 <div class="aspect-square overflow-hidden bg-gray-100 relative">
-                  {product.imageUrl ? (
+                  {product.mainImage ? (
                     <img 
-                      src={product.imageUrl} 
+                      src={urlFor(product.mainImage).width(500).format('webp').url()} 
                       alt={product.altText || `Comprar ${product.title} en Badalona`} 
                       class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700"
                       loading="lazy"
+                      decoding="async"
                     />
                   ) : (
                     <div class="flex items-center justify-center h-full text-gray-300 bg-gray-50 font-medium">

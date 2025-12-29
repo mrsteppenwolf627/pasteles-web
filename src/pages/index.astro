@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { sanityClient } from 'sanity:client';
+import { urlFor } from '../lib/urlFor';
 
 // 1. CONSULTA A SANITY (Para traer los últimos 4 productos automáticamente)
 const products = await sanityClient.fetch(`
@@ -8,7 +9,7 @@ const products = await sanityClient.fetch(`
     title,
     price,
     "slug": slug.current,
-    "imageUrl": images[0].asset->url
+    "mainImage": images[0].asset
   }
 `);
 ---
@@ -56,11 +57,13 @@ const products = await sanityClient.fetch(`
             <a href={`/producto/${product.slug}`} class="group">
               <article class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden border border-gray-100 h-full flex flex-col">
                 <div class="aspect-square overflow-hidden bg-gray-100 relative">
-                  {product.imageUrl ? (
+                  {product.mainImage ? (
                     <img 
-                      src={product.imageUrl} 
+                      src={urlFor(product.mainImage).width(500).format('webp').url()} 
                       alt={product.title} 
                       class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                      decoding="async"
                     />
                   ) : (
                     <div class="flex items-center justify-center h-full text-gray-400">
