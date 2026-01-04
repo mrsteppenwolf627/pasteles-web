@@ -16,7 +16,7 @@ export default defineConfig({
     // Aquí reconectamos Sanity para que la web funcione
     sanity({
       projectId: 'y7m52g15',
-      dataset: 'production',
+      dataset: 'global',
       useCdn: true,
       apiVersion: '2023-05-03',
     }),
