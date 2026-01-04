@@ -2,18 +2,23 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
+import sanity from '@sanity/astro'; // <--- IMPORTANTE: Esto faltaba
 
 // https://astro.build/config
 export default defineConfig({
-  // ---------------------------------------------------------
-  // EL CAMBIO IMPORTANTE ESTÁ AQUÍ ABAJO (Tu dominio Punycode)
-  // ---------------------------------------------------------
+  // Tu dominio en formato Robot (Punycode) para Google
   site: 'https://www.xn--manolipastelesdepaales-1ec.com',
 
-  // Tus integraciones
   integrations: [
     tailwind(),
     react(),
     sitemap(),
+    // Aquí reconectamos Sanity para que la web funcione
+    sanity({
+      projectId: 'y7m52g15',
+      dataset: 'production',
+      useCdn: true,
+      apiVersion: '2023-05-03',
+    }),
   ],
 });
