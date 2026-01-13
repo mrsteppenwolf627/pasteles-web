@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { sanityClient } from 'sanity:client';
 import { urlFor } from '../lib/urlFor';
 
-// 1. CONSULTA A SANITY (Para traer los últimos 4 productos automáticamente)
+// 1. CONSULTA A SANITY
 const products = await sanityClient.fetch(`
   *[_type == "producto" || _type == "product"] | order(_createdAt desc)[0..3] {
     title,
@@ -12,29 +12,62 @@ const products = await sanityClient.fetch(`
     "mainImage": images[0].asset
   }
 `);
+
+// Definimos los datos estructurados para Google (SEO Local)
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BabyShop",
+  "name": "Manoli Pasteles de Pañales",
+  "image": "https://www.manolipastelesdepañales.com/favicon.svg",
+  "description": "Tienda de pasteles de pañales y canastillas de bebé en Badalona con entrega a domicilio y en hospitales.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Badalona",
+    "addressRegion": "Barcelona",
+    "addressCountry": "ES"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 41.45, 
+    "longitude": 2.24 
+  },
+  "url": "https://www.manolipastelesdepañales.com",
+  "telephone": "+34678846424",
+  "priceRange": "€€"
+};
 ---
 
 <Layout 
-  title="Pasteles de Pañales en Badalona | Regalos Bebé Artesanales - Manoli"
-  description="Tartas de pañales y canastillas personalizadas hechas a mano en Badalona. El regalo práctico, original y único para recién nacidos. ¡Encarga tu diseño exclusivo!"
+  title="Pasteles de Pañales en Badalona y Barcelona | Entrega a Domicilio - Manoli"
+  description="Tartas de pañales y canastillas artesanales en Badalona. Entrega en mano y a domicilio en hospitales (Can Ruti, Quirón). El regalo perfecto para recién nacidos."
 >
 
   <main>
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
     <section class="relative bg-pink-50 py-20 px-4 text-center overflow-hidden">
-      <div class="max-w-3xl mx-auto relative z-10">
-        <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6 font-serif">
-          Regalos que nacen del corazón
+      <div class="max-w-4xl mx-auto relative z-10">
+        
+        <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-4 font-serif leading-tight">
+          Pasteles de Pañales en <span class="text-pink-600">Badalona</span> y Barcelona
         </h1>
-        <p class="text-xl text-gray-600 mb-8 leading-relaxed">
-          Pasteles de pañales y canastillas artesanales hechos a mano en <strong class="text-pink-600">Badalona</strong>. 
-          El detalle perfecto para dar la bienvenida al bebé.
+        
+        <p class="text-lg text-pink-500 font-medium mb-6 italic">
+          "Regalos que nacen del corazón"
         </p>
-        <div class="flex gap-4 justify-center">
-          <a href="/catalogo" class="bg-pink-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-pink-700 transition-colors shadow-lg">
+
+        <p class="text-xl text-gray-600 mb-8 leading-relaxed max-w-2xl mx-auto">
+          Creamos <strong>tartas de pañales</strong> y canastillas artesanales únicas. 
+          Servicio de <strong>entrega en mano a domicilio</strong> en Badalona y Barcelona, o directamente en hospitales (<strong class="text-gray-800">Can Ruti, Quirón</strong>).
+          Ahórrate los gastos de envío y asegura un regalo perfecto.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <a href="/catalogo" class="bg-pink-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-pink-700 transition-colors shadow-lg w-full sm:w-auto">
             Ver Catálogo
           </a>
-          <a href="/contacto" class="bg-white text-pink-600 border-2 border-pink-100 px-8 py-3 rounded-full font-semibold hover:border-pink-300 transition-colors">
-            Contactar
+          <a href="/contacto" class="bg-white text-pink-600 border-2 border-pink-100 px-8 py-3 rounded-full font-semibold hover:border-pink-300 transition-colors w-full sm:w-auto">
+            Pedir por WhatsApp
           </a>
         </div>
       </div>
@@ -46,7 +79,7 @@ const products = await sanityClient.fetch(`
     <section class="py-16 px-4 bg-white">
       <div class="max-w-6xl mx-auto">
         <div class="flex justify-between items-end mb-10">
-          <h2 class="text-3xl font-bold text-gray-800">Últimas Creaciones</h2>
+          <h2 class="text-3xl font-bold text-gray-800">Catálogo de Tartas y Canastillas</h2>
           <a href="/catalogo" class="text-pink-600 font-semibold hover:underline hidden md:block">
             Ver todo el catálogo →
           </a>
@@ -60,7 +93,7 @@ const products = await sanityClient.fetch(`
                   {product.mainImage ? (
                     <img 
                       src={urlFor(product.mainImage).width(500).format('webp').url()} 
-                      alt={product.title} 
+                      alt={product.title + " - Regalo Bebé Badalona"} 
                       class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                       decoding="async"
@@ -76,7 +109,7 @@ const products = await sanityClient.fetch(`
                     {product.title}
                   </h3>
                   <p class="text-pink-600 font-bold mt-2">
-                    {product.price}
+                    {product.price} €
                   </p>
                 </div>
               </article>
