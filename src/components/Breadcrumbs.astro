@@ -1,0 +1,57 @@
+---
+interface BreadcrumbItem {
+  name: string;
+  url?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+const siteUrl = "https://www.xn--manolipastelesdepaales-1ec.com";
+
+// Siempre empezamos con Inicio
+const fullItems = [
+  { name: "Inicio", url: "/" },
+  ...items
+];
+
+// Schema BreadcrumbList para SEO
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": fullItems.map((item, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": item.name,
+    "item": item.url ? `${siteUrl}${item.url}` : undefined
+  }))
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+<nav aria-label="Breadcrumb" class="bg-gray-50 border-b border-gray-100">
+  <div class="max-w-7xl mx-auto px-4 py-3">
+    <ol class="flex flex-wrap items-center gap-2 text-sm">
+      {fullItems.map((item, index) => (
+        <li class="flex items-center">
+          {index > 0 && (
+            <span class="mx-2 text-gray-400">/</span>
+          )}
+          {item.url && index < fullItems.length - 1 ? (
+            <a
+              href={item.url}
+              class="text-pink-600 hover:text-pink-700 hover:underline transition"
+            >
+              {item.name}
+            </a>
+          ) : (
+            <span class="text-gray-600 font-medium">{item.name}</span>
+          )}
+        </li>
+      ))}
+    </ol>
+  </div>
+</nav>

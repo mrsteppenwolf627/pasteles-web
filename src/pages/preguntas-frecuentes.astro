@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 
 // DATOS SEO & GEO
 const title = "Preguntas Frecuentes | Manoli Pasteles de Pañales Badalona";
@@ -62,6 +63,8 @@ const faqSchema = JSON.stringify({
 
 <Layout title={title} description={description}>
   <script type="application/ld+json" set:html={faqSchema} />
+
+  <Breadcrumbs items={[{ name: "Preguntas Frecuentes" }]} />
 
   <main class="bg-pink-50 min-h-screen py-20 px-4">
     <div class="max-w-4xl mx-auto">

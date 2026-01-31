@@ -13,9 +13,35 @@ const currentPath = pathname.slice(1);
         <span class="text-xs tracking-widest text-pink-500 font-medium uppercase">Pasteles de Pañales</span>
       </a>
 
-      <nav class="hidden md:flex space-x-8">
+      <nav class="hidden md:flex items-center space-x-8">
         <a href="/" class="font-medium text-gray-600 hover:text-pink-600 transition-colors">Inicio</a>
         <a href="/productos" class="font-medium text-gray-600 hover:text-pink-600 transition-colors">Catálogo</a>
+
+        <!-- Dropdown Servicios -->
+        <div class="relative group">
+          <button class="font-medium text-gray-600 hover:text-pink-600 transition-colors flex items-center gap-1">
+            Servicios
+            <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <div class="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <div class="py-2">
+              <a href="/pasteles-panales-badalona" class="block px-4 py-3 text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition-colors">
+                <span class="font-medium">Badalona</span>
+                <span class="block text-sm text-gray-500">Entrega a domicilio</span>
+              </a>
+              <a href="/entrega-hospitales" class="block px-4 py-3 text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition-colors">
+                <span class="font-medium">Hospitales</span>
+                <span class="block text-sm text-gray-500">Can Ruti, Quirón, etc.</span>
+              </a>
+              <a href="/preguntas-frecuentes" class="block px-4 py-3 text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition-colors border-t border-gray-100">
+                <span class="font-medium">Preguntas frecuentes</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
         <a href="/sobre-nosotros" class="font-medium text-gray-600 hover:text-pink-600 transition-colors">Sobre Mí</a>
         <a href="/contacto" class="bg-pink-600 text-white px-6 py-2 rounded-full font-bold hover:bg-pink-700 transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Contactar</a>
       </nav>
@@ -29,11 +55,24 @@ const currentPath = pathname.slice(1);
     </div>
   </div>
 
-  <div id="mobile-menu" class="fixed inset-0 bg-white z-40 flex flex-col items-center justify-center space-y-8 opacity-0 pointer-events-none transition-opacity duration-300">
-    <a href="/" class="text-2xl font-serif font-bold text-gray-800 hover:text-pink-600">Inicio</a>
-    <a href="/productos" class="text-2xl font-serif font-bold text-gray-800 hover:text-pink-600">Catálogo</a>
-    <a href="/sobre-nosotros" class="text-2xl font-serif font-bold text-gray-800 hover:text-pink-600">Sobre Mí</a>
-    <a href="/contacto" class="text-2xl font-bold text-pink-600 border-2 border-pink-100 px-8 py-3 rounded-full">Contactar</a>
+  <div id="mobile-menu" class="fixed inset-0 bg-white z-40 flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 overflow-y-auto py-20">
+    <div class="flex flex-col items-center space-y-6">
+      <a href="/" class="text-2xl font-serif font-bold text-gray-800 hover:text-pink-600">Inicio</a>
+      <a href="/productos" class="text-2xl font-serif font-bold text-gray-800 hover:text-pink-600">Catálogo</a>
+
+      <!-- Servicios en móvil -->
+      <div class="text-center">
+        <span class="text-sm font-bold text-pink-500 uppercase tracking-wider">Servicios</span>
+        <div class="flex flex-col items-center space-y-3 mt-3">
+          <a href="/pasteles-panales-badalona" class="text-xl font-medium text-gray-700 hover:text-pink-600">Badalona</a>
+          <a href="/entrega-hospitales" class="text-xl font-medium text-gray-700 hover:text-pink-600">Hospitales</a>
+          <a href="/preguntas-frecuentes" class="text-xl font-medium text-gray-700 hover:text-pink-600">FAQ</a>
+        </div>
+      </div>
+
+      <a href="/sobre-nosotros" class="text-2xl font-serif font-bold text-gray-800 hover:text-pink-600">Sobre Mí</a>
+      <a href="/contacto" class="text-2xl font-bold text-pink-600 border-2 border-pink-100 px-8 py-3 rounded-full mt-4">Contactar</a>
+    </div>
   </div>
 </header>
 

@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { sanityClient } from 'sanity:client';
 import { urlFor } from '../lib/urlFor';
 
@@ -20,6 +21,8 @@ const description = "Explora nuestra colección completa de figuras de pañales:
 ---
 
 <Layout title={title} description={description}>
+  <Breadcrumbs items={[{ name: "Catálogo" }]} />
+
   <main class="bg-white min-h-screen pb-20">
     
     <section class="bg-pink-50 py-16 px-4 text-center">
