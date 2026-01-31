@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Testimonios from '../components/Testimonios.astro';
 import { sanityClient } from 'sanity:client';
 import { urlFor } from '../lib/urlFor';
 
@@ -166,5 +167,8 @@ const schema = {
         </div>
       </div>
     </section>
+
+    <!-- Testimonios de Google -->
+    <Testimonios />
   </main>
 </Layout>
