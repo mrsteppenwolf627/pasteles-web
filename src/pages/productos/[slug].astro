@@ -39,16 +39,73 @@ if (product.images && product.images.length > 0) {
 }
 const imagenUrl = imagenData ? urlFor(imagenData).width(800).format('webp').url() : "";
 
-// Schema SEO
+// Schema SEO mejorado
+const siteUrl = "https://www.xn--manolipastelesdepaales-1ec.com";
 const productSchema = JSON.stringify({
-  "@context": "https://schema.org", "@type": "Product",
-  "name": nombre, "image": imagenUrl, "description": fullDescription,
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "@id": `${siteUrl}/productos/${slug}#product`,
+  "name": nombre,
+  "image": imagenUrl,
+  "description": fullDescription,
   "sku": slug,
-  "brand": { "@type": "Brand", "name": "Manoli Pasteles" },
+  "mpn": slug,
+  "brand": {
+    "@type": "Brand",
+    "name": "Manoli Pasteles de Pañales"
+  },
+  "manufacturer": {
+    "@type": "LocalBusiness",
+    "name": "Manoli Pasteles de Pañales",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Badalona",
+      "addressRegion": "Barcelona",
+      "addressCountry": "ES"
+    }
+  },
+  "category": "Regalos para Bebés",
+  "audience": {
+    "@type": "PeopleAudience",
+    "suggestedGender": "unisex",
+    "suggestedMinAge": "0 months"
+  },
   "offers": {
-    "@type": "Offer", "url": Astro.url.href, "priceCurrency": "EUR", "price": rawPrice,
+    "@type": "Offer",
+    "url": `${siteUrl}/productos/${slug}`,
+    "priceCurrency": "EUR",
+    "price": rawPrice,
+    "priceValidUntil": new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0],
     "availability": "https://schema.org/InStock",
-    "areaServed": { "@type": "City", "name": "Badalona" }
+    "itemCondition": "https://schema.org/NewCondition",
+    "seller": {
+      "@type": "LocalBusiness",
+      "name": "Manoli Pasteles de Pañales",
+      "@id": `${siteUrl}/#business`
+    },
+    "shippingDetails": {
+      "@type": "OfferShippingDetails",
+      "shippingDestination": [
+        {
+          "@type": "DefinedRegion",
+          "addressCountry": "ES",
+          "addressRegion": ["Barcelona"]
+        }
+      ],
+      "deliveryTime": {
+        "@type": "ShippingDeliveryTime",
+        "handlingTime": {
+          "@type": "QuantitativeValue",
+          "minValue": 1,
+          "maxValue": 3,
+          "unitCode": "DAY"
+        }
+      }
+    },
+    "areaServed": [
+      { "@type": "City", "name": "Badalona" },
+      { "@type": "City", "name": "Barcelona" }
+    ]
   }
 });
 ---

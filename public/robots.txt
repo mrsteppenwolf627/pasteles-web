@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://manolipasteles.com/sitemap.xml
+Sitemap: https://www.xn--manolipastelesdepaales-1ec.com/sitemap-index.xml

@@ -34,9 +34,21 @@ const faqs = [
 ];
 
 // SCHEMA FAQ (Para que Google muestre las respuestas en el buscador)
+const siteUrl = "https://www.xn--manolipastelesdepaales-1ec.com";
 const faqSchema = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "FAQPage",
+  "@id": `${siteUrl}/preguntas-frecuentes#faq`,
+  "url": `${siteUrl}/preguntas-frecuentes`,
+  "name": "Preguntas Frecuentes sobre Pasteles de Pañales en Badalona",
+  "description": description,
+  "inLanguage": "es",
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": `${siteUrl}/#website`,
+    "name": "Manoli Pasteles de Pañales",
+    "url": siteUrl
+  },
   "mainEntity": faqs.map(faq => ({
     "@type": "Question",
     "name": faq.question,

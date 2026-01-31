@@ -16,24 +16,66 @@ const products = await sanityClient.fetch(`
 // Definimos los datos estructurados para Google (SEO Local)
 const schema = {
   "@context": "https://schema.org",
-  "@type": "BabyShop",
+  "@type": "LocalBusiness",
+  "@id": "https://www.xn--manolipastelesdepaales-1ec.com/#business",
   "name": "Manoli Pasteles de Pañales",
-  "image": "https://www.manolipastelesdepañales.com/favicon.svg",
-  "description": "Tienda de pasteles de pañales y canastillas de bebé en Badalona con entrega a domicilio y en hospitales.",
+  "alternateName": "Manoli Pasteles de Pañales Badalona",
+  "image": "https://www.xn--manolipastelesdepaales-1ec.com/imagen-thumbnail2.png",
+  "description": "Tienda de pasteles de pañales y canastillas de bebé artesanales en Badalona. Entrega a domicilio y en hospitales (Can Ruti, Quirón). Regalos únicos para recién nacidos.",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Badalona",
     "addressRegion": "Barcelona",
+    "postalCode": "08911",
     "addressCountry": "ES"
   },
   "geo": {
     "@type": "GeoCoordinates",
-    "latitude": 41.45, 
-    "longitude": 2.24 
+    "latitude": 41.4469,
+    "longitude": 2.2450
   },
-  "url": "https://www.manolipastelesdepañales.com",
+  "url": "https://www.xn--manolipastelesdepaales-1ec.com",
   "telephone": "+34678846424",
-  "priceRange": "€€"
+  "priceRange": "€€",
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "opens": "10:00",
+      "closes": "20:00"
+    }
+  ],
+  "areaServed": [
+    {
+      "@type": "City",
+      "name": "Badalona",
+      "@id": "https://www.wikidata.org/wiki/Q45424"
+    },
+    {
+      "@type": "City",
+      "name": "Barcelona",
+      "@id": "https://www.wikidata.org/wiki/Q1492"
+    }
+  ],
+  "sameAs": [
+    "https://www.instagram.com/grageramanoli"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Pasteles de Pañales y Canastillas",
+    "itemListElement": [
+      {
+        "@type": "OfferCatalog",
+        "name": "Tartas de Pañales"
+      },
+      {
+        "@type": "OfferCatalog",
+        "name": "Canastillas de Bebé"
+      }
+    ]
+  },
+  "paymentAccepted": ["Efectivo", "Bizum", "Transferencia"],
+  "currenciesAccepted": "EUR"
 };
 ---
 
