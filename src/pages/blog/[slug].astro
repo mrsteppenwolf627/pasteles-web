@@ -89,37 +89,6 @@ const articleSchema = {
   "inLanguage": "es"
 };
 
-// Componentes personalizados para PortableText
-const components = {
-  types: {
-    image: (props: any) => {
-      const { value } = props;
-      return `
-        <figure class="my-8">
-          <img
-            src="${urlFor(value).width(800).format('webp').url()}"
-            alt="${value.alt || ''}"
-            class="rounded-xl w-full"
-            loading="lazy"
-          />
-          ${value.caption ? `<figcaption class="text-center text-sm text-gray-500 mt-2">${value.caption}</figcaption>` : ''}
-        </figure>
-      `;
-    }
-  },
-  marks: {
-    link: (props: any) => {
-      const { value, children } = props;
-      return `<a href="${value.href}" class="text-pink-600 hover:underline" target="_blank" rel="noopener">${children}</a>`;
-    }
-  },
-  block: {
-    h2: (props: any) => `<h2 class="text-2xl font-bold text-gray-800 mt-10 mb-4">${props.children}</h2>`,
-    h3: (props: any) => `<h3 class="text-xl font-bold text-gray-800 mt-8 mb-3">${props.children}</h3>`,
-    blockquote: (props: any) => `<blockquote class="border-l-4 border-pink-300 pl-4 italic text-gray-600 my-6">${props.children}</blockquote>`,
-    normal: (props: any) => `<p class="text-gray-700 leading-relaxed mb-4">${props.children}</p>`,
-  }
-};
 ---
 
 <Layout title={`${articulo.title} | Blog Manoli Pasteles`} description={articulo.metaDescription} image={imagenUrl}>
@@ -165,9 +134,54 @@ const components = {
       )}
 
       <!-- Contenido -->
-      <div class="prose prose-lg max-w-none">
-        <PortableText value={articulo.contenido} components={components} />
+      <div class="articulo-contenido">
+        <PortableText value={articulo.contenido} />
       </div>
+
+      <style>
+        .articulo-contenido h2 {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #1f2937;
+          margin-top: 2.5rem;
+          margin-bottom: 1rem;
+        }
+        .articulo-contenido h3 {
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: #1f2937;
+          margin-top: 2rem;
+          margin-bottom: 0.75rem;
+        }
+        .articulo-contenido p {
+          color: #374151;
+          line-height: 1.75;
+          margin-bottom: 1rem;
+        }
+        .articulo-contenido strong {
+          color: #1f2937;
+          font-weight: 600;
+        }
+        .articulo-contenido a {
+          color: #db2777;
+          text-decoration: underline;
+        }
+        .articulo-contenido ul, .articulo-contenido ol {
+          margin: 1rem 0;
+          padding-left: 1.5rem;
+        }
+        .articulo-contenido li {
+          color: #374151;
+          margin-bottom: 0.5rem;
+        }
+        .articulo-contenido blockquote {
+          border-left: 4px solid #f9a8d4;
+          padding-left: 1rem;
+          font-style: italic;
+          color: #4b5563;
+          margin: 1.5rem 0;
+        }
+      </style>
 
       <!-- Autor -->
       <div class="mt-12 pt-8 border-t border-gray-100">
