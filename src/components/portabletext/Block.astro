@@ -1,0 +1,29 @@
+---
+// Componente para bloques de texto (p, h2, h3, blockquote)
+const { node } = Astro.props;
+const style = node.style || 'normal';
+---
+
+{style === 'h2' && (
+  <h2 class="text-2xl font-bold text-gray-800 mt-10 mb-4">
+    <slot />
+  </h2>
+)}
+
+{style === 'h3' && (
+  <h3 class="text-xl font-bold text-gray-800 mt-8 mb-3">
+    <slot />
+  </h3>
+)}
+
+{style === 'blockquote' && (
+  <blockquote class="border-l-4 border-pink-300 pl-4 italic text-gray-600 my-6">
+    <slot />
+  </blockquote>
+)}
+
+{style === 'normal' && (
+  <p class="text-gray-700 leading-relaxed mb-4">
+    <slot />
+  </p>
+)}

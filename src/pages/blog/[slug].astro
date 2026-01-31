@@ -4,6 +4,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { sanityClient } from 'sanity:client';
 import { urlFor } from '../../lib/urlFor';
 import { PortableText } from 'astro-portabletext';
+import Block from '../../components/portabletext/Block.astro';
 
 export async function getStaticPaths() {
   const articulos = await sanityClient.fetch(`*[_type == "articulo" && defined(slug.current)] { slug }`);
@@ -135,7 +136,7 @@ const articleSchema = {
 
       <!-- Contenido -->
       <div class="articulo-contenido">
-        <PortableText value={articulo.contenido} />
+        <PortableText value={articulo.contenido} components={{ block: Block }} />
       </div>
 
       <style>
