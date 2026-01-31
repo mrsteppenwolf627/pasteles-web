@@ -1,0 +1,152 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { sanityClient } from 'sanity:client';
+import { urlFor } from '../../lib/urlFor';
+
+// Traemos todos los artículos publicados
+const articulos = await sanityClient.fetch(`
+  *[_type == "articulo"] | order(fechaPublicacion desc) {
+    title,
+    "slug": slug.current,
+    metaDescription,
+    imagenDestacada,
+    categoria,
+    fechaPublicacion
+  }
+`);
+
+// SEO
+const title = "Blog | Consejos sobre Regalos para Bebés | Manoli Pasteles";
+const description = "Guías, consejos y todo lo que necesitas saber sobre regalos para recién nacidos, pasteles de pañales y maternidad en Badalona y Barcelona.";
+
+const siteUrl = "https://www.xn--manolipastelesdepaales-1ec.com";
+
+// Schema BlogPosting List
+const blogSchema = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "@id": `${siteUrl}/blog#blog`,
+  "name": "Blog de Manoli Pasteles de Pañales",
+  "description": description,
+  "url": `${siteUrl}/blog`,
+  "publisher": {
+    "@type": "LocalBusiness",
+    "name": "Manoli Pasteles de Pañales",
+    "@id": `${siteUrl}/#business`
+  }
+};
+
+// Mapeo de categorías
+const categorias: Record<string, string> = {
+  'regalos-bebes': 'Regalos para Bebés',
+  'guias-consejos': 'Guías y Consejos',
+  'hospitales-maternidad': 'Hospitales y Maternidad',
+  'sobre-manoli': 'Sobre Manoli'
+};
+
+// Formatear fecha
+function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('es-ES', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(blogSchema)} />
+
+  <Breadcrumbs items={[{ name: "Blog" }]} />
+
+  <main class="bg-white min-h-screen">
+    <!-- Hero -->
+    <section class="bg-pink-50 py-16 px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-4xl md:text-5xl font-serif font-bold text-gray-800 mb-6">
+          Blog
+        </h1>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          Consejos, guías y todo lo que necesitas saber sobre regalos para bebés,
+          pasteles de pañales y maternidad en Badalona y Barcelona.
+        </p>
+      </div>
+    </section>
+
+    <!-- Lista de artículos -->
+    <section class="max-w-6xl mx-auto px-4 py-16">
+      {articulos.length === 0 ? (
+        <div class="text-center py-20">
+          <p class="text-xl text-gray-500 mb-4">Próximamente publicaremos artículos aquí.</p>
+          <p class="text-gray-400">¿Tienes alguna pregunta? <a href="/contacto" class="text-pink-600 hover:underline">Contáctanos</a></p>
+        </div>
+      ) : (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {articulos.map((articulo: any) => (
+            <a href={`/blog/${articulo.slug}`} class="group">
+              <article class="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 h-full flex flex-col">
+                <div class="aspect-video overflow-hidden bg-gray-100">
+                  {articulo.imagenDestacada ? (
+                    <img
+                      src={urlFor(articulo.imagenDestacada).width(600).height(340).format('webp').url()}
+                      alt={articulo.imagenDestacada.alt || articulo.title}
+                      class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div class="w-full h-full flex items-center justify-center text-gray-400">
+                      Sin imagen
+                    </div>
+                  )}
+                </div>
+
+                <div class="p-6 flex-1 flex flex-col">
+                  <div class="flex items-center gap-3 mb-3">
+                    <span class="text-xs font-bold text-pink-600 bg-pink-100 px-2 py-1 rounded">
+                      {categorias[articulo.categoria] || articulo.categoria}
+                    </span>
+                    <span class="text-xs text-gray-400">
+                      {formatDate(articulo.fechaPublicacion)}
+                    </span>
+                  </div>
+
+                  <h2 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-pink-600 transition-colors leading-tight">
+                    {articulo.title}
+                  </h2>
+
+                  <p class="text-gray-600 text-sm flex-1">
+                    {articulo.metaDescription}
+                  </p>
+
+                  <span class="inline-flex items-center text-pink-600 font-medium mt-4 group-hover:gap-2 transition-all">
+                    Leer más
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </span>
+                </div>
+              </article>
+            </a>
+          ))}
+        </div>
+      )}
+    </section>
+
+    <!-- CTA -->
+    <section class="bg-pink-50 py-16 px-4">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">
+          ¿Buscas el regalo perfecto?
+        </h2>
+        <p class="text-gray-600 mb-8">
+          Explora nuestro catálogo de pasteles de pañales artesanales.
+        </p>
+        <a href="/productos" class="inline-block bg-pink-600 text-white px-8 py-3 rounded-full font-bold hover:bg-pink-700 transition">
+          Ver Catálogo
+        </a>
+      </div>
+    </section>
+  </main>
+</Layout>

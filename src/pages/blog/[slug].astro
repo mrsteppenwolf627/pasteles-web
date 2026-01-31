@@ -1,0 +1,235 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { sanityClient } from 'sanity:client';
+import { urlFor } from '../../lib/urlFor';
+import { PortableText } from 'astro-portabletext';
+
+export async function getStaticPaths() {
+  const articulos = await sanityClient.fetch(`*[_type == "articulo" && defined(slug.current)] { slug }`);
+  return articulos.map((articulo: any) => ({ params: { slug: articulo.slug.current } }));
+}
+
+const { slug } = Astro.params;
+
+const articulo = await sanityClient.fetch(`
+  *[_type == "articulo" && slug.current == $slug][0] {
+    title,
+    "slug": slug.current,
+    metaDescription,
+    imagenDestacada,
+    categoria,
+    fechaPublicacion,
+    contenido,
+    productoRelacionado-> {
+      title,
+      "slug": slug.current,
+      price,
+      "mainImage": images[0].asset
+    }
+  }
+`, { slug });
+
+if (!articulo) {
+  return Astro.redirect('/404');
+}
+
+const siteUrl = "https://www.xn--manolipastelesdepaales-1ec.com";
+const imagenUrl = articulo.imagenDestacada
+  ? urlFor(articulo.imagenDestacada).width(1200).format('webp').url()
+  : `${siteUrl}/imagen-thumbnail2.png`;
+
+// Mapeo de categorías
+const categorias: Record<string, string> = {
+  'regalos-bebes': 'Regalos para Bebés',
+  'guias-consejos': 'Guías y Consejos',
+  'hospitales-maternidad': 'Hospitales y Maternidad',
+  'sobre-manoli': 'Sobre Manoli'
+};
+
+// Formatear fecha
+function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('es-ES', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
+// Schema Article para SEO
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "@id": `${siteUrl}/blog/${slug}#article`,
+  "headline": articulo.title,
+  "description": articulo.metaDescription,
+  "image": imagenUrl,
+  "datePublished": articulo.fechaPublicacion,
+  "dateModified": articulo.fechaPublicacion,
+  "author": {
+    "@type": "Person",
+    "name": "Manoli",
+    "url": `${siteUrl}/sobre-nosotros`
+  },
+  "publisher": {
+    "@type": "LocalBusiness",
+    "name": "Manoli Pasteles de Pañales",
+    "@id": `${siteUrl}/#business`,
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${siteUrl}/favicon.svg`
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": `${siteUrl}/blog/${slug}`
+  },
+  "articleSection": categorias[articulo.categoria] || articulo.categoria,
+  "inLanguage": "es"
+};
+
+// Componentes personalizados para PortableText
+const components = {
+  types: {
+    image: (props: any) => {
+      const { value } = props;
+      return `
+        <figure class="my-8">
+          <img
+            src="${urlFor(value).width(800).format('webp').url()}"
+            alt="${value.alt || ''}"
+            class="rounded-xl w-full"
+            loading="lazy"
+          />
+          ${value.caption ? `<figcaption class="text-center text-sm text-gray-500 mt-2">${value.caption}</figcaption>` : ''}
+        </figure>
+      `;
+    }
+  },
+  marks: {
+    link: (props: any) => {
+      const { value, children } = props;
+      return `<a href="${value.href}" class="text-pink-600 hover:underline" target="_blank" rel="noopener">${children}</a>`;
+    }
+  },
+  block: {
+    h2: (props: any) => `<h2 class="text-2xl font-bold text-gray-800 mt-10 mb-4">${props.children}</h2>`,
+    h3: (props: any) => `<h3 class="text-xl font-bold text-gray-800 mt-8 mb-3">${props.children}</h3>`,
+    blockquote: (props: any) => `<blockquote class="border-l-4 border-pink-300 pl-4 italic text-gray-600 my-6">${props.children}</blockquote>`,
+    normal: (props: any) => `<p class="text-gray-700 leading-relaxed mb-4">${props.children}</p>`,
+  }
+};
+---
+
+<Layout title={`${articulo.title} | Blog Manoli Pasteles`} description={articulo.metaDescription} image={imagenUrl}>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+  <Breadcrumbs items={[
+    { name: "Blog", url: "/blog" },
+    { name: articulo.title }
+  ]} />
+
+  <main class="bg-white min-h-screen">
+    <!-- Header del artículo -->
+    <article class="max-w-4xl mx-auto px-4 py-12">
+      <header class="mb-10">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="text-sm font-bold text-pink-600 bg-pink-100 px-3 py-1 rounded-full">
+            {categorias[articulo.categoria] || articulo.categoria}
+          </span>
+          <span class="text-sm text-gray-500">
+            {formatDate(articulo.fechaPublicacion)}
+          </span>
+        </div>
+
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-800 leading-tight mb-6">
+          {articulo.title}
+        </h1>
+
+        <p class="text-xl text-gray-600 leading-relaxed">
+          {articulo.metaDescription}
+        </p>
+      </header>
+
+      <!-- Imagen destacada -->
+      {articulo.imagenDestacada && (
+        <div class="mb-10 rounded-2xl overflow-hidden shadow-lg">
+          <img
+            src={urlFor(articulo.imagenDestacada).width(1200).format('webp').url()}
+            alt={articulo.imagenDestacada.alt || articulo.title}
+            class="w-full h-auto"
+            loading="eager"
+          />
+        </div>
+      )}
+
+      <!-- Contenido -->
+      <div class="prose prose-lg max-w-none">
+        <PortableText value={articulo.contenido} components={components} />
+      </div>
+
+      <!-- Autor -->
+      <div class="mt-12 pt-8 border-t border-gray-100">
+        <div class="flex items-center gap-4">
+          <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center">
+            <span class="text-2xl">👩‍🍳</span>
+          </div>
+          <div>
+            <p class="font-bold text-gray-800">Manoli</p>
+            <p class="text-gray-600 text-sm">Artesana de pasteles de pañales en Badalona</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Producto relacionado -->
+      {articulo.productoRelacionado && (
+        <div class="mt-12 bg-pink-50 rounded-2xl p-8">
+          <h3 class="text-xl font-bold text-gray-800 mb-6">Producto relacionado</h3>
+          <a href={`/productos/${articulo.productoRelacionado.slug}`} class="flex flex-col sm:flex-row gap-6 group">
+            {articulo.productoRelacionado.mainImage && (
+              <div class="w-full sm:w-48 aspect-square rounded-xl overflow-hidden bg-white shadow-sm">
+                <img
+                  src={urlFor(articulo.productoRelacionado.mainImage).width(400).format('webp').url()}
+                  alt={articulo.productoRelacionado.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+            )}
+            <div class="flex-1">
+              <h4 class="text-lg font-bold text-gray-800 group-hover:text-pink-600 transition-colors">
+                {articulo.productoRelacionado.title}
+              </h4>
+              <p class="text-pink-600 font-bold mt-2">{articulo.productoRelacionado.price}</p>
+              <span class="inline-block mt-4 text-pink-600 font-medium">Ver producto →</span>
+            </div>
+          </a>
+        </div>
+      )}
+
+      <!-- CTA -->
+      <div class="mt-12 text-center bg-gray-50 rounded-2xl p-8">
+        <h3 class="text-xl font-bold text-gray-800 mb-4">¿Te ha gustado este artículo?</h3>
+        <p class="text-gray-600 mb-6">Explora nuestro catálogo de regalos artesanales para bebés.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/productos" class="bg-pink-600 text-white px-6 py-3 rounded-full font-bold hover:bg-pink-700 transition">
+            Ver Catálogo
+          </a>
+          <a href="/contacto" class="bg-white text-pink-600 border-2 border-pink-200 px-6 py-3 rounded-full font-bold hover:border-pink-400 transition">
+            Contactar
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Más artículos -->
+    <section class="bg-gray-50 py-16 px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-2xl font-bold text-gray-800 mb-8">Sigue leyendo</h2>
+        <a href="/blog" class="text-pink-600 font-medium hover:underline">
+          ← Volver al blog
+        </a>
+      </div>
+    </section>
+  </main>
+</Layout>
