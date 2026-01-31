@@ -1,13 +1,58 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Testimonios from '../components/Testimonios.astro';
 
 // DATOS DE CONTACTO Y SEO
 const TELEFONO = "34678846424";
 const title = "Sobre Manoli | Historia de un Hobby que nació en la Pandemia";
 const description = "Descubre cómo un entretenimiento durante la pandemia en Badalona se convirtió en la ilusión de más de 200 familias. Pasteles de pañales hechos con amor y Dodot.";
+
+const siteUrl = "https://www.xn--manolipastelesdepaales-1ec.com";
+
+// Schema Person + AboutPage para E-E-A-T
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "@id": `${siteUrl}/sobre-nosotros#about`,
+  "name": "Sobre Manoli - Pasteles de Pañales",
+  "description": description,
+  "url": `${siteUrl}/sobre-nosotros`,
+  "mainEntity": {
+    "@type": "Person",
+    "@id": `${siteUrl}/#manoli`,
+    "name": "Manoli",
+    "jobTitle": "Artesana de Pasteles de Pañales",
+    "description": "Creadora de pasteles de pañales artesanales en Badalona desde 2020. Más de 200 familias han confiado en sus diseños personalizados.",
+    "knowsAbout": [
+      "Pasteles de pañales",
+      "Regalos para bebés",
+      "Canastillas artesanales",
+      "Regalos personalizados"
+    ],
+    "worksFor": {
+      "@type": "LocalBusiness",
+      "@id": `${siteUrl}/#business`,
+      "name": "Manoli Pasteles de Pañales"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Badalona",
+      "addressRegion": "Barcelona",
+      "addressCountry": "ES"
+    },
+    "sameAs": [
+      "https://www.instagram.com/grageramanoli"
+    ]
+  }
+};
 ---
 
 <Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+
+  <Breadcrumbs items={[{ name: "Sobre Mí" }]} />
+
   <main class="bg-white">
     
     <section class="relative bg-pink-50 py-20 overflow-hidden">
@@ -93,6 +138,9 @@ const description = "Descubre cómo un entretenimiento durante la pandemia en Ba
         </a>
       </div>
     </section>
+
+    <!-- Testimonios de clientes -->
+    <Testimonios />
 
   </main>
 </Layout>
