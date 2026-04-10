@@ -35,6 +35,8 @@ Se están aplicando mejoras en el siguiente orden de bloques.
 ## Fix A — COMPLETADO: [public/og-default.jpg regenerada sin encoding issues]
 ## Fix B — COMPLETADO: [entrega-hospitales.astro — BreadcrumbList duplicado eliminado]
 ## Fix C — COMPLETADO: [5 artículos publicados en Sanity]
+## Punto 1 — COMPLETADO: [sobre-nosotros.astro (Person schema), contacto.astro (ContactPage schema)]
+## Punto 5 — COMPLETADO: [blog articulo 6 — tarta-de-panales-a-domicilio-badalona]
 
 ## Reglas de coordinación Antigravity
 - Claude Code: lógica, schemas JSON-LD, props de componentes, rutas, config

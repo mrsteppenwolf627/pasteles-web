@@ -46,10 +46,31 @@ const personSchema = {
     ]
   }
 };
+
+const personEntitySchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Manoli",
+  "jobTitle": "Artesana de pasteles de pañales",
+  "description": "Artesana especializada en pasteles de pañales y canastillas de bebé en Badalona. Más de 200 familias han confiado en sus creaciones artesanales.",
+  "worksFor": {
+    "@type": "LocalBusiness",
+    "@id": `${siteUrl}/#business`,
+    "name": "Manoli Pasteles de Pañales"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Badalona",
+    "addressRegion": "Barcelona",
+    "addressCountry": "ES"
+  },
+  "url": `${siteUrl}/sobre-nosotros/`
+};
 ---
 
 <Layout title={title} description={description}>
   <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(personEntitySchema)} />
 
   <Breadcrumbs items={[{ name: "Sobre Mí" }]} />
 

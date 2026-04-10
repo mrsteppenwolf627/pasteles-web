@@ -9,10 +9,27 @@ const MENSAJE_DEFAULT = "Hola Manoli, me gustaría encargar un pastel...";
 // URLS
 const whatsappLink = `https://wa.me/${TELEFONO_WHATSAPP}?text=${MENSAJE_DEFAULT}`;
 const telefonoLink = `tel:${TELEFONO_WHATSAPP}`;
+
+const siteUrl = "https://www.xn--manolipastelesdepaales-1ec.com";
+
+const contactPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Contacto — Manoli Pasteles de Pañales",
+  "description": "Contacta con Manoli para encargar tu pastel de pañales artesanal en Badalona. Respuesta por WhatsApp en menos de 24h.",
+  "url": `${siteUrl}/contacto/`,
+  "mainEntity": {
+    "@type": "LocalBusiness",
+    "@id": `${siteUrl}/#business`,
+    "name": "Manoli Pasteles de Pañales",
+    "telephone": "+34678846424"
+  }
+};
 ---
 
 <Layout title="Contacto | Encarga tu Pastel de Pañales en Badalona">
-  
+  <script type="application/ld+json" set:html={JSON.stringify(contactPageSchema)} />
+
   <main class="bg-gray-50 min-h-screen">
     
     <section class="bg-white py-16 text-center shadow-sm">
