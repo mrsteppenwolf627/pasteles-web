@@ -6,12 +6,14 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  noindex?: boolean;
 }
 
-const { 
-  title, 
+const {
+  title,
   description = "Regalos de nacimiento y pasteles de pañales artesanales en Badalona. Hechos a mano con amor y productos de primeras marcas.",
-  image = "/favicon.svg"
+  image = "/favicon.svg",
+  noindex = false
 } = Astro.props;
 
 const siteUrl = Astro.site ? Astro.site.origin : 'https://manolipastelesdepañales.com';
@@ -27,7 +29,7 @@ const GA_MEASUREMENT_ID = 'G-XXY67PM3D0';
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     
@@ -54,7 +56,7 @@ const GA_MEASUREMENT_ID = 'G-XXY67PM3D0';
     <meta property="twitter:image" content={imageUrl} />
     <meta name="google-site-verification" content="acky7Mc_SQ-I_no5U-D4CUCTC3kKwHwe5KOX9vjrDTE" />
     <title>{title}</title>
-    
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
   </head>
   <body class="flex flex-col min-h-screen">
     <Header />

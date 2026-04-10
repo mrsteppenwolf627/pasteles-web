@@ -76,13 +76,52 @@ const schema = {
     ]
   },
   "paymentAccepted": ["Efectivo", "Bizum", "Transferencia"],
-  "currenciesAccepted": "EUR"
+  "currenciesAccepted": "EUR",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5.0",
+    "reviewCount": 15,
+    "bestRating": 5,
+    "worstRating": 1
+  },
+  "review": [
+    {
+      "@type": "Review",
+      "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 },
+      "author": { "@type": "Person", "name": "Cristina B." },
+      "reviewBody": "Encargué 3 pasteles de pañales y la experiencia fue inmejorable! Una atención excelente y al detalle. El resultado de los pasteles fueron preciosos y sin duda lo recomendaría al 100%."
+    },
+    {
+      "@type": "Review",
+      "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 },
+      "author": { "@type": "Person", "name": "Lorena" },
+      "reviewBody": "Encargué este pastel para hacer un regalo a una amiga que acaba de ser mami, y quedó precioso! El envío súper rápido, muy buena calidad y a mi amiga le encantó!"
+    },
+    {
+      "@type": "Review",
+      "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 },
+      "author": { "@type": "Person", "name": "Adri" },
+      "reviewBody": "Muy recomendado, es un servicio super personalizado y encantador. Utilizan productos de muy buena calidad y unos acabados increíbles."
+    },
+    {
+      "@type": "Review",
+      "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 },
+      "author": { "@type": "Person", "name": "Laura R." },
+      "reviewBody": "Muy profesional y los resultados son increíbles! Repetiré seguro."
+    },
+    {
+      "@type": "Review",
+      "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 },
+      "author": { "@type": "Person", "name": "Jesús A." },
+      "reviewBody": "Un detalle hecho al detalle, increíble presentación. Súper bonito para regalo a papás recientes."
+    }
+  ]
 };
 ---
 
 <Layout 
-  title="Pasteles de Pañales en Badalona y Barcelona | Entrega a Domicilio - Manoli"
-  description="Tartas de pañales y canastillas artesanales en Badalona. Entrega en mano y a domicilio en hospitales (Can Ruti, Quirón). El regalo perfecto para recién nacidos."
+  title="Pastel de Pañales Artesanal en Badalona — Personaliza Hoy"
+  description="¿Buscas un regalo original? Elige tu pastel de pañales artesanal. Entrega directa en hospitales y domicilio en Badalona. ¡Llama y reserva el tuyo ahora!"
 >
 
   <main>
