@@ -28,7 +28,10 @@ Se están aplicando mejoras en el siguiente orden de bloques.
 ## Bloque 2 — COMPLETADO: [index.astro, preguntas-frecuentes.astro]
 ## Bloque 3 — COMPLETADO: [productos/[slug].astro]
 ## Bloque 4 — COMPLETADO: [public/og-default.jpg, index.astro (title/desc)]
-## Bloque 5 — COMPLETADO: [blog/articulo-1-tarta-panales-guia.md]
+## Bloque 5 — COMPLETADO: [public/og-default.jpg, Layout.astro (og fallback), index.astro (H1)]
+## Bloque 6 — COMPLETADO: [blog/que-incluye-una-tarta-de-panales-artesanal-guia-2026.md, blog/que-incluye-una-tarta-de-panales-artesanal-guia-2026.json]
+## Bloque 7 — COMPLETADO: [entrega-hospitales.astro]
+## Bloque 8 — COMPLETADO: [blog/como-elegir-tarta-de-panales.md, blog/como-elegir-tarta-de-panales.json, blog/regalos-originales-recien-nacidos.md, blog/regalos-originales-recien-nacidos.json, blog/panales-dodot-recien-nacidos-tarta.md, blog/panales-dodot-recien-nacidos-tarta.json, blog/cestas-canastillas-bebes-diferencias.md, blog/cestas-canastillas-bebes-diferencias.json]
 
 ## Reglas de coordinación Antigravity
 - Claude Code: lógica, schemas JSON-LD, props de componentes, rutas, config
