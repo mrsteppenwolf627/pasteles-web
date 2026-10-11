@@ -6,13 +6,19 @@ import sanity from '@sanity/astro'; // <--- IMPORTANTE: Esto faltaba
 
 // https://astro.build/config
 export default defineConfig({
-  // Tu dominio en formato Robot (Punycode) para Google
+  // Host canónico estable. El navegador puede mostrar el dominio internacionalizado;
+  // Punycode evita ambigüedades en canonical, Open Graph y sitemap.
   site: 'https://www.xn--manolipastelesdepaales-1ec.com',
+  trailingSlash: 'always',
 
   integrations: [
     tailwind(),
     react(),
-    sitemap(),
+    sitemap({
+      // Las páginas legales siguen accesibles desde el footer, pero no deben
+      // formar parte del conjunto de URLs indexables del sitemap.
+      filter: (page) => !page.endsWith('/aviso-legal/') && !page.endsWith('/privacidad/') && !page.endsWith('/entrega-hospitales/'),
+    }),
     // Aquí reconectamos Sanity para que la web funcione
     sanity({
       projectId: 'y7m52g15',

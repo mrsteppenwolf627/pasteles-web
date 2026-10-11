@@ -2,164 +2,20 @@
 import Layout from '../layouts/Layout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 
-// SEO optimizado para búsquedas de hospitales
-const title = "Entrega de Pasteles de Pañales en Hospitales de Badalona | Can Ruti y Quirón";
-const description = "Entrega en hospitales de Badalona y Barcelona: Can Ruti, Quirón y más. Pasteles de pañales artesanales entregados en mano en maternidad. Sin coste adicional.";
-
-const siteUrl = "https://www.xn--manolipastelesdepaales-1ec.com";
-
-// Schema LocalBusiness con hospitales en areaServed
-const localBusinessSchema = {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "@id": `${siteUrl}/#business`,
-  "name": "Manoli Pasteles de Pañales",
-  "url": siteUrl,
-  "telephone": "+34678846424",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Badalona",
-    "addressRegion": "Barcelona",
-    "postalCode": "08911",
-    "addressCountry": "ES"
-  },
-  "areaServed": [
-    { "@type": "City", "name": "Badalona" },
-    { "@type": "City", "name": "Barcelona" },
-    {
-      "@type": "Place",
-      "name": "Hospital Germans Trias i Pujol (Can Ruti)",
-      "address": { "@type": "PostalAddress", "addressLocality": "Badalona", "addressCountry": "ES" }
-    },
-    {
-      "@type": "Place",
-      "name": "Quirón Salud Badalona",
-      "address": { "@type": "PostalAddress", "addressLocality": "Badalona", "addressCountry": "ES" }
-    }
-  ]
-};
-
-// Schema para servicio de entrega
-const serviceSchema = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "@id": `${siteUrl}/entrega-hospitales#service`,
-  "name": "Entrega de regalos para bebé en hospitales de Barcelona y Badalona",
-  "description": description,
-  "provider": {
-    "@type": "LocalBusiness",
-    "name": "Manoli Pasteles de Pañales",
-    "@id": `${siteUrl}/#business`
-  },
-  "areaServed": {
-    "@type": "State",
-    "name": "Barcelona"
-  },
-  "serviceType": "Entrega en hospitales",
-  "offers": {
-    "@type": "Offer",
-    "description": "Entrega sin gastos de envío en hospitales de Barcelona y Badalona",
-    "price": "0",
-    "priceCurrency": "EUR"
-  }
-};
+const title = "Recogida de pasteles de pañales en Badalona | Manoli";
+const description = "Ya no ofrecemos entregas en hospitales. Encarga tu pastel de pañales por WhatsApp y recoge tu pedido en Badalona con cita previa.";
 ---
 
-<Layout title={title} description={description}>
-  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
-  <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
-
-  <Breadcrumbs items={[{ name: "Entrega en Hospitales" }]} />
-
-  <main>
-    <!-- Hero -->
-    <section class="bg-gradient-to-b from-pink-50 to-white py-16 px-4">
-      <div class="max-w-3xl mx-auto text-center">
-        <h1 class="text-4xl md:text-5xl font-serif font-bold text-gray-800 mb-6 leading-tight">
-          Entrega de Pasteles de Pañales en Hospitales de Badalona y Barcelona
-        </h1>
-        <p class="text-xl text-gray-700 mb-4 leading-relaxed">
-          Sorprender a los nuevos papás nunca ha sido tan fácil. Me encargo de realizar la entrega en mano directamente en el hospital, asegurando que tu regalo llegue impecable, sin riesgo de que se desmonte por el camino.
-        </p>
-        <p class="text-xl text-gray-700 mb-8 leading-relaxed">
-          Una sorpresa discreta, puntual y completamente lista para regalar en la misma habitación, diseñada para emocionar desde el primer momento.
-        </p>
-      </div>
-    </section>
-
-    <!-- Hospitales -->
-    <section class="py-12 px-4 bg-white">
-      <div class="max-w-3xl mx-auto">
-        <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">Hospitales donde entregamos</h2>
-        <div class="bg-white border border-pink-100 shadow-sm rounded-2xl p-8">
-          <ul class="space-y-4 text-lg text-gray-700">
-            <li class="flex items-center gap-3">
-              <span class="text-pink-600 text-2xl">✓</span>
-              <strong>Can Ruti (Hospital Germans Trias i Pujol)</strong>
-            </li>
-            <li class="flex items-center gap-3">
-              <span class="text-pink-600 text-2xl">✓</span>
-              <strong>Hospital Quirón Badalona</strong>
-            </li>
-            <li class="flex items-center gap-3">
-              <span class="text-pink-600 text-2xl">✓</span>
-              <strong>Otros hospitales de Barcelona</strong> (Bajo petición)
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Cómo funciona -->
-    <section class="py-12 px-4">
-      <div class="bg-pink-50 rounded-2xl max-w-4xl mx-auto p-8 md:p-12">
-        <h2 class="text-3xl font-bold text-gray-800 text-center mb-10">¿Cómo funciona la entrega en hospital?</h2>
-        <div class="space-y-8">
-          <div class="flex gap-4 md:gap-6">
-            <div class="w-12 h-12 bg-pink-600 text-white rounded-full flex items-center justify-center flex-shrink-0 font-bold text-xl">1</div>
-            <div>
-              <h3 class="font-bold text-xl text-gray-800 mb-2">Haces el encargo</h3>
-              <p class="text-gray-700">Eliges tu pastel de pañales favorito y confirmamos el detalle.</p>
-            </div>
-          </div>
-          <div class="flex gap-4 md:gap-6">
-            <div class="w-12 h-12 bg-pink-600 text-white rounded-full flex items-center justify-center flex-shrink-0 font-bold text-xl">2</div>
-            <div>
-              <h3 class="font-bold text-xl text-gray-800 mb-2">Acordamos hora y planta</h3>
-              <p class="text-gray-700">Me indicas el hospital y acordamos la mejor hora para la visita.</p>
-            </div>
-          </div>
-          <div class="flex gap-4 md:gap-6">
-            <div class="w-12 h-12 bg-pink-600 text-white rounded-full flex items-center justify-center flex-shrink-0 font-bold text-xl">3</div>
-            <div>
-              <h3 class="font-bold text-xl text-gray-800 mb-2">Entrego en mano</h3>
-              <p class="text-gray-700">Llevo el regalo directamente, intacto y listo para sorprender.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Por qué regalar en hospital -->
-    <section class="py-12 px-4 bg-white">
-      <div class="max-w-3xl mx-auto text-center">
-        <h2 class="text-3xl font-bold text-gray-800 mb-8">¿Por qué regalar en el hospital?</h2>
-        <p class="text-lg text-gray-700 mb-4">
-          La emoción del primer momento es irrepetible. Al entregar el pastel directamente en la maternidad, te aseguras de que el regalo sea parte de la gran bienvenida.
-        </p>
-        <p class="text-lg text-gray-700 mb-8">
-          El producto llega en perfectas condiciones, listo para regalar, y <strong>sin gastos de envío</strong>.
-        </p>
-      </div>
-    </section>
-
-    <!-- CTA WhatsApp -->
-    <section class="py-16 px-4 text-center">
-      <div class="max-w-2xl mx-auto">
-        <a href="https://wa.me/34678846424?text=Hola%20Manoli%2C%20quiero%20encargar%20una%20entrega%20en%20hospital" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-3 bg-green-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-green-600 transition shadow-xl w-full sm:w-auto">
-          <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-          Reservar por WhatsApp
-        </a>
+<Layout title={title} description={description} noindex={true}>
+  <Breadcrumbs items={[{ name: "Recogida en Badalona" }]} />
+  <main class="bg-pink-50 min-h-screen py-16 px-4">
+    <section class="max-w-3xl mx-auto bg-white rounded-3xl shadow-sm p-8 md:p-12 text-center">
+      <h1 class="text-4xl md:text-5xl font-serif font-bold text-gray-800 mb-6">Recogida de pasteles de pañales en Badalona</h1>
+      <p class="text-lg text-gray-700 leading-relaxed mb-4">Esta página informaba de un servicio antiguo. Actualmente Manoli prepara los pasteles por encargo y los entrega mediante <strong>recogida concertada en casa, en Badalona</strong>.</p>
+      <p class="text-lg text-gray-700 leading-relaxed mb-8">Consulta los modelos disponibles, el plazo y la personalización por WhatsApp.</p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <a href="/productos/" class="inline-flex rounded-full bg-pink-600 px-6 py-3 font-bold text-white hover:bg-pink-700">Ver catálogo</a>
+        <a href="/preguntas-frecuentes/" class="inline-flex rounded-full border border-pink-200 px-6 py-3 font-bold text-pink-700 hover:bg-pink-50">Preguntas frecuentes</a>
       </div>
     </section>
   </main>

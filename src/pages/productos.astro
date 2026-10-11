@@ -16,11 +16,22 @@ const products = await sanityClient.fetch(`
 `);
 
 // 2. TEXTOS SEO (Para posicionar la categoría completa)
-const title = "Catálogo de Tartas de Pañales y Canastillas | Manoli Pasteles";
-const description = "Explora nuestra colección completa de figuras de pañales: castillos, motos, carritos y tartas clásicas. Regalos originales para bebé hechos a mano en Badalona con pañales de primera calidad.";
+const title = "Comprar Tartas de Pañales y Regalos para Bebé en Badalona";
+const description = "Consulta modelos de tartas de pañales, motos, carritos y regalos personalizados para bebé. Encarga por WhatsApp y recoge tu pedido en Badalona.";
+const siteUrl = "https://www.xn--manolipastelesdepaales-1ec.com";
+const itemListSchema = { "@context": "https://schema.org", "@type": "ItemList", "@id": `${siteUrl}/productos/#itemlist`, "name": "Tartas de pañales y regalos para bebé en Badalona", "itemListElement": products.map((product: any, index: number) => ({ "@type": "ListItem", "position": index + 1, "name": product.title, "url": `${siteUrl}/productos/${product.slug}/`, ...(product.mainImage ? { "image": urlFor(product.mainImage).width(800).format('webp').url() } : {}) })) };
+const faqItems = [
+  { question: "¿Cuánto cuesta una tarta de pañales?", answer: "Cada modelo tiene un precio diferente según su tamaño y contenido. En el catálogo verás el precio orientativo y Manoli confirma el importe final por WhatsApp." },
+  { question: "¿Con cuánto tiempo tengo que encargarla?", answer: "Lo habitual es encargarla con una semana de antelación. Si la necesitas antes, escríbenos por WhatsApp y te confirmamos si hay disponibilidad." },
+  { question: "¿Puedo personalizar el regalo?", answer: "Sí. Puedes consultar por WhatsApp el nombre del bebé, los colores o los detalles que te gustaría añadir, siempre que estén disponibles." },
+  { question: "¿Cómo se recoge el pedido?", answer: "Preparamos el pastel en Badalona y acordamos por WhatsApp un horario de recogida en casa. Actualmente no hacemos envíos ni entregas en hospitales." }
+];
+const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": faqItems.map((item) => ({ "@type": "Question", "name": item.question, "acceptedAnswer": { "@type": "Answer", "text": item.answer } })) };
 ---
 
 <Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
   <Breadcrumbs items={[{ name: "Catálogo" }]} />
 
   <main class="bg-white min-h-screen pb-20">
@@ -28,11 +39,11 @@ const description = "Explora nuestra colección completa de figuras de pañales:
     <section class="bg-pink-50 py-16 px-4 text-center">
       <div class="max-w-4xl mx-auto">
         <h1 class="text-4xl md:text-5xl font-serif font-bold text-gray-800 mb-6">
-          Nuestro Catálogo Artesanal
+          Tartas de Pañales y Regalos para Bebé
         </h1>
         <p class="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
-          Cada una de nuestras creaciones es única. Desde las clásicas <strong>tartas de tres pisos</strong> hasta impresionantes <strong>castillos y motos</strong>. 
-          Utilizamos pañales de primeras marcas y cuidamos cada cinta y detalle para que tu regalo sea inolvidable.
+          Elige una creación hecha a mano para un nacimiento, bautizo o baby shower. Hay <strong>tartas de tres pisos</strong>, <strong>castillos, motos y carritos</strong>.
+          Consulta el precio y la personalización por WhatsApp. Preparamos el pedido con una semana de antelación y coordinamos la recogida en Badalona.
         </p>
       </div>
     </section>
@@ -88,6 +99,26 @@ const description = "Explora nuestra colección completa de figuras de pañales:
           ))}
         </div>
       )}
+    </section>
+
+    <section class="max-w-3xl mx-auto px-4 mt-16 text-center">
+      <div class="bg-pink-50 rounded-3xl p-8 border border-pink-100">
+        <h2 class="text-2xl font-bold text-gray-800 mb-3">¿Quieres saber qué modelo encaja mejor?</h2>
+        <p class="text-gray-600 mb-6">Escríbeme por WhatsApp con tu presupuesto, la fecha y el nombre del bebé. Te responderé personalmente con opciones disponibles.</p>
+        <a href="https://wa.me/34678846424?text=Hola%20Manoli%2C%20quiero%20ver%20opciones%20de%20regalo%20para%20beb%C3%A9" target="_blank" rel="noopener noreferrer" class="inline-flex bg-green-600 text-white font-bold px-7 py-3 rounded-full hover:bg-green-700 transition">Consultar por WhatsApp</a>
+      </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 mt-16" aria-labelledby="faq-catalogo">
+      <h2 id="faq-catalogo" class="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-8">Preguntas frecuentes sobre las tartas de pañales</h2>
+      <div class="space-y-3">
+        {faqItems.map((item) => (
+          <details class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+            <summary class="cursor-pointer font-bold text-gray-800">{item.question}</summary>
+            <p class="mt-3 leading-relaxed text-gray-600">{item.answer}</p>
+          </details>
+        ))}
+      </div>
     </section>
 
   </main>

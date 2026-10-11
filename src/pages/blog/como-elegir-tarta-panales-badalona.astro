@@ -1,0 +1,144 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const siteUrl = 'https://www.xn--manolipastelesdepaales-1ec.com';
+const slug = 'como-elegir-tarta-panales-badalona';
+const title = 'Cómo elegir una tarta de pañales en Badalona: guía para acertar';
+const description = 'Guía práctica para elegir una tarta de pañales en Badalona: tamaño, contenido, personalización, presupuesto, plazo y recogida por WhatsApp.';
+const image = '/tarta-panales-artesanal-badalona-guia.png';
+const published = '2026-10-11';
+
+const faqItems = [
+  {
+    question: '¿Cuántos pañales debe llevar una tarta de pañales?',
+    answer: 'No hay una cantidad única. Para elegir bien conviene valorar el tamaño del regalo, la talla de pañal y los accesorios que quieras incluir. En Manoli se confirma cada composición por WhatsApp antes de prepararla.'
+  },
+  {
+    question: '¿Qué precio tiene una tarta de pañales en Badalona?',
+    answer: 'El precio depende del modelo, el número de pañales, los accesorios y la personalización. En el catálogo puedes consultar los modelos disponibles y pedir confirmación del precio por WhatsApp.'
+  },
+  {
+    question: '¿Con cuánto tiempo hay que encargarla?',
+    answer: 'El plazo habitual es de una semana. Si necesitas el regalo en tres o cuatro días, escríbenos antes de reservar para comprobar la disponibilidad real.'
+  },
+  {
+    question: '¿Cómo se recoge el pedido?',
+    answer: 'La recogida se coordina por WhatsApp en Badalona, en casa de Manoli y con cita previa. Actualmente no se realizan envíos por mensajería ni entregas en hospitales.'
+  }
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Article',
+      '@id': `${siteUrl}/blog/${slug}/#article`,
+      headline: title,
+      description,
+      image: `${siteUrl}${image}`,
+      datePublished: published,
+      dateModified: published,
+      inLanguage: 'es-ES',
+      author: { '@type': 'Person', name: 'Manoli', url: `${siteUrl}/sobre-nosotros/` },
+      publisher: { '@type': 'LocalBusiness', name: 'Manoli Pasteles de Pañales', '@id': `${siteUrl}/#business`, logo: { '@type': 'ImageObject', url: `${siteUrl}/favicon.svg` } },
+      mainEntityOfPage: { '@type': 'WebPage', '@id': `${siteUrl}/blog/${slug}/` },
+      articleSection: 'Guías y consejos',
+      keywords: ['tarta de pañales Badalona', 'regalo bebé Badalona', 'pastel de pañales artesanal']
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${siteUrl}/blog/${slug}/#breadcrumbs`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${siteUrl}/` },
+        { '@type': 'ListItem', position: 2, name: 'Blog', item: `${siteUrl}/blog/` },
+        { '@type': 'ListItem', position: 3, name: title, item: `${siteUrl}/blog/${slug}/` }
+      ]
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': `${siteUrl}/blog/${slug}/#faq`,
+      mainEntity: faqItems.map((item) => ({ '@type': 'Question', name: item.question, acceptedAnswer: { '@type': 'Answer', text: item.answer } }))
+    }
+  ]
+};
+---
+
+<Layout title={title} description={description} image={image}>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+  <Breadcrumbs items={[{ name: 'Blog', url: '/blog/' }, { name: title }]} />
+
+  <main class="bg-white min-h-screen">
+    <article class="max-w-5xl mx-auto px-4 pb-20">
+      <header class="grid gap-10 lg:grid-cols-[1fr_0.9fr] items-center py-10 md:py-16">
+        <div>
+          <p class="text-sm font-bold uppercase tracking-wide text-pink-600 mb-4">Guía local · Badalona</p>
+          <h1 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 leading-tight mb-6">{title}</h1>
+          <p class="text-xl text-gray-600 leading-relaxed mb-6">Una tarta de pañales puede ser un regalo bonito, útil y personal. Esta guía te ayuda a elegir el modelo adecuado sin pagar por detalles que no necesitas.</p>
+          <p class="text-sm text-gray-500">Publicado el 11 de octubre de 2026 · Lectura: 6 minutos</p>
+        </div>
+        <figure class="rounded-3xl overflow-hidden shadow-xl bg-pink-50">
+          <img src={image} alt="Tarta de pañales artesanal preparada para regalar en Badalona" width="1536" height="1024" loading="eager" fetchpriority="high" decoding="async" class="w-full h-auto" />
+          <figcaption class="sr-only">Tarta de pañales artesanal con lazos en tonos rosa y verde.</figcaption>
+        </figure>
+      </header>
+
+      <div class="grid gap-12 lg:grid-cols-[minmax(0,1fr)_280px]">
+        <div class="prose prose-lg max-w-none prose-headings:font-serif prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-pink-700 prose-strong:text-gray-900">
+          <p>Cuando buscas un <strong>regalo para bebé en Badalona</strong>, es normal comparar tamaños, precios y estilos. Una tarta de pañales artesanal no es solo decoración: combina pañales que la familia utilizará con una presentación lista para entregar.</p>
+
+          <h2>1. Piensa en la ocasión y en quién recibirá el regalo</h2>
+          <p>Para un nacimiento suele funcionar un diseño delicado y práctico. Para un bautizo o un baby shower puedes preferir una presentación más llamativa. Si conoces el nombre del bebé o los colores de la habitación, la personalización hará que el detalle se sienta realmente pensado.</p>
+
+          <h2>2. Elige el tamaño según tu presupuesto</h2>
+          <p>Una composición pequeña puede ser perfecta para un detalle entre compañeros. Una tarta de tres pisos o un castillo tiene más presencia cuando el regalo es de varias personas. No existe el tamaño “correcto”: lo importante es que el contenido y el acabado estén equilibrados.</p>
+          <p>Antes de reservar, pide el precio final y confirma qué incluye el modelo. En el <a href="/productos/">catálogo de tartas de pañales y regalos para bebé</a> puedes comparar las opciones disponibles.</p>
+
+          <h2>3. Comprueba qué incluye realmente</h2>
+          <p>Además de los pañales, algunas composiciones incorporan un peluche, una muselina, un babero, un mordedor u otros accesorios. Pregunta por la talla de los pañales y por las marcas o productos incluidos si para ti es importante.</p>
+
+          <h2>4. Valora la personalización y el acabado</h2>
+          <p>El nombre, los colores y el tipo de lazo cambian mucho el resultado. En un trabajo artesanal conviene confirmar la personalización antes de que empiece la preparación, porque algunos accesorios dependen de la disponibilidad.</p>
+
+          <h2>5. Reserva con tiempo y coordina la recogida</h2>
+          <p>El plazo habitual es de una semana. Si tienes una fecha cercana, puedes consultar si es posible prepararlo en tres o cuatro días, pero es mejor no dar por hecha la urgencia hasta hablar con Manoli.</p>
+          <p>La recogida se organiza por WhatsApp en Badalona con cita previa. Así el pastel se mantiene protegido y llega listo para regalar, sin depender de una empresa de mensajería.</p>
+
+          <div class="not-prose my-10 rounded-3xl bg-pink-50 border border-pink-100 p-7 md:p-9">
+            <h2 class="text-2xl font-bold text-gray-900 mt-0 mb-3">¿Quieres que te recomiende un modelo?</h2>
+            <p class="text-gray-700 mb-5">Escríbeme la fecha, el presupuesto y la ocasión. Te diré qué opciones están disponibles y cómo coordinar la recogida.</p>
+            <a href="https://wa.me/34678846424?text=Hola%20Manoli%2C%20he%20le%C3%ADdo%20la%20gu%C3%ADa%20y%20quiero%20recomendaci%C3%B3n%20para%20una%20tarta%20de%20pa%C3%B1ales" target="_blank" rel="noopener noreferrer" class="inline-flex rounded-full bg-green-600 px-6 py-3 font-bold text-white hover:bg-green-700">Consultar por WhatsApp</a>
+          </div>
+
+          <h2>Preguntas frecuentes</h2>
+          <div class="not-prose space-y-3">
+            {faqItems.map((item) => (
+              <details class="rounded-2xl border border-gray-200 p-5">
+                <summary class="cursor-pointer font-bold text-gray-900">{item.question}</summary>
+                <p class="mt-3 text-gray-700 leading-relaxed">{item.answer}</p>
+              </details>
+            ))}
+          </div>
+
+          <h2>Una elección fácil cuando el regalo tiene que ser especial</h2>
+          <p>Si buscas un detalle artesanal y cercano, empieza por la ocasión, el presupuesto y la fecha. Después confirma el contenido y la recogida. Así tendrás un regalo bonito, útil y preparado con el cuidado que merece una bienvenida.</p>
+          <p>También puedes conocer el servicio local de <a href="/pasteles-panales-badalona/">pasteles de pañales en Badalona</a> o escribir directamente desde la página de <a href="/contacto/">contacto</a>.</p>
+        </div>
+
+        <aside class="lg:sticky lg:top-8 h-fit rounded-3xl bg-gray-50 p-6 border border-gray-100">
+          <p class="text-xs font-bold uppercase tracking-wide text-pink-600 mb-3">En esta guía</p>
+          <nav aria-label="Índice del artículo">
+            <ol class="space-y-3 text-sm text-gray-700 list-decimal list-inside">
+              <li>Elegir según la ocasión</li>
+              <li>Tamaño y presupuesto</li>
+              <li>Contenido real</li>
+              <li>Personalización</li>
+              <li>Plazo y recogida</li>
+            </ol>
+          </nav>
+          <a href="/productos/" class="mt-6 block rounded-full bg-pink-600 px-5 py-3 text-center font-bold text-white hover:bg-pink-700">Ver catálogo</a>
+        </aside>
+      </div>
+    </article>
+  </main>
+</Layout>

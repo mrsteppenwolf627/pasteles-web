@@ -16,12 +16,14 @@ const {
   noindex = false
 } = Astro.props;
 
-const siteUrl = Astro.site ? Astro.site.origin : 'https://manolipastelesdepañales.com';
+const siteUrl = Astro.site?.origin ?? 'https://www.xn--manolipastelesdepaales-1ec.com';
 const imageUrl = image.startsWith('http') ? image : `${siteUrl}${image}`;
 const canonicalURL = new URL(Astro.url.pathname, siteUrl);
 
-// ID DE GOOGLE ANALYTICS
-const GA_MEASUREMENT_ID = 'G-XXY67PM3D0';
+// Se configura en el hosting como PUBLIC_GA_MEASUREMENT_ID.
+// No cargamos Analytics si el valor sigue siendo un marcador o no existe.
+const GA_MEASUREMENT_ID = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
+const hasValidAnalyticsId = typeof GA_MEASUREMENT_ID === 'string' && /^G-[A-Z0-9]+$/i.test(GA_MEASUREMENT_ID);
 ---
 
 <!doctype html>
@@ -30,37 +32,66 @@ const GA_MEASUREMENT_ID = 'G-XXY67PM3D0';
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     
     <link rel="canonical" href={canonicalURL} />
 
-    <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}></script>
-    <script define:vars={{ GA_MEASUREMENT_ID }}>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', GA_MEASUREMENT_ID);
-    </script>
+    {hasValidAnalyticsId && <>
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}></script>
+      <script define:vars={{ GA_MEASUREMENT_ID }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', GA_MEASUREMENT_ID);
+      </script>
+    </>}
 
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={Astro.url} />
+    <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={title} />
+    <meta property="og:site_name" content="Manoli Pasteles de Pañales" />
+    <meta property="og:locale" content="es_ES" />
 
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={Astro.url} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={imageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
     <meta name="google-site-verification" content="acky7Mc_SQ-I_no5U-D4CUCTC3kKwHwe5KOX9vjrDTE" />
     <title>{title}</title>
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
   </head>
   <body class="flex flex-col min-h-screen">
     <Header />
     <slot />
     <Footer />
+    {hasValidAnalyticsId && <script is:inline>
+      const pagePath = window.location.pathname;
+      const pageType = pagePath.startsWith('/productos/') && pagePath !== '/productos/' ? 'product' : pagePath.startsWith('/productos') ? 'catalog' : 'content';
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', pageType === 'product' ? 'product_view' : pageType === 'catalog' ? 'catalog_view' : 'content_view', {
+          page_type: pageType,
+          page_location: window.location.href
+        });
+      }
+      document.addEventListener('click', (event) => {
+        const target = event.target instanceof Element ? event.target.closest('a') : null;
+        if (!target || typeof window.gtag !== 'function') return;
+        const href = target.getAttribute('href') || '';
+        if (href.includes('wa.me') || href.includes('api.whatsapp.com')) {
+          window.gtag('event', 'whatsapp_click', { link_url: href, page_location: window.location.href, page_type: pageType });
+        } else if (href.startsWith('tel:')) {
+          window.gtag('event', 'phone_click', { link_url: href, page_location: window.location.href, page_type: pageType });
+        } else if (href === '/productos' || href === '/productos/') {
+          window.gtag('event', 'catalog_click', { link_url: href, page_location: window.location.href, page_type: pageType });
+        } else if (href.startsWith('/productos/')) {
+          window.gtag('event', 'product_click', { link_url: href, page_location: window.location.href, page_type: pageType });
+        }
+      });
+    </script>}
   </body>
 </html>

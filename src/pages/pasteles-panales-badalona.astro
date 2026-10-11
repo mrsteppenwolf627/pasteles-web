@@ -15,8 +15,8 @@ const products = await sanityClient.fetch(`
 `);
 
 // SEO Local optimizado para Badalona
-const title = "Pasteles de Pañales en Badalona | Entrega en Mano - Manoli";
-const description = "Tartas de pañales artesanales en Badalona. Entrega personal en mano en todos los barrios: Centre, Gorg, Llefià, Sant Roc, La Salut. Regalos únicos para recién nacidos con pañales Dodot.";
+const title = "Pasteles de Pañales en Badalona | Recogida por WhatsApp - Manoli";
+const description = "Pasteles de pañales artesanales en Badalona. Encarga por WhatsApp y recoge tu regalo con cita previa. Opciones personalizadas y económicas.";
 
 const siteUrl = "https://www.xn--manolipastelesdepaales-1ec.com";
 
@@ -26,7 +26,7 @@ const localSchema = {
   "@type": "LocalBusiness",
   "@id": `${siteUrl}/pasteles-panales-badalona#local`,
   "name": "Manoli Pasteles de Pañales - Badalona",
-  "description": "Tienda artesanal de pasteles de pañales y canastillas para bebé en Badalona. Entrega personal a domicilio y en hospitales.",
+  "description": "Taller artesanal de pasteles de pañales y regalos para bebé en Badalona. Pedidos por WhatsApp y recogida concertada en casa.",
   "image": `${siteUrl}/imagen-thumbnail2.png`,
   "address": {
     "@type": "PostalAddress",
@@ -47,7 +47,7 @@ const localSchema = {
   "openingHoursSpecification": [
     {
       "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
       "opens": "10:00",
       "closes": "20:00"
     }
@@ -85,15 +85,15 @@ const localSchema = {
 
         <p class="text-xl text-gray-600 mb-8 leading-relaxed max-w-2xl mx-auto">
           Creamos <strong>tartas de pañales artesanales</strong> con todo el cariño.
-          Entrega <strong>en mano a domicilio</strong> en todos los barrios de Badalona.
-          Sin gastos de envío, sin riesgo de que se desmonte.
+          Encarga por WhatsApp y recoge tu pedido <strong>en casa, en Badalona</strong>, con cita previa.
+          Recogida directa, sin mensajería y sin riesgo de que se desmonte.
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <a href="/productos" class="bg-pink-600 text-white px-8 py-4 rounded-full font-bold hover:bg-pink-700 transition shadow-lg">
             Ver Catálogo
           </a>
-          <a href="/contacto" class="bg-white text-pink-600 border-2 border-pink-200 px-8 py-4 rounded-full font-bold hover:border-pink-400 transition">
+          <a href="https://wa.me/34678846424?text=Hola%20Manoli%2C%20quiero%20encargar%20un%20pastel%20de%20pa%C3%B1ales%20en%20Badalona" target="_blank" rel="noopener noreferrer" class="bg-white text-pink-600 border-2 border-pink-200 px-8 py-4 rounded-full font-bold hover:border-pink-400 transition">
             Pedir por WhatsApp
           </a>
         </div>
@@ -112,7 +112,7 @@ const localSchema = {
             <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <span class="text-3xl">🏠</span>
             </div>
-            <h3 class="text-xl font-bold text-gray-800 mb-2">Entrega en mano</h3>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Recogida concertada</h3>
             <p class="text-gray-600">
               Te lo llevo personalmente a tu casa, trabajo o donde me digas.
               Así el pastel llega <strong>perfecto y sin desmontar</strong>.
@@ -144,14 +144,14 @@ const localSchema = {
       </div>
     </section>
 
-    <!-- Barrios de entrega -->
+    <!-- Área local y recogida -->
     <section class="py-16 px-4 bg-pink-50">
       <div class="max-w-4xl mx-auto">
         <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">
-          Entrega en todos los barrios de Badalona
+          Recogida fácil en Badalona y alrededores
         </h2>
         <p class="text-center text-gray-600 mb-10">
-          Llevo tu pedido a cualquier punto de Badalona sin coste adicional.
+          Te confirmamos por WhatsApp el horario de recogida en casa. Atendemos pedidos de Badalona y personas de los alrededores que puedan desplazarse.
         </p>
 
         <div class="flex flex-wrap justify-center gap-3">
@@ -163,7 +163,7 @@ const localSchema = {
         </div>
 
         <p class="text-center text-gray-500 mt-8 text-sm">
-          También entrego en <strong>Sant Adrià de Besòs</strong>, <strong>Santa Coloma de Gramenet</strong> y <strong>Barcelona ciudad</strong>.
+          También atendemos encargos de <strong>Sant Adrià de Besòs</strong>, <strong>Santa Coloma de Gramenet</strong> y <strong>Barcelona ciudad</strong> si puedes desplazarte a Badalona.
         </p>
       </div>
     </section>
@@ -220,7 +220,7 @@ const localSchema = {
         <p class="text-xl opacity-90 mb-8">
           Escríbeme por WhatsApp y te ayudo a crear algo especial. Sin compromiso.
         </p>
-        <a href="/contacto" class="inline-flex items-center gap-2 bg-white text-pink-600 px-8 py-4 rounded-full font-bold hover:bg-gray-100 transition shadow-lg">
+        <a href="https://wa.me/34678846424?text=Hola%20Manoli%2C%20quiero%20informaci%C3%B3n%20sobre%20pasteles%20de%20pa%C3%B1ales%20en%20Badalona" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-white text-pink-600 px-8 py-4 rounded-full font-bold hover:bg-gray-100 transition shadow-lg">
           <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
           Contactar por WhatsApp
         </a>

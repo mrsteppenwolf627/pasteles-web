@@ -81,13 +81,6 @@ const productSchema = JSON.stringify({
     "suggestedGender": "unisex",
     "suggestedMinAge": "0 months"
   },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "5.0",
-    "reviewCount": 15,
-    "bestRating": 5,
-    "worstRating": 1
-  },
   "offers": {
     "@type": "Offer",
     "url": `${siteUrl}/productos/${slug}`,
@@ -100,41 +93,19 @@ const productSchema = JSON.stringify({
       "description": "Precio desde"
     },
     "priceValidUntil": new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0],
-    "availability": "https://schema.org/InStock",
+    "availability": "https://schema.org/PreOrder",
     "itemCondition": "https://schema.org/NewCondition",
     "seller": {
       "@type": "LocalBusiness",
       "name": "Manoli Pasteles de Pañales",
       "@id": `${siteUrl}/#business`
     },
-    "shippingDetails": {
-      "@type": "OfferShippingDetails",
-      "shippingDestination": [
-        {
-          "@type": "DefinedRegion",
-          "addressCountry": "ES",
-          "addressRegion": ["Barcelona"]
-        }
-      ],
-      "deliveryTime": {
-        "@type": "ShippingDeliveryTime",
-        "handlingTime": {
-          "@type": "QuantitativeValue",
-          "minValue": 1,
-          "maxValue": 3,
-          "unitCode": "DAY"
-        }
-      }
-    },
-    "areaServed": [
-      { "@type": "City", "name": "Badalona" },
-      { "@type": "City", "name": "Barcelona" }
-    ]
+    "areaServed": { "@type": "City", "name": "Badalona" }
   }
 });
 ---
 
-<Layout title={`${nombre} | Manoli Pasteles`} description={metaDescription} image={imagenUrl}>
+<Layout title={`${nombre} | Regalo para bebé en Badalona`} description={metaDescription} image={imagenUrl}>
   <script type="application/ld+json" set:html={productSchema} />
 
   <Breadcrumbs items={[
@@ -163,14 +134,16 @@ const productSchema = JSON.stringify({
         <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
           <span class="text-pink-500 font-bold text-xs uppercase mb-2 bg-pink-100 w-fit px-2 py-1 rounded">Badalona</span>
           <h1 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-4">{nombre}</h1>
-          <div class="text-3xl font-bold text-pink-600 mb-6">{rawPrice}€</div>
+          <div class="text-3xl font-bold text-pink-600 mb-2">Desde {rawPrice}€</div>
+          <p class="text-sm text-gray-500 mb-6">Preparación habitual: 1 semana. Si lo necesitas antes, consulta disponibilidad por WhatsApp.</p>
           <p class="text-gray-600 mb-8 whitespace-pre-line">{fullDescription}</p>
           
           <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100">
             <h3 class="font-bold text-gray-900 mb-4">¿Te interesa?</h3>
-            <a href={`/contacto?asunto=Interesado en ${nombre}`} class="block w-full text-center bg-pink-600 text-white font-bold py-4 rounded-xl hover:bg-pink-700 transition shadow-lg">
-              Pedir por WhatsApp / Email
+            <a href={`https://wa.me/34678846424?text=${encodeURIComponent(`Hola Manoli, me interesa el modelo ${nombre}. ¿Podemos hablar de disponibilidad y personalización?`)}`} target="_blank" rel="noopener noreferrer" class="block w-full text-center bg-green-600 text-white font-bold py-4 rounded-xl hover:bg-green-700 transition shadow-lg">
+              Consultar por WhatsApp
             </a>
+            <p class="text-xs text-center text-gray-500 mt-3">Recogida concertada en Badalona. Te confirmamos el horario por WhatsApp.</p>
           </div>
         </div>
       </div>
