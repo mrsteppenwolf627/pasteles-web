@@ -16,6 +16,52 @@ const articulos = await sanityClient.fetch(`
   }
 `);
 
+// Este artículo está creado en Astro mientras se revisa antes de pasarlo a Sanity.
+// Se muestra aquí para que el índice del blog no dependa de una publicación manual en el CMS.
+const articuloLocal = {
+  title: 'Cómo elegir una tarta de pañales en Badalona: guía para acertar',
+  slug: 'como-elegir-tarta-panales-badalona',
+  metaDescription: 'Guía práctica para elegir una tarta de pañales en Badalona: tamaño, contenido, personalización, presupuesto, plazo y recogida por WhatsApp.',
+  categoria: 'guias-consejos',
+  fechaPublicacion: '2026-10-11',
+  localImage: '/tarta-panales-artesanal-badalona-guia.png',
+  localImageAlt: 'Tarta de pañales artesanal preparada para regalar en Badalona'
+};
+
+const todosLosArticulos = [
+  articuloLocal,
+  ...articulos.filter((articulo: any) => articulo.slug !== articuloLocal.slug)
+];
+
+const fallbackImages: Record<string, { src: string; alt: string }> = {
+  'tarta-de-panales-a-domicilio-badalona': { src: '/blog-tarta-panales-pedido-badalona.png', alt: 'Tarta de pañales artesanal preparada para recoger en Badalona' },
+  'cestas-canastillas-bebes-diferencias': { src: '/blog-cestas-canastillas-bebe.png', alt: 'Canastilla de bebé con accesorios artesanales' },
+  'panales-dodot-recien-nacidos-tarta': { src: '/blog-panales-recien-nacido.png', alt: 'Pañales para recién nacido junto a una tarta artesanal' },
+  'regalos-originales-recien-nacidos': { src: '/blog-regalos-originales-bebe.png', alt: 'Ideas de regalos originales para un recién nacido' },
+  'como-elegir-tarta-de-panales': { src: '/blog-tamanos-tarta-panales.png', alt: 'Tres tamaños de tartas de pañales artesanales' },
+  'que-incluye-una-tarta-de-panales-artesanal-guia-2026': { src: '/blog-incluye-tarta-panales.png', alt: 'Accesorios que puede incluir una tarta de pañales artesanal' },
+  'que-es-un-pastel-de-panales-y-por-que-es-el-regalo-perfecto': { src: '/blog-personalizar-tarta-panales.png', alt: 'Pastel de pañales personalizado con accesorios para bebé' }
+};
+
+const imageRefs = articulos.map((articulo: any) => articulo.imagenDestacada?.asset?._ref).filter(Boolean);
+const imageRefCounts = imageRefs.reduce((counts: Record<string, number>, ref: string) => {
+  counts[ref] = (counts[ref] || 0) + 1;
+  return counts;
+}, {});
+
+function getCardImage(articulo: any) {
+  if (articulo.localImage) return { src: articulo.localImage, alt: articulo.localImageAlt || articulo.title };
+  const ref = articulo.imagenDestacada?.asset?._ref;
+  const hasUniqueSanityImage = articulo.imagenDestacada && (!ref || imageRefCounts[ref] === 1);
+  if (hasUniqueSanityImage) {
+    return {
+      src: urlFor(articulo.imagenDestacada).width(600).height(340).format('webp').url(),
+      alt: articulo.imagenDestacada.alt || articulo.title
+    };
+  }
+  return fallbackImages[articulo.slug] || { src: '/og-default.jpg', alt: articulo.title };
+}
+
 // SEO
 const title = "Blog | Consejos sobre Regalos para Bebés | Manoli Pasteles";
 const description = "Guías, consejos y todo lo que necesitas saber sobre regalos para recién nacidos, pasteles de pañales y maternidad en Badalona y Barcelona.";
@@ -35,6 +81,19 @@ const blogSchema = {
     "name": "Manoli Pasteles de Pañales",
     "@id": `${siteUrl}/#business`
   }
+};
+
+const blogItemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "@id": `${siteUrl}/blog/#itemlist`,
+  "name": "Artículos sobre tartas de pañales y regalos para bebés",
+  "itemListElement": todosLosArticulos.map((articulo: any, index: number) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": articulo.title,
+    "url": `${siteUrl}/blog/${articulo.slug}/`
+  }))
 };
 
 // Mapeo de categorías
@@ -58,6 +117,7 @@ function formatDate(dateString: string) {
 
 <Layout title={title} description={description}>
   <script type="application/ld+json" set:html={JSON.stringify(blogSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(blogItemListSchema)} />
 
   <Breadcrumbs items={[{ name: "Blog" }]} />
 
@@ -77,28 +137,28 @@ function formatDate(dateString: string) {
 
     <!-- Lista de artículos -->
     <section class="max-w-6xl mx-auto px-4 py-16">
-      {articulos.length === 0 ? (
+      {todosLosArticulos.length === 0 ? (
         <div class="text-center py-20">
           <p class="text-xl text-gray-500 mb-4">Próximamente publicaremos artículos aquí.</p>
           <p class="text-gray-400">¿Tienes alguna pregunta? <a href="/contacto" class="text-pink-600 hover:underline">Contáctanos</a></p>
         </div>
       ) : (
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {articulos.map((articulo: any) => (
+          {todosLosArticulos.map((articulo: any) => {
+            const cardImage = getCardImage(articulo);
+            return (
             <a href={`/blog/${articulo.slug}`} class="group">
               <article class="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 h-full flex flex-col">
                 <div class="aspect-video overflow-hidden bg-gray-100">
-                  {articulo.imagenDestacada ? (
+                  {cardImage ? (
                     <img
-                      src={urlFor(articulo.imagenDestacada).width(600).height(340).format('webp').url()}
-                      alt={articulo.imagenDestacada.alt || articulo.title}
+                      src={cardImage.src}
+                      alt={cardImage.alt}
                       class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                     />
                   ) : (
-                    <div class="w-full h-full flex items-center justify-center text-gray-400">
-                      Sin imagen
-                    </div>
+                    <div class="w-full h-full flex items-center justify-center text-gray-400">Sin imagen</div>
                   )}
                 </div>
 
@@ -129,7 +189,8 @@ function formatDate(dateString: string) {
                 </div>
               </article>
             </a>
-          ))}
+            );
+          })}
         </div>
       )}
     </section>
