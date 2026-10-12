@@ -36,9 +36,30 @@ if (!articulo) {
 }
 
 const siteUrl = "https://www.xn--manolipastelesdepaales-1ec.com";
+const fallbackImages: Record<string, { src: string; alt: string }> = {
+  'tarta-de-panales-a-domicilio-badalona': { src: '/blog-tarta-panales-pedido-badalona.png', alt: 'Tarta de pañales artesanal preparada para recoger en Badalona' },
+  'cestas-canastillas-bebes-diferencias': { src: '/blog-cestas-canastillas-bebe.png', alt: 'Canastilla de bebé con accesorios artesanales' },
+  'panales-dodot-recien-nacidos-tarta': { src: '/blog-panales-recien-nacido.png', alt: 'Pañales para recién nacido junto a una tarta artesanal' },
+  'regalos-originales-recien-nacidos': { src: '/blog-regalos-originales-bebe.png', alt: 'Ideas de regalos originales para un recién nacido' },
+  'como-elegir-tarta-de-panales': { src: '/blog-tamanos-tarta-panales.png', alt: 'Tres tamaños de tartas de pañales artesanales' },
+  'que-incluye-una-tarta-de-panales-artesanal-guia-2026': { src: '/blog-incluye-tarta-panales.png', alt: 'Accesorios que puede incluir una tarta de pañales artesanal' },
+  'que-es-un-pastel-de-panales-y-por-que-es-el-regalo-perfecto': { src: '/blog-personalizar-tarta-panales.png', alt: 'Pastel de pañales personalizado con accesorios para bebé' }
+};
+const fallbackImage = fallbackImages[slug];
 const imagenUrl = articulo.imagenDestacada
   ? urlFor(articulo.imagenDestacada).width(1200).format('webp').url()
-  : `${siteUrl}/imagen-thumbnail2.png`;
+  : `${siteUrl}${fallbackImage?.src || '/imagen-thumbnail2.png'}`;
+const imagenAlt = articulo.imagenDestacada?.alt || fallbackImage?.alt || articulo.title;
+const variants: Record<string, number> = {
+  'tarta-de-panales-a-domicilio-badalona': 0,
+  'cestas-canastillas-bebes-diferencias': 1,
+  'panales-dodot-recien-nacidos-tarta': 2,
+  'regalos-originales-recien-nacidos': 1,
+  'como-elegir-tarta-de-panales': 0,
+  'que-incluye-una-tarta-de-panales-artesanal-guia-2026': 2,
+  'que-es-un-pastel-de-panales-y-por-que-es-el-regalo-perfecto': 1
+};
+const variant = variants[slug] ?? 0;
 
 // Mapeo de categorías
 const categorias: Record<string, string> = {
@@ -146,41 +167,44 @@ const breadcrumbSchema = {
 
   <main class="bg-white min-h-screen">
     <!-- Header del artículo -->
-    <article class="max-w-4xl mx-auto px-4 py-12">
-      <header class="mb-10">
-        <div class="flex items-center gap-3 mb-4">
+    <article class={`blog-article blog-article--variant-${variant} max-w-6xl mx-auto px-4 py-10 md:py-14`}>
+      <header class="article-hero mb-12">
+        <div class="article-hero__copy">
+          <div class="flex flex-wrap items-center gap-3 mb-5">
           <span class="text-sm font-bold text-pink-600 bg-pink-100 px-3 py-1 rounded-full">
             {categorias[articulo.categoria] || articulo.categoria}
           </span>
           <span class="text-sm text-gray-500">
             {formatDate(articulo.fechaPublicacion)}
           </span>
-        </div>
+          <span class="text-sm text-gray-500">· 5 min de lectura</span>
+          </div>
 
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-gray-800 leading-tight mb-6">
+        <h1 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 leading-tight mb-6">
           {articulo.title}
         </h1>
 
-        <p class="text-xl text-gray-600 leading-relaxed">
+        <p class="article-lead text-xl text-gray-600 leading-relaxed">
           {seo.description}
         </p>
+        </div>
+
+        <figure class="article-hero__image rounded-3xl overflow-hidden shadow-xl bg-pink-50">
+          <img src={imagenUrl} alt={imagenAlt} width="1200" height="800" class="w-full h-full object-cover" loading="eager" fetchpriority="high" decoding="async" />
+          <figcaption class="sr-only">{imagenAlt}</figcaption>
+        </figure>
       </header>
 
-      <!-- Imagen destacada -->
-      {articulo.imagenDestacada && (
-        <div class="mb-10 rounded-2xl overflow-hidden shadow-lg">
-          <img
-            src={urlFor(articulo.imagenDestacada).width(1200).format('webp').url()}
-            alt={articulo.imagenDestacada.alt || articulo.title}
-            class="w-full h-auto"
-            loading="eager"
-          />
-        </div>
-      )}
+      <div class="article-layout">
+        <aside class="article-index h-fit rounded-3xl bg-gray-50 border border-gray-100 p-6" aria-label="Información del artículo">
+          <p class="text-xs font-bold uppercase tracking-wide text-pink-600 mb-3">Guía de Manoli</p>
+          <p class="text-sm text-gray-600 leading-relaxed mb-5">Consejos claros para elegir un regalo de bebé artesanal y coordinarlo en Badalona.</p>
+          <a href="/productos/" class="block rounded-full bg-pink-600 px-5 py-3 text-center font-bold text-white hover:bg-pink-700">Ver catálogo</a>
+        </aside>
 
-      <!-- Contenido -->
-      <div class="articulo-contenido">
-        <PortableText value={articulo.contenido} components={{ block: Block }} />
+        <div class="articulo-contenido">
+          <PortableText value={articulo.contenido} components={{ block: Block }} />
+        </div>
       </div>
 
       <div class="mt-12 rounded-2xl border border-pink-100 bg-pink-50 p-7">
@@ -193,6 +217,79 @@ const breadcrumbSchema = {
       </div>
 
       <style>
+        .article-hero {
+          display: grid;
+          gap: 2.5rem;
+          align-items: center;
+        }
+        .article-hero__image {
+          min-height: 18rem;
+          aspect-ratio: 3 / 2;
+        }
+        .article-hero__image img {
+          min-height: 100%;
+        }
+        .article-layout {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr);
+          gap: 2.5rem;
+          align-items: start;
+        }
+        .article-index {
+          order: 2;
+        }
+        .articulo-contenido {
+          max-width: 48rem;
+        }
+        .articulo-contenido h2 {
+          scroll-margin-top: 6rem;
+        }
+        .blog-article--variant-1 .article-hero {
+          max-width: 52rem;
+          margin: 0 auto;
+          text-align: center;
+        }
+        .blog-article--variant-1 .article-hero__copy {
+          max-width: 48rem;
+          margin: 0 auto;
+        }
+        .blog-article--variant-1 .article-hero__image {
+          width: 100%;
+        }
+        .blog-article--variant-2 .article-hero {
+          padding: 2rem;
+          border-radius: 2rem;
+          background: linear-gradient(135deg, #fdf2f8, #fff7ed);
+        }
+        .blog-article--variant-2 .article-hero__image {
+          order: -1;
+        }
+        @media (min-width: 768px) {
+          .article-hero {
+            grid-template-columns: minmax(0, 1fr) minmax(20rem, .9fr);
+          }
+          .blog-article--variant-1 .article-hero {
+            display: block;
+          }
+          .blog-article--variant-1 .article-hero__image {
+            margin-top: 2.5rem;
+            max-height: 30rem;
+          }
+          .blog-article--variant-2 .article-hero {
+            grid-template-columns: minmax(20rem, .85fr) minmax(0, 1fr);
+          }
+          .blog-article--variant-2 .article-hero__image {
+            order: 0;
+          }
+          .article-layout {
+            grid-template-columns: minmax(0, 1fr) 17rem;
+          }
+          .article-index {
+            order: 0;
+            position: sticky;
+            top: 2rem;
+          }
+        }
         .articulo-contenido h2 {
           font-size: 1.5rem;
           font-weight: 700;

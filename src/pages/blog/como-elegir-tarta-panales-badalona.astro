@@ -84,7 +84,7 @@ const articleSchema = {
       </header>
 
       <div class="grid gap-12 lg:grid-cols-[minmax(0,1fr)_280px]">
-        <div class="prose prose-lg max-w-none prose-headings:font-serif prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-pink-700 prose-strong:text-gray-900">
+        <div class="article-copy prose prose-lg max-w-none prose-headings:font-serif prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-pink-700 prose-strong:text-gray-900">
           <p>Cuando buscas un <strong>regalo para bebé en Badalona</strong>, es normal comparar tamaños, precios y estilos. Una tarta de pañales artesanal no es solo decoración: combina pañales que la familia utilizará con una presentación lista para entregar.</p>
 
           <h2>1. Piensa en la ocasión y en quién recibirá el regalo</h2>
@@ -139,6 +139,52 @@ const articleSchema = {
           <a href="/productos/" class="mt-6 block rounded-full bg-pink-600 px-5 py-3 text-center font-bold text-white hover:bg-pink-700">Ver catálogo</a>
         </aside>
       </div>
+
+      <style>
+        .article-copy {
+          color: #374151;
+          font-size: 1.125rem;
+          line-height: 1.8;
+        }
+        .article-copy h2 {
+          color: #111827;
+          font-family: Georgia, serif;
+          font-size: clamp(1.65rem, 3vw, 2.15rem);
+          line-height: 1.2;
+          margin: 3rem 0 1rem;
+          scroll-margin-top: 5rem;
+        }
+        .article-copy h2:first-of-type {
+          margin-top: 0;
+        }
+        .article-copy p {
+          margin: 0 0 1.25rem;
+        }
+        .article-copy > p:first-child {
+          border-left: 4px solid #f9a8d4;
+          color: #374151;
+          font-size: 1.25rem;
+          padding-left: 1.25rem;
+        }
+        .article-copy a {
+          color: #be185d;
+          font-weight: 600;
+          text-decoration: underline;
+          text-underline-offset: 3px;
+        }
+        .article-copy strong {
+          color: #111827;
+          font-weight: 700;
+        }
+        .article-copy ul,
+        .article-copy ol {
+          margin: 1.25rem 0;
+          padding-left: 1.5rem;
+        }
+        .article-copy li {
+          margin: .5rem 0;
+        }
+      </style>
     </article>
   </main>
 </Layout>
